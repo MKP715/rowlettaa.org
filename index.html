@@ -67,8 +67,8 @@
             const errorIndicator = document.getElementById('error');
             const noMeetingsIndicator = document.getElementById('no-meetings');
 
-            // The URL for the raw JSON data from the Code for Recovery GitHub repository
-            const DATA_URL = 'https://meetings.code4recovery.org/meetings.json';
+            // The URL for the raw JSON data, routed through a CORS proxy
+            const DATA_URL = 'https://api.allorigins.win/raw?url=https://meetings.code4recovery.org/meetings.json';
 
             // Function to create a single meeting card element
             const createMeetingCard = (meeting) => {

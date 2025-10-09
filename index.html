@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dallas, TX Area Meetings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
 
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900">Recovery Meetings</h1>
+            <p class="text-lg md:text-xl text-blue-600 mt-2">Dallas, TX Area</p>
+        </header>
+
+        <main id="meetings-container" class="space-y-4">
+            <!-- Loading state -->
+            <div id="loading" class="text-center py-10">
+                <div class="flex justify-center items-center space-x-2">
+                    <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p class="text-lg text-gray-600">Finding meetings in Dallas...</p>
+                </div>
+            </div>
+
+            <!-- Error message -->
+            <div id="error" class="hidden text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                <strong class="font-bold">Oops!</strong>
+                <span class="block sm:inline">Could not load meeting data. Please try again later.</span>
+            </div>
+
+            <!-- No meetings found message -->
+            <div id="no-meetings" class="hidden text-center bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg">
+                <strong class="font-bold">No meetings found.</strong>
+                <span class="block sm:inline">There may be no meetings scheduled in the Dallas area at this time.</span>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const meetingsContainer = document.getElementById('meetings-container');
+            const loadingIndicator = document.getElementById('loading');
+            const errorIndicator = document.getElementById('error');
+            const noMeetingsIndicator = document.getElementById('no-meetings');
+
+            // The URL for the raw JSON data from the Code for Recovery GitHub repository
+            const DATA_URL = 'https://raw.githubusercontent.com/code4recovery/12-step-meeting-list/main/meetings.json';
+
+            // Function to create a single meeting card element
+            const createMeetingCard = (meeting) => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg hover:border-blue-500 transition-all duration-300';
+
+                // Safely get meeting properties with fallbacks
+                const meetingName = meeting.name || 'Unnamed Meeting';
+                const meetingTime = meeting.time_formatted || 'Time not specified';
+                const meetingAddress = meeting.formatted_address || 'Address not available';
+                const meetingLocation = meeting.location || 'Location details not provided';
+                const meetingTypes = meeting.types || [];
+
+                // Map meeting types to styled badges
+                const typeBadges = meetingTypes.map(type => {
+                    const badgeClass = getBadgeClass(type);
+                    return `<span class="inline-block ${badgeClass} text-white text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${type}</span>`;
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
+                        <h2 class="text-xl font-bold text-gray-900 mb-2 sm:mb-0">${meetingName}</h2>
+                        <p class="text-lg font-semibold text-blue-600">${meetingTime}</p>
+                    </div>
+                    <div class="text-gray-600">
+                        <p class="mb-1"><strong>Location:</strong> ${meetingLocation}</p>
+                        <p><strong>Address:</strong> ${meetingAddress}</p>
+                    </div>
+                    ${typeBadges ? `<div class="mt-4 pt-4 border-t border-gray-200">${typeBadges}</div>` : ''}
+                `;
+                return card;
+            };
+
+            // Function to assign a color to a meeting type badge
+            const getBadgeClass = (type) => {
+                const lowerType = type.toLowerCase();
+                if (lowerType.includes('open')) return 'bg-green-500';
+                if (lowerType.includes('closed')) return 'bg-red-500';
+                if (lowerType.includes('men')) return 'bg-sky-500';
+                if (lowerType.includes('women')) return 'bg-pink-500';
+                if (lowerType.includes('online')) return 'bg-indigo-500';
+                if (lowerType.includes('speaker')) return 'bg-purple-500';
+                return 'bg-gray-400';
+            };
+
+
+            // Fetch and display the meetings
+            const fetchMeetings = async () => {
+                try {
+                    const response = await fetch(DATA_URL);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const allMeetings = await response.json();
+
+                    // Filter meetings for the Dallas region
+                    const dallasMeetings = allMeetings.filter(meeting => meeting.region === 'Dallas');
+
+                    loadingIndicator.style.display = 'none';
+
+                    if (dallasMeetings.length > 0) {
+                        // Sort meetings by day and then by time
+                        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                        dallasMeetings.sort((a, b) => {
+                             const dayComparison = daysOfWeek.indexOf(a.day) - daysOfWeek.indexOf(b.day);
+                             if (dayComparison !== 0) return dayComparison;
+                             // Convert HH:MM time to minutes for comparison
+                             const timeA = a.time ? parseInt(a.time.split(':')[0]) * 60 + parseInt(a.time.split(':')[1]) : 0;
+                             const timeB = b.time ? parseInt(b.time.split(':')[0]) * 60 + parseInt(b.time.split(':')[1]) : 0;
+                             return timeA - timeB;
+                        });
+
+
+                        dallasMeetings.forEach(meeting => {
+                            const meetingCard = createMeetingCard(meeting);
+                            meetingsContainer.appendChild(meetingCard);
+                        });
+                    } else {
+                        noMeetingsIndicator.style.display = 'block';
+                    }
+
+                } catch (e) {
+                    console.error("Failed to fetch meetings:", e);
+                    loadingIndicator.style.display = 'none';
+                    errorIndicator.style.display = 'block';
+                }
+            };
+
+            fetchMeetings();
+        });
+    </script>
+
+</body>
+</html>

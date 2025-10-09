@@ -283,8 +283,54 @@
     </div>
 
     <script>
-        // Sample meetings data - In production, this would come from an API
-        const meetings = [
+        // Fetch live meetings data from Dallas AA's Meeting Guide API
+        let meetings = [];
+        let allMeetings = [];
+        
+        // Dallas AA Central Office JSON API endpoint
+        const API_URL = 'https://www.aadallas.org/wp-json/meetings/v1/meetings';
+        
+        async function fetchMeetings() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Failed to fetch meetings');
+                
+                const data = await response.json();
+                allMeetings = data;
+                meetings = processMeetings(data);
+                renderMeetings(meetings);
+            } catch (error) {
+                console.error('Error fetching meetings:', error);
+                document.getElementById('meetingsContainer').innerHTML = `
+                    <div class="no-results">
+                        <h2>Unable to load meetings</h2>
+                        <p>Please try again later or visit <a href="https://www.aadallas.org/meetings/" target="_blank">aadallas.org/meetings</a></p>
+                    </div>
+                `;
+            }
+        }
+        
+        function processMeetings(data) {
+            return data.map(meeting => {
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                const dayName = meeting.day ? days[meeting.day] : 'By Appointment';
+                
+                return {
+                    name: meeting.name || 'Unnamed Group',
+                    time: meeting.time || 'By Appointment',
+                    address: meeting.formatted_address || meeting.address || '',
+                    city: meeting.city || meeting.region || '',
+                    types: meeting.types || [],
+                    location: meeting.location || '',
+                    day: dayName,
+                    conference_url: meeting.conference_url || null,
+                    conference_phone: meeting.conference_phone || null
+                };
+            });
+        }
+        
+        // Sample fallback data in case API fails
+        const fallbackMeetings = [
             {
                 name: "Ross Avenue Group",
                 time: "7:00 AM",
@@ -437,19 +483,10 @@
                 types: ["Open", "Big Book", "Newcomer", "Young People"],
                 location: "Highland Park United Methodist",
                 day: "Daily"
-            },
-            {
-                name: "Happy Hour Group",
-                time: "6:00 PM",
-                address: "2803 Taylor St",
-                city: "Dallas-Downtown",
-                types: ["Open", "12 Steps & 12 Traditions", "Online"],
-                location: "Mokah Coffee Shop (Bus Route Access)",
-                day: "Daily"
             }
         ];
 
-        let filteredMeetings = [...meetings];
+        let filteredMeetings = [];
 
         function renderMeetings(meetingsToRender) {
             const container = document.getElementById('meetingsContainer');
@@ -473,17 +510,19 @@
                             <div class="meeting-location">
                                 <span>📍</span>
                                 <div class="meeting-address">
-                                    ${meeting.location}<br>
+                                    ${meeting.location ? meeting.location + '<br>' : ''}
                                     ${meeting.address}<br>
                                     ${meeting.city}
                                 </div>
                             </div>
+                            ${meeting.conference_url ? `<div style="margin-top: 10px;">🔗 <a href="${meeting.conference_url}" target="_blank" style="color: #667eea;">Join Online</a></div>` : ''}
+                            ${meeting.conference_phone ? `<div style="margin-top: 5px;">📞 ${meeting.conference_phone}</div>` : ''}
                             <div class="meeting-types">
                                 ${meeting.types.map(type => {
                                     let className = 'type-badge';
-                                    if (type.toLowerCase() === 'closed') className += ' closed';
-                                    if (type.toLowerCase() === 'open') className += ' open';
-                                    if (type.toLowerCase() === 'online' || type.toLowerCase() === 'in-person') className += ' online';
+                                    if (type.toLowerCase() === 'closed' || type.toLowerCase() === 'c') className += ' closed';
+                                    if (type.toLowerCase() === 'open' || type.toLowerCase() === 'o') className += ' open';
+                                    if (type.toLowerCase().includes('online') || type.toLowerCase() === 'onl') className += ' online';
                                     return `<span class="${className}">${type}</span>`;
                                 }).join('')}
                             </div>
@@ -520,10 +559,8 @@
         document.getElementById('dayFilter').addEventListener('change', filterMeetings);
         document.getElementById('typeFilter').addEventListener('change', filterMeetings);
 
-        // Initial render
-        setTimeout(() => {
-            renderMeetings(meetings);
-        }, 500);
+        // Load meetings from API on page load
+        fetchMeetings();
     </script>
 </body>
 </html>

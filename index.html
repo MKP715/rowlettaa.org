@@ -3,164 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dallas, TX Area Meetings</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dallas AA Meetings</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        /* Simple scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .meetings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .meeting-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .meeting-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .meeting-time {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .meeting-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .meeting-location {
+            color: #666;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: start;
+            gap: 6px;
+        }
+
+        .meeting-address {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .meeting-types {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .type-badge {
+            display: inline-block;
+            background: #f0f0f0;
+            color: #555;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .type-badge.closed {
+            background: #ffe4e1;
+            color: #d32f2f;
+        }
+
+        .type-badge.open {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .type-badge.online {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .no-results h2 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .info-banner {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-banner a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .meetings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            input, select {
+                width: 100%;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-    <div class="container mx-auto px-4 py-8 md:py-12">
-        <header class="text-center mb-8 md:mb-12">
-            <h1 class="text-3xl md:text-5xl font-bold text-gray-900">Recovery Meetings</h1>
-            <p class="text-lg md:text-xl text-blue-600 mt-2">Dallas, TX Area</p>
+<body>
+    <div class="container">
+        <header>
+            <h1>🙏 Dallas AA Meetings</h1>
+            <p class="subtitle">Find recovery meetings in the Dallas, Texas area</p>
         </header>
 
-        <main id="meetings-container" class="space-y-4">
-            <!-- Loading state -->
-            <div id="loading" class="text-center py-10">
-                <div class="flex justify-center items-center space-x-2">
-                    <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <p class="text-lg text-gray-600">Finding meetings in Dallas...</p>
-                </div>
-            </div>
+        <div class="info-banner">
+            📍 Dallas AA Central Office: <a href="tel:214-887-6699">(214) 887-6699</a> • Available 24/7 • 
+            <a href="https://www.aadallas.org/meetings/" target="_blank">Visit Website</a>
+        </div>
 
-            <!-- Error message -->
-            <div id="error" class="hidden text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
-                <strong class="font-bold">Oops!</strong>
-                <span class="block sm:inline">Could not load meeting data. Please try again later.</span>
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by group name, location, or city...">
+                <select id="dayFilter">
+                    <option value="">All Days</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                </select>
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="Open">Open</option>
+                    <option value="Closed">Closed</option>
+                    <option value="Online">Online</option>
+                    <option value="Discussion">Discussion</option>
+                    <option value="Big Book">Big Book</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Newcomer">Newcomer</option>
+                </select>
+                <button onclick="filterMeetings()">Search</button>
             </div>
+        </div>
 
-            <!-- No meetings found message -->
-            <div id="no-meetings" class="hidden text-center bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg">
-                <strong class="font-bold">No meetings found.</strong>
-                <span class="block sm:inline">There may be no meetings scheduled in the Dallas area at this time.</span>
-            </div>
-        </main>
+        <div id="meetingsContainer">
+            <div class="loading">Loading meetings...</div>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const meetingsContainer = document.getElementById('meetings-container');
-            const loadingIndicator = document.getElementById('loading');
-            const errorIndicator = document.getElementById('error');
-            const noMeetingsIndicator = document.getElementById('no-meetings');
+        // Sample meetings data - In production, this would come from an API
+        const meetings = [
+            {
+                name: "Ross Avenue Group",
+                time: "7:00 AM",
+                address: "4636 Ross Ave",
+                city: "Dallas-Tollway East",
+                types: ["Open", "Meditation"],
+                location: "(24 Hour Club) (Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "ODAAT Group",
+                time: "6:30 AM",
+                address: "2109 W Parker Rd, Suite 728",
+                city: "Plano",
+                types: ["Closed", "Discussion"],
+                location: "(Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "Lake Highlands Group",
+                time: "7:00 AM",
+                address: "10611 Garland Rd # 217",
+                city: "Dallas-Tollway East",
+                types: ["Closed", "Discussion", "Child-Friendly", "Wheelchair Access"],
+                location: "Lake Highlands Group (Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "Preston Group",
+                time: "7:30 AM",
+                address: "8220 Westchester Dr",
+                city: "Dallas-Tollway East",
+                types: ["Closed", "Discussion", "Wheelchair Access"],
+                location: "Preston Group (Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "Frisco Group",
+                time: "7:00 AM",
+                address: "6500 Preston Rd Suite 202",
+                city: "Frisco",
+                types: ["Open", "Discussion", "Child-Friendly", "Wheelchair Access"],
+                location: "Frisco Group",
+                day: "Daily"
+            },
+            {
+                name: "Lambda Group",
+                time: "Noon",
+                address: "8204 Elmbrook Dr #196",
+                city: "Dallas-Tollway West",
+                types: ["Closed", "Discussion", "LGBTQ", "Online", "In-person"],
+                location: "Center 12",
+                day: "Daily"
+            },
+            {
+                name: "Addison Group",
+                time: "7:00 AM",
+                address: "4839 Keller Springs Rd",
+                city: "Addison",
+                types: ["Closed", "Big Book"],
+                location: "Addison Group (Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "The Gift of Sobriety Group",
+                time: "7:00 AM",
+                address: "1320 W Walnut Hill Ln #107",
+                city: "Irving",
+                types: ["Open", "Big Book", "Child-Friendly", "Online", "Wheelchair Access"],
+                location: "In-person and Online",
+                day: "Daily"
+            },
+            {
+                name: "Clean Air Group",
+                time: "7:15 AM",
+                address: "Meadow Central",
+                city: "Dallas-Tollway East",
+                types: ["Closed", "Discussion", "Online", "Wheelchair Access"],
+                location: "Meadow Central Building (Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "We Are Not Saints",
+                time: "Noon",
+                address: "3014 Oak Lawn Ave",
+                city: "Dallas-Tollway East",
+                types: ["Closed", "Discussion", "LGBTQ", "Wheelchair Access"],
+                location: "Oak Lawn United Methodist Church",
+                day: "Daily"
+            },
+            {
+                name: "Richardson Group",
+                time: "Noon",
+                address: "1144 N Plano Rd",
+                city: "Richardson",
+                types: ["Closed", "Discussion"],
+                location: "Richardson Group (Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "Lewisville Group",
+                time: "Noon",
+                address: "1305 S State Hwy 121, Bldg A, Suite 105",
+                city: "Lewisville",
+                types: ["Closed", "Discussion", "Wheelchair Access"],
+                location: "Lewisville Group",
+                day: "Daily"
+            },
+            {
+                name: "McKinney Miracle Group",
+                time: "6:30 AM",
+                address: "400 N Central Expy STE 108",
+                city: "McKinney",
+                types: ["Closed", "Literature"],
+                location: "Glenbrook Square",
+                day: "Daily"
+            },
+            {
+                name: "Bishop Arts Group",
+                time: "Noon",
+                address: "214 S Tyler St",
+                city: "Dallas-South of I-30",
+                types: ["Closed", "Discussion"],
+                location: "Bishop Arts Group (Bus Route Access)",
+                day: "Daily"
+            },
+            {
+                name: "Carrollton Group",
+                time: "6:30 AM",
+                address: "1039 N Interstate 35E",
+                city: "Carrollton",
+                types: ["Closed", "Discussion", "Wheelchair Access"],
+                location: "Two story building with Blue Awning",
+                day: "Daily"
+            },
+            {
+                name: "Sisters In Sobriety",
+                time: "5:30 PM",
+                address: "1800 W Hunt St",
+                city: "McKinney",
+                types: ["Closed", "Women", "Newcomer", "Child-Friendly"],
+                location: "First Christian Church McKinney",
+                day: "Thursday"
+            },
+            {
+                name: "Sober Mustangs",
+                time: "6:00 PM",
+                address: "3300 Mockingbird Ln Rm 252",
+                city: "Dallas-Tollway East",
+                types: ["Open", "Big Book", "Newcomer", "Young People"],
+                location: "Highland Park United Methodist",
+                day: "Daily"
+            },
+            {
+                name: "Happy Hour Group",
+                time: "6:00 PM",
+                address: "2803 Taylor St",
+                city: "Dallas-Downtown",
+                types: ["Open", "12 Steps & 12 Traditions", "Online"],
+                location: "Mokah Coffee Shop (Bus Route Access)",
+                day: "Daily"
+            }
+        ];
 
-            // The URL for the raw JSON data, routed through a CORS proxy
-            const DATA_URL = 'https://api.allorigins.win/raw?url=https://meetings.code4recovery.org/meetings.json';
+        let filteredMeetings = [...meetings];
 
-            // Function to create a single meeting card element
-            const createMeetingCard = (meeting) => {
-                const card = document.createElement('div');
-                card.className = 'bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg hover:border-blue-500 transition-all duration-300';
-
-                // Safely get meeting properties with fallbacks
-                const meetingName = meeting.name || 'Unnamed Meeting';
-                const meetingTime = meeting.time_formatted || 'Time not specified';
-                const meetingAddress = meeting.formatted_address || 'Address not available';
-                const meetingLocation = meeting.location || 'Location details not provided';
-                const meetingTypes = meeting.types || [];
-
-                // Map meeting types to styled badges
-                const typeBadges = meetingTypes.map(type => {
-                    const badgeClass = getBadgeClass(type);
-                    return `<span class="inline-block ${badgeClass} text-white text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${type}</span>`;
-                }).join('');
-
-                card.innerHTML = `
-                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
-                        <h2 class="text-xl font-bold text-gray-900 mb-2 sm:mb-0">${meetingName}</h2>
-                        <p class="text-lg font-semibold text-blue-600">${meetingTime}</p>
+        function renderMeetings(meetingsToRender) {
+            const container = document.getElementById('meetingsContainer');
+            
+            if (meetingsToRender.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h2>No meetings found</h2>
+                        <p>Try adjusting your search filters</p>
                     </div>
-                    <div class="text-gray-600">
-                        <p class="mb-1"><strong>Location:</strong> ${meetingLocation}</p>
-                        <p><strong>Address:</strong> ${meetingAddress}</p>
-                    </div>
-                    ${typeBadges ? `<div class="mt-4 pt-4 border-t border-gray-200">${typeBadges}</div>` : ''}
                 `;
-                return card;
-            };
+                return;
+            }
 
-            // Function to assign a color to a meeting type badge
-            const getBadgeClass = (type) => {
-                const lowerType = type.toLowerCase();
-                if (lowerType.includes('open')) return 'bg-green-500';
-                if (lowerType.includes('closed')) return 'bg-red-500';
-                if (lowerType.includes('men')) return 'bg-sky-500';
-                if (lowerType.includes('women')) return 'bg-pink-500';
-                if (lowerType.includes('online')) return 'bg-indigo-500';
-                if (lowerType.includes('speaker')) return 'bg-purple-500';
-                return 'bg-gray-400';
-            };
+            container.innerHTML = `
+                <div class="meetings-grid">
+                    ${meetingsToRender.map(meeting => `
+                        <div class="meeting-card">
+                            <div class="meeting-time">${meeting.time}</div>
+                            <div class="meeting-name">${meeting.name}</div>
+                            <div class="meeting-location">
+                                <span>📍</span>
+                                <div class="meeting-address">
+                                    ${meeting.location}<br>
+                                    ${meeting.address}<br>
+                                    ${meeting.city}
+                                </div>
+                            </div>
+                            <div class="meeting-types">
+                                ${meeting.types.map(type => {
+                                    let className = 'type-badge';
+                                    if (type.toLowerCase() === 'closed') className += ' closed';
+                                    if (type.toLowerCase() === 'open') className += ' open';
+                                    if (type.toLowerCase() === 'online' || type.toLowerCase() === 'in-person') className += ' online';
+                                    return `<span class="${className}">${type}</span>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
 
+        function filterMeetings() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const dayFilter = document.getElementById('dayFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
 
-            // Fetch and display the meetings
-            const fetchMeetings = async () => {
-                try {
-                    const response = await fetch(DATA_URL);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const allMeetings = await response.json();
+            filteredMeetings = meetings.filter(meeting => {
+                const matchesSearch = searchTerm === '' || 
+                    meeting.name.toLowerCase().includes(searchTerm) ||
+                    meeting.address.toLowerCase().includes(searchTerm) ||
+                    meeting.city.toLowerCase().includes(searchTerm) ||
+                    meeting.location.toLowerCase().includes(searchTerm);
 
-                    // Filter meetings for the Dallas region
-                    const dallasMeetings = allMeetings.filter(meeting => meeting.region === 'Dallas');
+                const matchesDay = dayFilter === '' || meeting.day === dayFilter || meeting.day === 'Daily';
+                
+                const matchesType = typeFilter === '' || meeting.types.some(t => t.includes(typeFilter));
 
-                    loadingIndicator.style.display = 'none';
+                return matchesSearch && matchesDay && matchesType;
+            });
 
-                    if (dallasMeetings.length > 0) {
-                        // Sort meetings by day and then by time
-                        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                        dallasMeetings.sort((a, b) => {
-                             const dayComparison = daysOfWeek.indexOf(a.day) - daysOfWeek.indexOf(b.day);
-                             if (dayComparison !== 0) return dayComparison;
-                             // Convert HH:MM time to minutes for comparison
-                             const timeA = a.time ? parseInt(a.time.split(':')[0]) * 60 + parseInt(a.time.split(':')[1]) : 0;
-                             const timeB = b.time ? parseInt(b.time.split(':')[0]) * 60 + parseInt(b.time.split(':')[1]) : 0;
-                             return timeA - timeB;
-                        });
+            renderMeetings(filteredMeetings);
+        }
 
+        // Add event listeners for real-time filtering
+        document.getElementById('searchInput').addEventListener('input', filterMeetings);
+        document.getElementById('dayFilter').addEventListener('change', filterMeetings);
+        document.getElementById('typeFilter').addEventListener('change', filterMeetings);
 
-                        dallasMeetings.forEach(meeting => {
-                            const meetingCard = createMeetingCard(meeting);
-                            meetingsContainer.appendChild(meetingCard);
-                        });
-                    } else {
-                        noMeetingsIndicator.style.display = 'block';
-                    }
-
-                } catch (e) {
-                    console.error("Failed to fetch meetings:", e);
-                    loadingIndicator.style.display = 'none';
-                    errorIndicator.style.display = 'block';
-                }
-            };
-
-            fetchMeetings();
-        });
+        // Initial render
+        setTimeout(() => {
+            renderMeetings(meetings);
+        }, 500);
     </script>
-
 </body>
 </html>
-

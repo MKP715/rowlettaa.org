@@ -2291,7 +2291,7 @@ node_modules/
 **For technical issues with the website:**
 - Create an issue in the repository
 - Contact the web administrator
-- Email: rowlettaa@gmail.com
+- Email: rowlettaatech@gmail.com
 
 **For AA support and meeting information:**
 - **Phone:** (972) 925-0096
@@ -2323,7 +2323,7 @@ Special thanks to:
 
 ---
 
-**Last Updated:** January 2025
+**Last Updated:** October 2025
 
 **README Version:** 1.0
 

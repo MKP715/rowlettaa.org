@@ -2482,14 +2482,7 @@ node_modules/
 
 ## Changelog
 
-### Version 1.1 (October 2025 - Documentation Update)
-- **Documentation corrections:**
-  - Corrected payment method from Venmo to Zelle throughout README
-  - Updated "How to Update Payment Information" section to reflect Zelle instead of Venmo
-  - Clarified that Zelle donations use QR code with phone number (not email)
-  - All technical details now accurately reflect the live website
-
-### Version 1.0 (January 2025)
+### Version 1.0 (October 2025)
 - **11 main pages/sections** with complete content
 - **Meeting schedule** with 15 weekly meetings across 7 days (all HYBRID in-person + Zoom)
 - **Special events tracking:**

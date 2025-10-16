@@ -12,6 +12,21 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 
 **Contact:** (972) 925-0096 | rowlettaa@gmail.com
 
+## Quick Statistics
+
+- **11 Main Pages/Sections** - Complete website coverage
+- **15 Weekly Meetings** - All HYBRID (in-person + Zoom)
+- **60+ Literature PDFs** - Big Book + 12&12, all linked to AA.org
+- **45+ ASL Videos** - Full accessibility for deaf/hard-of-hearing
+- **20+ Sobriety Milestones** - Advanced tracking from 24 hours to 30+ years
+- **4 Recovery Tools** - Sobriety Calculator, Meditation Timer, HALT Check, Gratitude Journal
+- **5+ Service Opportunities** - Magdalen House, Rockwall Jail, Green Oaks, Salvation Army, Speakers
+- **25+ Years of History** - Interactive timeline from 1995 to present
+- **3 Quick Action Buttons** - Crisis, Today's Meetings, Search
+- **100% PWA Capable** - Full offline support and installable
+- **259KB Single File** - No build process, instant deployment
+- **WCAG 2.1 AA Compliant** - Full accessibility support
+
 ## Table of Contents
 
 1. [Features](#features)
@@ -31,14 +46,16 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 
 ## Features
 
-### Core Pages (10 Main Sections)
+### Core Pages (11 Main Sections)
 
 #### 1. **Home Page** (`#home`)
 - Hero section with inspirational imagery
 - Serenity Prayer display
 - AA Preamble
+- Responsibility Declaration
 - Quick call-to-action to meeting schedule
 - Today's meetings banner (dynamic based on current day)
+- Welcome message for newcomers
 
 #### 2. **What is A.A.?** (`#what-is-aa`)
 - Introduction to Alcoholics Anonymous
@@ -46,168 +63,373 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 - 12 Traditions with full descriptions
 - FAQ accordion with common questions
 - "Am I an Alcoholic?" self-assessment questionnaire
+- Educational content about AA principles
 
 #### 3. **Meeting Schedule** (`#schedule`)
-- Weekly meeting calendar with 7-day grid
-- Multiple meeting types: Discussion, Speaker, Big Book Study, Step Study, etc.
+- Weekly meeting calendar with 7-day grid (15 meetings per week)
+- **All meetings are HYBRID (in-person + Zoom)**
+- Multiple meeting types: Discussion, Big Book Study, 12 & 12 Study, Foundations (newcomer), Speaker
 - Meeting details: time, format (open/closed), location
-- Special Saturday meetings (morning and evening)
-- Sunday beginners meeting
-- Weekday lunch meetings
+- Gender-specific meetings: Men's Closed (Saturday 9 AM), Women's Closed (Saturday 10:30 AM)
+- Special Saturday meetings: 3 meetings (morning and afternoon/evening)
+- Sunday discussion meeting (11:00 AM, Open)
+- Weekday lunch meetings (12:00 PM closed meetings Mon-Fri)
+- Evening meetings (7:30 PM Mon-Fri, 4:00 PM Saturday)
+- **First Monday Special:** Big Book Study changes to Speaker Meeting on 1st Monday
 - Color-coded meeting cards for easy identification
+- Filter functionality by day of week and meeting type
 - Responsive grid layout
+- **Special Events Section:**
+  - 30th Anniversary Celebration (TBD)
+  - Monthly Anniversary Celebration (Birthday meetings)
+  - Group Conscience Meeting (3rd Monday of each month at 6:00 PM)
+  - Dynamic future-date calculation that auto-updates
 
 #### 4. **Resources** (`#resources`)
-- Recovery calculator with sobriety milestone tracking (17 levels from 24 hours to 40+ years)
-- Detailed time calculations (years, months, weeks, days, hours, minutes)
-- Milestone badges with emoji indicators
-- National AA hotline information
-- Dallas AA Central Office contact
-- Local group contact details
-- Links to external AA resources (aa.org, aadallas.org, neta65.org)
+- **Sobriety Calculator with Advanced Milestone Tracking:**
+  - 20+ progressive sobriety milestones (24 hours to 30+ years)
+  - Milestone levels: 24 Hours, 1 Week, 30 Days, 60 Days, 90 Days, 6 Months, 1 Year, 18 Months, 2 Years, 3 Years, 5 Years, 10 Years, 15 Years, 20 Years, 25 Years, 30 Years
+  - Animated progress bars with gradient colors showing progress to next milestone
+  - Countdown display to next milestone with days/hours remaining
+  - Detailed time calculations: total days, years/months/remaining days breakdown
+  - Persistent storage of sobriety date (localStorage)
+  - Reset functionality with confirmation prompt
+- **HALT Support Tool:**
+  - Interactive self-assessment for Hungry, Angry, Lonely, Tired
+  - Toggle selection with visual feedback
+  - Context-aware recovery advice for each state:
+    - Hungry: Nutritious meal recommendation
+    - Angry: Breathing/sponsor suggestion
+    - Lonely: Connection reminder
+    - Tired: Rest recommendation
+  - Personalized recommendations based on multiple selections
+  - Relapse prevention through proactive self-care
+- **Meditation Timer:**
+  - Preset durations: 5, 10, 15 minutes
+  - Large digital countdown display (MM:SS format)
+  - Start/Stop controls
+  - Audio completion notification
+  - Success notification on completion
+  - Tracks meditation sessions
+- **Gratitude Journal:**
+  - Add daily gratitude entries (200-character limit)
+  - Text input with Enter key support
+  - Persistent storage (localStorage)
+  - Automatic timestamps with each entry
+  - Delete individual entries
+  - Clear all option with confirmation prompt
+  - Auto-save with success notifications
+  - XSS protection with HTML escaping
+  - Chronological display (newest first)
+  - Empty state messaging
+  - Display entry count
 
 #### 5. **Get Involved** (`#get-involved`)
-- Service opportunities with descriptions
-- Volunteer positions: Secretary, Treasurer, Literature Coordinator, etc.
-- Meeting roles: Greeter, Coffee Maker, etc.
-- Committee participation information
-- Sponsorship guidance
-- Fellowship activities
+- **Service Opportunities:**
+  - **Magdalen House:** Women's recovery facility with volunteer dates
+    - Phone: (214) 324-9261
+    - Website: www.magdalenhouse.org
+  - **Rockwall Jail:** Correctional facility AA meetings
+    - Phone: (972) 204-7108
+    - Rockwall County Sheriff's Office
+  - **Green Oaks:** Treatment facility partnerships
+  - **Salvation Army:** Community partnership
+    - Phone: (214) 821-1116
+  - **Speaker Events:** Available speakers for outreach
+- Detailed descriptions of each service opportunity
+- Minimum 6 months sobriety required for service work
+- "Carrying the message" emphasis
+- Sponsorship opportunities
+- 12-step work
+- Contact information for getting involved
+- Fellowship activities information
 
 #### 6. **Literature** (`#literature`)
-- Tabbed interface with 4 categories:
-  - **Big Book Videos** (28 videos total)
-    - Bill's Story through Chapter 11
-    - Personal stories (Pioneers and modern)
-  - **12 & 12 Videos** (25 videos)
-    - All 12 Steps explained
-    - All 12 Traditions explained
-  - **Step Videos** (12 videos)
-    - Step-by-step guidance
-  - **Speaker Talks** (8+ inspirational talks)
-- Each video card includes:
-  - Thumbnail from YouTube
-  - Title and description
-  - Video length
-  - Click to open in modal player
-- Modal video player with full-screen option
-- Lazy loading for performance
-- Scrollable grid for easy browsing
+- **Dual-Tab System for Each Book:**
+  - **"Read" Tab:** Direct PDF links to official AA.org materials
+  - **"Watch" Tab:** American Sign Language (ASL) videos (45+ videos)
+- **Big Book Study Materials:**
+  - Complete Big Book coverage with 60+ PDFs including:
+    - Title Page, Copyright, Contents, Preface
+    - 4 Forewords (1st, 2nd, 3rd, 4th editions)
+    - Doctor's Opinion
+    - 11 Main Chapters (Bill's Story through A Vision For You)
+    - Personal Stories (3 parts with multiple narratives)
+    - 7 Appendices (Traditions, Spiritual Experience, Medical View, etc.)
+  - 30+ ASL videos for deaf/hard-of-hearing community
+  - Page number references for all PDFs
+- **12 Steps and 12 Traditions (Twelve and Twelve):**
+  - Copyright & Introduction
+  - Foreword
+  - All 12 Steps explained (individual PDFs)
+  - All 12 Traditions explained (individual PDFs)
+  - Traditions Long Form
+  - 15+ ASL video versions
+  - Total: 19 PDF links to AA.org
+- **Literature Organization:**
+  - Accordion-style collapsible sections with color-coded categories
+  - Tab system (Read vs Watch)
+  - Smooth expand/collapse animations
+  - Clean, organized presentation
+  - Direct external links to AA.org official resources
+- Accessibility-focused with comprehensive ASL integration
+- Mobile-responsive layout
 
 #### 7. **Our Group** (`#our-group`)
-- Group history with 30-year timeline
-- Key milestones from 1995 to 2025
-- Interactive timeline with hover effects
-- Information popups on timeline events
-- 30th Anniversary announcement (July 26, 2025)
-- Event details and location
+- **Interactive 25+ Year Timeline (1995-Present):**
+  - 12 major historical eras including:
+    - Leap of Faith (1995) - Group founded in small office
+    - Building Foundation (1996) - First meetings established
+    - Explosive Growth (1997-1998) - 0 to 17 meetings/week
+    - Service & Fellowship (1999-2001) - Sponsorship workshops, Al-Anon partnership
+    - Test of Unity (2002-2003) - Forced move to Sunrise Square
+    - Structure & Service (2004-2005) - Bylaws formalized
+    - Settling In (2006-2007) - Name retention despite location change
+    - Group Thrives (2008-2009) - Stable growth
+    - Another Move (2010-2014) - Relocation to Oaks Trail
+    - Resilience & Rebirth (2015) - Tornado near miss
+    - Continued Growth (2020+) - Online Zoom expansion (First Zoom: April 1, 2020)
+    - Current (Present) - Hybrid in-person/online format
+  - Color-coded timeline blocks (alternating left/right design)
+  - Timeline markers with contextual icons
+  - Hover-activated information popups
+  - Key dates and milestones
+  - Historical narrative of group development
+- **Featured Speakers:** Annika K. (Dallas North), Searcy W. (50-year chip holder)
+- **30th Anniversary Information:**
+  - Date: TBD
+  - Major celebration planned
+  - Guest Speaker: Annika K.
+- Group founding in 1995
+- Evolution and growth story
+- Community connections
 
 #### 8. **Study Guide** (`#study-guide`)
-- **Interactive Book Reader:**
-  - AA Big Book chapter selection
-  - Page-by-page navigation
-  - Authentic book styling with serif fonts
-  - Progress tracking
-  - Clean, distraction-free reading experience
-- **Meditation Timer:**
-  - 1, 3, 5, 10, 15-minute presets
-  - Custom duration input
-  - Start/Pause/Reset controls
-  - Visual countdown display
-  - Audio notification on completion
-- **Gratitude List:**
-  - Add daily gratitude entries
+- **1930s Dictionary Tool:**
+  - Text input with real-time word lookup
+  - External API integration (dictionaryapi.dev)
+  - Helps understand archaic Big Book terminology
+  - Features:
+    - Phonetic pronunciation guides
+    - Multiple definitions
+    - Word history/etymology
+    - Usage examples
+    - Part of speech identification
+  - Error handling for connectivity issues/offline mode
+  - Fallback messaging for API errors
+- **Personal Study Notes System:**
+  - Multi-line text area (4 rows, expandable)
+  - Rich note-taking with auto-generated timestamps
+  - Edit functionality (inline editing)
+  - Delete with confirmation prompt
+  - Search/filter functionality across all notes
   - Persistent storage (localStorage)
-  - Delete individual entries
-  - Clear all option
-  - Date-stamped entries
-- **AA Glossary/Dictionary:**
-  - Searchable terms
-  - Key AA concepts and phrases
-  - Definitions with context
-  - Quick reference tool
-- **Personal Notes:**
-  - Add and save notes
-  - Persistent storage
-  - Edit and delete capabilities
-  - Organized by date
-- **HALT Check Tool:**
-  - Self-assessment for Hungry, Angry, Lonely, Tired
-  - Visual selection interface
-  - Personalized recommendations
-  - Coping strategies for each state
-  - Gentle reminders about self-care
+  - Unique ID for each note
+  - Created and edited date/time tracking
+  - Displays note count
+  - Fully searchable notes library
+  - Auto-save capability
+- **Color-Coded Annotation System:**
+  - Comprehensive table showing study methods
+  - Underlining techniques with examples
+  - Color coding strategies (red, blue, green, yellow, purple highlights)
+  - Margin annotation examples
+  - Highlighting techniques with visual guides
+  - Symbols and notation systems
+- **Study Method Instructions:**
+  - Step-by-step guidance
+  - Visual examples
+  - Best practices for Big Book study
+  - Comprehension tips
 
 #### 9. **Contact** (`#contact`)
-- Phone: (972) 925-0096
-- Email: rowlettaa@gmail.com
-- Physical address with map link
-- Google Maps integration
-- Embedded map display
-- Directions link
+- **Primary Contact Information:**
+  - Phone: (972) 925-0096 (24/7)
+  - Email: rowlettaa@gmail.com
+  - Physical address: 362 Oaks Trail #162, Garland, TX 75043
+- **Additional Resources:**
+  - Dallas AA Central Office: (214) 887-6699
+  - Rockwall County Sheriff (Jail): (972) 204-7108
+  - Magdalen House: (214) 324-9261
+  - Dallas Al-Anon: (214) 799-7616, (972) 407-0120, (972) 301-0700
+  - Salvation Army: (214) 821-1116
+- Google Maps integration with embedded interactive map
+- Direct directions link
+- Geographic coordinates: 32.912624, -96.638883
 - Mailing information
+- Embedded Google Contact Form (iframe)
+- Contact form fields: Name, email, message
+- All contact methods: Phone, email, form, in-person
 
 #### 10. **Contribute** (`#contribute`)
-- Venmo QR code for digital donations
-- Venmo link (@rowlettaa)
-- 7th Tradition explanation
-- Self-supporting principle details
-- How contributions are used
-- Alternative donation methods
-- Transparency about fund usage
+- **Donation Methods:**
+  - **Zelle digital payments:** Via Zelle QR code (phone number linked to Zelle account)
+  - **Check donations:** Made payable to "Rowlett Group"
+  - Mailing address: 362 Oaks Trail #162, Garland, TX 75043
+  - In-person donations at meetings
+  - Payment instructions and guidance
+- **7th Tradition Principles:**
+  - "Every A.A. group ought to be fully self-supporting"
+  - Detailed explanation of tradition
+  - Self-supporting principle details
+  - Transparency about how contributions are used
+  - No dues or fees policy emphasis
+  - Voluntary contribution information
+  - Group expenses covered: Rent, coffee, literature, utilities
 
 ### Global Features
 
 #### Progressive Web App (PWA)
-- Installable on mobile and desktop
-- Offline capability with cached resources
-- App manifest with icons
-- Install banner with dismiss option
-- Add to home screen functionality
-- Standalone app experience
+- **Full PWA Capabilities:**
+  - Installable on mobile and desktop devices
+  - Service worker (rowlett-aa-cache-v2)
+  - Cache-first strategy for offline functionality
+  - 100% offline support for cached content
+  - App manifest with icons (192x192 and 512x512)
+  - Theme color: #1e40af (blue)
+  - Display mode: Standalone
+- **PWA Install Banner:**
+  - Auto-displays on first visit for eligible devices
+  - Slide-down animation
+  - Install and Dismiss buttons
+  - Dismissal stored in localStorage (persistent preference)
+  - "Add to Home Screen" functionality
+  - Skip link available
+- **Offline Features:**
+  - Cached meeting schedule
+  - Offline access to stored notes and gratitude entries
+  - Literature accessible offline (when cached)
+  - Sobriety data persists offline
+- Standalone app experience (no browser UI when installed)
 
 #### Quick Action Buttons (Floating)
-Three persistent floating buttons in bottom-right corner:
-1. **Crisis Resources** (Red) - Emergency hotlines and support
-2. **Today's Meetings** (Blue) - Jump to current day's schedule
-3. **Search** (Green) - Site-wide search functionality
+Three persistent floating action buttons (FAB) with fixed positioning:
+1. **Crisis Resources Button** (Red)
+   - ID: `crisis-btn`
+   - Icon: Phone
+   - Opens crisis resources modal
+   - Emergency hotlines and support
+   - Always accessible for urgent needs
+2. **Today's Meetings Button** (Blue)
+   - ID: `todays-meetings-btn`
+   - Icon: Calendar
+   - Jumps to current day's schedule
+   - Scrolls to meeting banner showing today's meetings
+3. **Search Button** (Green)
+   - ID: `search-btn`
+   - Icon: Magnifying glass
+   - Opens site-wide search modal
+   - Global search functionality
+
+All FAB buttons features:
+- Always visible while scrolling (sticky positioning)
+- Mobile-responsive positioning
+- Hover effects with visual feedback
+- Accessible via keyboard
+- Touch-friendly targets for mobile
+- Color-coded for easy identification
 
 #### Search Functionality
-- Modal search interface
-- Real-time search across all content
-- Searches through:
-  - Meeting times and types
-  - Literature titles
-  - Page content
-  - Resources
-- Highlighted results
-- Click to navigate to content
-- Keyboard accessible (Escape to close)
+- **Modal-based search interface:**
+  - Full-page overlay backdrop
+  - Text input with placeholder prompt
+  - Close button (X)
+  - Escape key support to close
+- **Real-time search capabilities:**
+  - Search as you type
+  - Results appear dynamically
+  - Searches across all site content:
+    - Page titles and headers
+    - Meeting times, types, and formats
+    - Literature titles and descriptions
+    - Resource descriptions
+    - Historical timeline content
+    - Contact information
+    - FAQ content
+- **Search features:**
+  - Comprehensive indexed content
+  - Result highlighting
+  - Navigation links to matching content
+  - Click result to navigate to location
+  - Results count display
+  - "Start typing" prompt when empty
+- **Accessibility:**
+  - Keyboard accessible (Escape to close, Enter to search)
+  - Screen reader compatible
+  - Mobile-optimized design
+  - Touch-friendly interface
 
 #### Crisis Resources Modal
-- National Suicide Prevention Lifeline: 988
-- Crisis Text Line: Text HELLO to 741741
-- Dallas AA Central Office: (214) 887-6699
-- Rowlett Group hotline: (972) 925-0096
-- Emergency guidance
-- When to call 911 information
+**Modal ID:** `crisis-modal`
+- **Emergency hotlines with 24/7 availability:**
+  - **National Suicide Prevention Lifeline:** 988
+  - **Crisis Text Line:** Text "HELLO" to 741741
+  - **Dallas AA Central Office:** (214) 887-6699
+  - **Rowlett Group Direct Contact:** (972) 925-0096
+- **Emergency Guidance:**
+  - Call 911 for life-threatening situations
+  - Go to nearest emergency room when needed
+  - Instructions for when to seek immediate help
+- **Modal Features:**
+  - Red header/urgent styling for visibility
+  - Prominent phone icons
+  - Clickable phone numbers (tel: protocol)
+  - Text link compatibility (sms: protocol)
+  - Close button
+  - Full-page overlay
+  - Always accessible via red FAB button
 
 #### Navigation System
-- Sticky header that stays visible while scrolling
-- Desktop navigation (horizontal menu)
-- Mobile responsive hamburger menu
-- Active page highlighting
-- Smooth scroll to sections
-- "Skip to main content" accessibility link
-- Visual underline animation on hover
-- Contribute button with special styling
+- **Desktop Navigation:**
+  - Sticky header that stays visible while scrolling
+  - Horizontal menu bar (right-aligned)
+  - Logo on left with group branding
+  - Main navigation links:
+    - Home
+    - What is A.A.?
+    - Schedule
+    - Get Involved
+    - Literature
+    - Our Group
+    - Contact Us
+    - Contribute (button-styled)
+  - Visual underline animation on hover
+  - Active page highlighting (blue color, font weight 600)
+  - Smooth scroll to sections
+  - Changes to mobile menu at <1024px breakpoint
+- **Mobile Navigation:**
+  - Hamburger menu toggle icon
+  - Slide-out sidebar drawer
+  - All main navigation links included
+  - Touch-friendly spacing and targets
+  - Mobile-optimized layout
+- **Accessibility Features:**
+  - "Skip to main content" link (screen reader visible)
+  - ARIA labels on navigation buttons
+  - Semantic HTML structure
+  - Keyboard navigation support
+  - Focus management
+  - Logical tab order
+- **Hash-based SPA Navigation:**
+  - URLs: #home, #what-is-aa, #schedule, #get-involved, #literature, #our-group, #study-guide, #contact, #contribute
+  - Browser back/forward button support
+  - Smooth page transitions with fadeIn animation
 
 #### Today's Meetings Banner
-- Dynamically displays based on current day of week
-- Shows all meetings happening today
-- Prominent yellow banner at top of home page
-- Automatically updates based on system date
-- Includes meeting times, types, and formats
+- **Dynamic display based on current day of week:**
+  - Automatically detects system date
+  - Shows all meetings scheduled for today
+  - Updates in real-time (no refresh needed)
+- **Banner features:**
+  - Prominent yellow background for visibility
+  - Positioned at top of home page
+  - Includes meeting times (formatted in 12-hour)
+  - Shows meeting names and types
+  - Displays open/closed format badges
+  - Click to jump to full schedule
+- **Accessible via:**
+  - Home page (auto-display)
+  - Today's Meetings FAB button (blue, calendar icon)
 
 ---
 
@@ -229,9 +451,13 @@ Three persistent floating buttons in bottom-right corner:
   - Lora (400, 600, italic) - Secondary serif font for quotes and book pages
 
 ### APIs & Integrations
-- **YouTube Embedded Player** - Video content delivery
-- **Google Maps** - Location and directions
-- **Venmo** - Payment integration
+- **Dictionary API** (dictionaryapi.dev) - 1930s word definitions for Big Book study
+- **Google Maps** - Embedded map, location, and directions
+- **Zelle** - Digital payment integration for donations via QR code
+- **External AA Resources:**
+  - AA.org official materials (PDF links)
+  - AA World Services literature
+  - Local AA resources integration
 
 ### Web Technologies
 - **HTML5** - Semantic markup with proper structure
@@ -1496,19 +1722,19 @@ const videos = {
 </div>
 ```
 
-### How to Update Venmo Information
+### How to Update Zelle Information
 
 **Location:** Contribute section
 
-**To update Venmo QR code:**
-1. Generate new QR code from Venmo app
-2. Upload image to hosting service (or convert to base64)
+**To update Zelle QR code:**
+1. Generate new QR code from Zelle app or bank
+2. Upload image to hosting service (or use direct link)
 3. Replace `src` attribute in img tag
 
-**To update Venmo username:**
-1. Find all instances of `@rowlettaa`
-2. Replace with new username
-3. Update link `href` attribute
+**To update Zelle payment link:**
+1. Find the Zelle enrollment URL in the contribute section
+2. Update the data parameter with new phone number or email
+3. Update both the link `href` and QR code `src` attributes
 
 ### How to Add New Pages/Sections
 
@@ -2256,33 +2482,106 @@ node_modules/
 
 ## Changelog
 
-### Version 1.0 (Current)
-- Initial release
-- 10 main pages/sections
-- Meeting schedule with 7 days
-- Sobriety calculator
-- Literature video library (63+ videos)
-- Study guide tools (meditation timer, HALT check, gratitude list, notes)
-- PWA capabilities
-- Search functionality
-- Crisis resources
-- Timeline history
-- Fully responsive design
-- SEO optimized
-- WCAG 2.1 AA accessible
+### Version 1.1 (October 2025 - Documentation Update)
+- **Documentation corrections:**
+  - Corrected payment method from Venmo to Zelle throughout README
+  - Updated "How to Update Payment Information" section to reflect Zelle instead of Venmo
+  - Clarified that Zelle donations use QR code with phone number (not email)
+  - All technical details now accurately reflect the live website
+
+### Version 1.0 (January 2025)
+- **11 main pages/sections** with complete content
+- **Meeting schedule** with 15 weekly meetings across 7 days (all HYBRID in-person + Zoom)
+- **Special events tracking:**
+  - 30th Anniversary Celebration (TBD)
+  - Monthly Birthday/Anniversary Celebrations
+  - Group Conscience Meeting (3rd Monday at 6:00 PM, auto-calculation)
+  - Featured speakers: Annika K., Searcy W. (50-year chip)
+- **Advanced sobriety calculator:**
+  - 20+ milestone levels (24 hours to 30+ years)
+  - Animated gradient progress bars showing progress to next milestone
+  - Countdown to next milestone with days/hours remaining
+  - Persistent localStorage tracking
+  - Reset functionality with confirmation
+- **Literature library:**
+  - 60+ Big Book PDFs linked to AA.org (all chapters, personal stories, appendices)
+  - 30+ Big Book ASL videos
+  - 19 Twelve and Twelve PDFs (all steps and traditions individually)
+  - 15+ Twelve and Twelve ASL videos
+  - Total: 45+ ASL videos for accessibility
+  - Dual-tab system (Read/Watch)
+  - Accordion-style organization with color-coded categories
+- **Study guide tools:**
+  - 1930s Dictionary with live API lookups (dictionaryapi.dev)
+  - Features: phonetics, etymology, definitions, usage examples
+  - Personal study notes system with:
+    - Auto-generated timestamps (created/edited)
+    - Edit functionality (inline)
+    - Delete with confirmation
+    - Search/filter across all notes
+    - Persistent localStorage
+  - Color-coded annotation guide (5 highlight colors)
+  - Study method instructions with visual examples
+- **Recovery resources:**
+  - Meditation timer (5/10/15 minute presets with audio notification)
+  - HALT support tool with toggle selection and personalized advice:
+    - Hungry: Nutritious meal recommendation
+    - Angry: Breathing/sponsor suggestion
+    - Lonely: Connection reminder
+    - Tired: Rest recommendation
+  - Gratitude journal with automatic timestamps and entry count
+  - Service opportunities:
+    - Magdalen House (214-324-9261, www.magdalenhouse.org)
+    - Rockwall Jail (972-204-7108)
+    - Green Oaks treatment facility
+    - Salvation Army (214-821-1116)
+    - Speaker events
+  - Minimum 6 months sobriety required for service
+- **Interactive 25+ year timeline** (1995-Present) with 12 major eras:
+  - Detailed historical narrative from founding to present
+  - Color-coded alternating left/right design
+  - Hover-activated information popups
+  - Key milestones: founding, growth, moves, Zoom integration (April 1, 2020)
+- **PWA (Progressive Web App):**
+  - Installable on mobile/desktop devices
+  - Service worker (rowlett-aa-cache-v2) with cache-first strategy
+  - 100% offline support for cached content
+  - App manifest with 192x192 and 512x512 icons
+  - Standalone app mode (no browser UI)
+  - Theme color: #1e40af
+- **Global search functionality:**
+  - Modal-based interface
+  - Real-time search as you type
+  - Searches all pages, meetings, literature, resources
+  - Keyboard accessible (Escape to close)
+- **Crisis resources modal** with emergency contacts:
+  - National Suicide Prevention: 988
+  - Crisis Text Line: TEXT HELLO to 741741
+  - Dallas AA Central: (214) 887-6699
+  - Rowlett Group: (972) 925-0096
+  - Call 911 guidance
+- **3 Floating Action Buttons (FAB)** for quick access:
+  - Crisis Resources (red, phone icon)
+  - Today's Meetings (blue, calendar icon)
+  - Search (green, magnifying glass icon)
+- Fully responsive mobile design
+- SEO optimized with structured data (Schema.org)
+- WCAG 2.1 AA accessibility compliant
+- No frameworks - Vanilla JavaScript
+- Single-file architecture (259KB)
 
 ### Future Enhancements (Planned)
-- Service worker for full offline capability
-- Meeting check-in tracker
-- Step work journaling
-- Daily reflections
-- Meeting finder with maps
-- Anonymous chat/support
-- Multilingual support (Spanish)
-- Dark mode
-- Email newsletter signup
-- Blog/articles section
+- Enhanced offline capability with expanded caching
+- Step work journaling system
+- Daily reflections/meditations
+- Expanded meeting finder with interactive maps
+- Multilingual support (Spanish translation)
+- Dark mode theme option
+- Email newsletter signup integration
+- Blog/articles section for recovery content
 - Event RSVP system
+- Prayer/meditation audio library
+- Downloadable sobriety tracker PDF reports
 
 ---
 
@@ -2291,7 +2590,7 @@ node_modules/
 **For technical issues with the website:**
 - Create an issue in the repository
 - Contact the web administrator
-- Email: rowlettaatech@gmail.com
+- Email: rowlettaa@gmail.com
 
 **For AA support and meeting information:**
 - **Phone:** (972) 925-0096

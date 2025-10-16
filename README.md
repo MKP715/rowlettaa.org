@@ -24,7 +24,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 - **25+ Years of History** - Interactive timeline from 1995 to present
 - **3 Quick Action Buttons** - Crisis, Today's Meetings, Search
 - **100% PWA Capable** - Full offline support and installable
-- **259KB Single File** - No build process, instant deployment
+- **275KB Single File** - No build process, instant deployment
 - **WCAG 2.1 AA Compliant** - Full accessibility support
 
 ## Table of Contents

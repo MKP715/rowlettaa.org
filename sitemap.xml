@@ -22,7 +22,7 @@
 
   <!-- Main index file -->
   <url>
-    <loc>https://www.rowlettaa.org/FINAL_index.html</loc>
+    <loc>https://www.rowlettaa.org/</loc>
     <lastmod>2025-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -34,3 +34,4 @@
   </url>
 
 </urlset>
+

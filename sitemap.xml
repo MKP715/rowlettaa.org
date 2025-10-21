@@ -22,7 +22,7 @@
 
   <!-- Main index file -->
   <url>
-    <loc>https://www.rowlettaa.org/ndex.html</loc>
+    <loc>https://rowlettaa.org/index.html</loc>
     <lastmod>2025-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -34,5 +34,6 @@
   </url>
 
 </urlset>
+
 
 

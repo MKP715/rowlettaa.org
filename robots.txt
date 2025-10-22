@@ -1,11 +1,8 @@
 # robots.txt for Rowlett Group of AA (www.rowlettaa.org)
-# This file allows all major search engine bots to crawl and index the site
 
-# Allow all bots to access all content
 User-agent: *
 Allow: /
 
-# Specific rules for major search engines
 User-agent: Googlebot
 Allow: /
 
@@ -36,19 +33,14 @@ Allow: /
 User-agent: ia_archiver
 Allow: /
 
-# Disallow access to old/archived versions to prevent duplicate content
 User-agent: *
 Disallow: /Web_Versions/
 
-# Disallow access to logo source files (already embedded in pages)
 Disallow: /Logo/
 
-# Disallow email files
 Disallow: /*.eml$
 Disallow: /*.msg$
+Disallow: /*.ini
 
-# Disallow desktop.ini files
-Disallow: /desktop.ini
+Sitemap: https://rowlettaa.org/sitemap.xml
 
-# Sitemap location
-Sitemap: https://www.rowlettaa.org/sitemap.xml

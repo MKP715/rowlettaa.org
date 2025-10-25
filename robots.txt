@@ -1,8 +1,5 @@
 # robots.txt for Rowlett Group of AA (www.rowlettaa.org)
 
-User-agent: *
-Allow: /
-
 User-agent: Googlebot
 Allow: /
 
@@ -34,13 +31,11 @@ User-agent: ia_archiver
 Allow: /
 
 User-agent: *
+Allow: /
 Disallow: /Web_Versions/
-
 Disallow: /Logo/
-
 Disallow: /*.eml$
 Disallow: /*.msg$
 Disallow: /*.ini
 
 Sitemap: https://rowlettaa.org/sitemap.xml
-

@@ -2795,7 +2795,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 },
                 {
                     date: 'recurring-last-saturday',
-                    title: 'Monthly Anniversary Celebration',
+                    title: 'Birthday Celebration',
                     timeParts: { '6:30 PM': 'Potluck', '7:30 PM': 'Monthly & Yearly Recognitions' },
                     location: 'Casa View Baptist Church<br>130 E E Interstate 30, Garland, TX 75043',
                     details: 'Bring Family & Friends',
@@ -2897,7 +2897,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             eventsContainer.classList.add('lg:grid-cols-2');
             if (futureEvents.length === 0) {
                 eventsContainer.innerHTML = '<p class="text-center text-gray-600 col-span-full">No special events scheduled at this time. Please check back later!</p>';
-            } else if (futureEvents.length === 1 && futureEvents[0].title === 'Monthly Anniversary Celebration') {
+            } else if (futureEvents.length === 1 && futureEvents[0].title === 'Birthday Celebration') {
                 eventsContainer.classList.remove('lg:grid-cols-2');
                 eventsContainer.innerHTML = renderEventHTML(futureEvents[0]);
             } else {

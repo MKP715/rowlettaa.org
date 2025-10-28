@@ -1235,7 +1235,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="text-center mb-8">
                     <h2 class="text-2xl sm:text-3xl font-bold text-blue-800">Upcoming Special Events <span role="img" aria-label="party popper"><span role="img" aria-label="party popper">🎉</span></span></h2>
                 </div>
-                <div id="special-events-container" class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 text-center"></div>
+                <div id="special-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center"></div>
             </div>
             <div class="mt-16">
                 <div class="text-center mb-12">
@@ -2924,11 +2924,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 eventHTML += `</div>`;
                 return eventHTML;
             };
-            eventsContainer.classList.add('lg:grid-cols-2');
             if (futureEvents.length === 0) {
                 eventsContainer.innerHTML = '<p class="text-center text-gray-600 col-span-full">No special events scheduled at this time. Please check back later!</p>';
             } else if (futureEvents.length === 1 && futureEvents[0].title === 'Birthday Celebration') {
-                eventsContainer.classList.remove('lg:grid-cols-2');
+                eventsContainer.classList.remove('md:grid-cols-2', 'lg:grid-cols-3');
                 eventsContainer.innerHTML = renderEventHTML(futureEvents[0]);
             } else {
                 eventsContainer.innerHTML = futureEvents.map(renderEventHTML).join('');

@@ -1535,6 +1535,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                 </div>
             </div>
+            <section class="mb-16">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-blue-800">Fellowship & Community</h2>
+                    <p class="text-lg text-gray-600 mt-2">Connect with the broader Dallas area AA community.</p>
+                </div>
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500 text-center">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-4">CityWide Dallas AA</h3>
+                        <div class="text-sm text-gray-600 mb-4">
+                            <p>Lover's Lane United Methodist Church</p>
+                            <p>9200 Inwood Road, Dallas, TX 75220</p>
+                            <p><a href="https://citywidedallasaa.org/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">citywidedallasaa.org</a></p>
+                        </div>
+                        <div class="border-t pt-4">
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">MONTHLY POTLUCK & SPEAKER</h4>
+                            <p class="mb-2 text-gray-700">Second Saturday of Every Month</p>
+                            <p class="text-sm text-gray-600 mb-2">Potluck: 5:30 PM | Speaker: 7:00 PM</p>
+                            <div class="mb-2">
+                                <p class="font-semibold text-gray-800">Upcoming Dates:</p>
+                                <div id="citywide-dates" class="grid grid-cols-2 gap-x-2 text-blue-700 font-medium"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section>
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-blue-800">Regular Service Opportunities</h2>
@@ -2397,12 +2422,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const diff = (dayOfWeek - 6 + 7) % 7;
         return new Date(year, month, lastDayOfMonth - diff);
     }
-    function getFirstSaturday(year, month) {
-        const d = new Date(year, month, 1);
-        const day = d.getDay();
-        const firstSaturday = 1 + (6 - day + 7) % 7;
-        return new Date(year, month, firstSaturday);
-    }
     function updateParentAccordionHeight(element) {
         setTimeout(() => {
             let parent = element.parentElement;
@@ -2800,16 +2819,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     textColor: 'text-yellow-900'
                 },
                 {
-                    date: 'recurring-first-saturday',
-                    title: 'Ladies Who Lunch',
-                    time: 'Immediately following Women\'s Meeting (~11:45 AM)',
-                    location: 'Rowlett Group<br>362 Oaks Trail #162, Garland, TX 75043',
-                    details: 'Ladies only - Potluck',
-                    bgColor: 'bg-pink-50',
-                    borderColor: 'border-pink-400',
-                    textColor: 'text-pink-900'
-                },
-                {
                     date: 'recurring-last-saturday',
                     title: 'Birthday Celebration',
                     timeParts: { '6:30 PM': 'Potluck', '7:30 PM': 'Monthly & Yearly Recognitions' },
@@ -2887,20 +2896,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }
                     const displayDate = lastSaturday.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
                     eventHTML += `<p class="text-base font-semibold">Next Celebration: Saturday, ${displayDate}</p>`;
-                } else if (event.date.startsWith('recurring-first-saturday')) {
-                    let eventYear = today.getFullYear();
-                    let eventMonth = today.getMonth();
-                    let firstSaturday = getFirstSaturday(eventYear, eventMonth);
-                    if (today > firstSaturday) {
-                        eventMonth++;
-                        if (eventMonth > 11) {
-                            eventMonth = 0;
-                            eventYear++;
-                        }
-                        firstSaturday = getFirstSaturday(eventYear, eventMonth);
-                    }
-                    const displayDate = firstSaturday.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-                    eventHTML += `<p class="text-base font-semibold">Next Event: Saturday, ${displayDate}</p>`;
                 } else {
                     const eventDate = new Date(event.date + 'T00:00:00');
                     const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'long' });
@@ -3340,6 +3335,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
                 datesElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
             }
+
+            // Calculate next 2 CityWide Dallas AA events (second Saturday of each month)
+            const citywideDatesElement = document.getElementById('citywide-dates');
+            if (citywideDatesElement) {
+                const getSecondSaturday = (year, month) => {
+                    const firstDay = new Date(year, month, 1);
+                    const firstSaturday = 1 + (6 - firstDay.getDay() + 7) % 7;
+                    const secondSaturday = firstSaturday + 7;
+                    return new Date(year, month, secondSaturday);
+                };
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const citywideDates = [];
+
+                let currentYear = today.getFullYear();
+                let currentMonth = today.getMonth();
+
+                // Find next 2 upcoming events
+                while (citywideDates.length < 2) {
+                    const secondSat = getSecondSaturday(currentYear, currentMonth);
+                    if (secondSat >= today) {
+                        citywideDates.push(secondSat);
+                    }
+                    currentMonth++;
+                    if (currentMonth > 11) {
+                        currentMonth = 0;
+                        currentYear++;
+                    }
+                }
+
+                citywideDatesElement.innerHTML = citywideDates.map(date => {
+                    const formattedDate = date.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    return `<div>${formattedDate}</div>`;
+                }).join('');
+            }
+
             this.initialized.getInvolved = true;
         },
         initLiteraturePage: function() {

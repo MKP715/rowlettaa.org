@@ -2871,7 +2871,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 } else {
                     timeDetailsHTML = `<p class="text-base font-semibold">Time: ${event.time}</p>`;
                 }
-                let eventHTML = `<div class="${event.bgColor} border-l-4 ${event.borderColor} ${event.textColor} p-6 rounded-lg shadow-md">
+                const isRecurring = event.date.startsWith('recurring');
+                const spanClass = isRecurring ? '' : 'md:col-span-2 lg:col-span-1';
+                let eventHTML = `<div class="${event.bgColor} border-l-4 ${event.borderColor} ${event.textColor} p-6 rounded-lg shadow-md ${spanClass}">
                     <h3 class="text-xl font-bold mb-3">${event.title}</h3>`;
                 if (event.date.startsWith('recurring-last-saturday')) {
                     let eventYear = today.getFullYear();
@@ -2938,7 +2940,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const originalTitle = todayCard.querySelector('h3').textContent;
                 scheduleGrid.prepend(todayCard);
                 todayCard.classList.remove('bg-white');
-                todayCard.classList.add('bg-blue-50', 'border-blue-300', 'shadow-lg');
+                todayCard.classList.add('bg-blue-50', 'border-blue-300', 'shadow-lg', 'md:col-span-2', 'lg:col-span-1');
                 todayCard.querySelector('h3').innerHTML = `Today <span class="text-base font-medium text-gray-500">(${originalTitle})</span>`;
             }
             const filterButtons = filters.querySelectorAll('button');

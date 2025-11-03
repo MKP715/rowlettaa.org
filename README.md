@@ -14,7 +14,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 
 ## Quick Statistics
 
-- **11 Main Pages/Sections** - Complete website coverage
+- **12 Main Pages/Sections** - Complete website coverage
 - **15 Weekly Meetings** - All HYBRID (in-person + Zoom)
 - **60+ Literature PDFs** - Big Book + 12&12, all linked to AA.org
 - **45+ ASL Videos** - Full accessibility for deaf/hard-of-hearing
@@ -46,7 +46,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 
 ## Features
 
-### Core Pages (11 Main Sections)
+### Core Pages (12 Main Sections)
 
 #### 1. **Home Page** (`#home`)
 - Hero section with inspirational imagery
@@ -85,7 +85,41 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
   - Group Conscience Meeting (3rd Monday of each month at 6:00 PM)
   - Dynamic future-date calculation that auto-updates
 
-#### 4. **Resources** (`#resources`)
+#### 4. **Events & Happenings** (`#events`)
+- **Dynamic event population from easily updateable array**
+- **Category filtering system:**
+  - Rowlett Events (group activities, anniversary, birthday)
+  - Speaker Events (guest speakers at Rowlett Group)
+  - Dallas Area Events (broader AA community)
+  - Service Events (commitments, service opportunities)
+  - Crashed Meetings (members speaking at other groups)
+- **Recurring event calculations with 35+ pattern support:**
+  - First/Second/Third/Fourth/Last [Day of Week]
+  - Auto-hide past events (no manual cleanup needed)
+  - Next occurrence calculation for recurring events
+- **Event features:**
+  - Speaker details and background
+  - Location with Google Maps integration
+  - Countdown timers to upcoming events
+  - Past events archive (6-month history)
+  - Event cards with color-coding by category
+  - Time, date, address, and description for all events
+- **Current events tracked (November 2025):**
+  - Monthly Group Conscience (3rd Monday, 6:00 PM)
+  - Birthday Celebration (Last Saturday, 4:00 PM)
+  - Ladies Who Lunch (1st Saturday after 10:30 AM Women's Meeting)
+  - 30th Anniversary Celebration (July 26, 2025)
+  - CityWide Dallas AA (2nd Saturday monthly at Lover's Lane UMC)
+  - Stuart R. from Simply AA (November 3, 2025)
+  - Greg L. from Chicago Group (All Tuesdays in November)
+  - Esther H. at Terrell Group (November 15)
+  - Lisa R. at Wylie Group (November 15)
+  - Thanksgiving Meal (November 27)
+- Filter by category for focused browsing
+- Mobile-responsive card layout
+- Contact webmaster to add/update events via rowlettaa@gmail.com
+
+#### 5. **Resources** (`#resources`)
 - **Sobriety Calculator with Advanced Milestone Tracking:**
   - 20+ progressive sobriety milestones (24 hours to 30+ years)
   - Milestone levels: 24 Hours, 1 Week, 30 Days, 60 Days, 90 Days, 6 Months, 1 Year, 18 Months, 2 Years, 3 Years, 5 Years, 10 Years, 15 Years, 20 Years, 25 Years, 30 Years
@@ -124,7 +158,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
   - Empty state messaging
   - Display entry count
 
-#### 5. **Get Involved** (`#get-involved`)
+#### 6. **Get Involved** (`#get-involved`)
 - **Service Opportunities:**
   - **Magdalen House:** Women's recovery facility with volunteer dates
     - Phone: (214) 324-9261
@@ -144,7 +178,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 - Contact information for getting involved
 - Fellowship activities information
 
-#### 6. **Literature** (`#literature`)
+#### 7. **Literature** (`#literature`)
 - **Dual-Tab System for Each Book:**
   - **"Read" Tab:** Direct PDF links to official AA.org materials
   - **"Watch" Tab:** American Sign Language (ASL) videos (45+ videos)
@@ -175,7 +209,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 - Accessibility-focused with comprehensive ASL integration
 - Mobile-responsive layout
 
-#### 7. **Our Group** (`#our-group`)
+#### 8. **Our Group** (`#our-group`)
 - **Interactive 25+ Year Timeline (1995-Present):**
   - 12 major historical eras including:
     - Leap of Faith (1995) - Group founded in small office
@@ -204,7 +238,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 - Evolution and growth story
 - Community connections
 
-#### 8. **Study Guide** (`#study-guide`)
+#### 9. **Study Guide** (`#study-guide`)
 - **1930s Dictionary Tool:**
   - Text input with real-time word lookup
   - External API integration (dictionaryapi.dev)
@@ -242,7 +276,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
   - Best practices for Big Book study
   - Comprehension tips
 
-#### 9. **Contact** (`#contact`)
+#### 10. **Contact** (`#contact`)
 - **Primary Contact Information:**
   - Phone: (972) 925-0096 (24/7)
   - Email: rowlettaa@gmail.com
@@ -261,7 +295,7 @@ This is a comprehensive single-page application (SPA) for the Rowlett Group of A
 - Contact form fields: Name, email, message
 - All contact methods: Phone, email, form, in-person
 
-#### 10. **Contribute** (`#contribute`)
+#### 11. **Contribute** (`#contribute`)
 - **Donation Methods:**
   - **Zelle digital payments:** Via Zelle QR code (phone number linked to Zelle account)
   - **Check donations:** Made payable to "Rowlett Group"
@@ -2483,13 +2517,21 @@ node_modules/
 ## Changelog
 
 ### Version 1.0 (October 2025)
-- **11 main pages/sections** with complete content
+- **12 main pages/sections** with complete content
 - **Meeting schedule** with 15 weekly meetings across 7 days (all HYBRID in-person + Zoom)
+- **Events & Happenings page:**
+  - Dynamic event population from easily updateable eventsData array (200+ lines of documentation)
+  - Category filtering: Rowlett Events, Speaker Events, Dallas Area, Service, Crashed Meetings
+  - Recurring event calculations supporting 35+ patterns (first/second/third/fourth/last day-of-week)
+  - Auto-hide past events (no manual cleanup required)
+  - Event features: speaker details, location with Google Maps, countdown timers, color-coded cards
+  - Past events archive (6-month history)
+  - Current events (November 2025): Group Conscience, Birthday Celebration, Ladies Who Lunch, 30th Anniversary, CityWide Dallas AA, Stuart R., Greg L. (all Tuesdays), Esther H., Lisa R., Thanksgiving Meal
+  - Contact webmaster to add/update events
 - **Special events tracking:**
-  - 30th Anniversary Celebration (TBD)
-  - Monthly Birthday/Anniversary Celebrations
+  - 30th Anniversary Celebration (July 26, 2025, speaker Myers R. from Ingram, TX)
+  - Monthly Birthday/Anniversary Celebrations (Last Saturday at 4:00 PM)
   - Group Conscience Meeting (3rd Monday at 6:00 PM, auto-calculation)
-  - Featured speakers: Annika K., Searcy W. (50-year chip)
 - **Advanced sobriety calculator:**
   - 20+ milestone levels (24 hours to 30+ years)
   - Animated gradient progress bars showing progress to next milestone

@@ -365,6 +365,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       ]
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "Rowlett Group 30th Anniversary Celebration",
+      "description": "Join us as we celebrate 30 years of carrying the message! Special speaker and fellowship.",
+      "startDate": "2025-07-26T17:00:00-05:00",
+      "endDate": "2025-07-26T21:00:00-05:00",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "image": "https://lh3.googleusercontent.com/pw/AP1GczPgf1WwZcGT_lMc4zBFGT-qd4Ze1qdRUx9ajy-XVt849HP-jK0SPA7HQ-RoCYVypYn3iIhwKDpP7MHwJs1Hv_pqR6xanNFoe4MTiusUZJQYSmYRsKl3ku5CE-opbGYwwZj_7ROr90CeM_inlb33FliDeg=d",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://rowlettaa.org/#events"
+      },
+      "performer": {
+        "@type": "Person",
+        "name": "Myers R."
+      },
+      "location": {
+        "@type": "Place",
+        "name": "Casa View Baptist Church",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "130 E Interstate 30",
+          "addressLocality": "Garland",
+          "addressRegion": "TX",
+          "postalCode": "75043"
+        }
+      },
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "organizer": {
+        "@type": "Organization",
+        "name": "Rowlett Group of Alcoholics Anonymous",
+        "url": "https://rowlettaa.org/"
+      }
+    }
+    </script>
 <style>
     :root {
         --primary-blue: #1e40af;
@@ -567,6 +607,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         text-decoration-thickness: 2px;
     }
     .filter-btn-active {
+        background-color: #1e40af !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    .event-filter-btn {
+        background-color: #FFFFFF;
+        color: #374151;
+        border: 1px solid #e5e7eb;
+    }
+    .event-filter-btn:hover {
+        background-color: #f3f4f6;
+    }
+    .event-filter-btn-active {
         background-color: #1e40af !important;
         color: #FFFFFF !important;
         box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -931,6 +984,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="hidden lg:flex items-center space-x-5">
             <a href="#what-is-aa" class="nav-link text-gray-600 hover:text-blue-800 text-sm">What is A.A.?</a>
             <a href="#schedule" class="nav-link text-gray-600 hover:text-blue-800 text-sm">Schedule</a>
+            <a href="#events" class="nav-link text-gray-600 hover:text-blue-800 text-sm">Events</a>
             <a href="#get-involved" class="nav-link text-gray-600 hover:text-blue-800 text-sm">Get Involved</a>
             <a href="#literature" class="nav-link text-gray-600 hover:text-blue-800 text-sm">Literature</a>
             <a href="#resources" class="nav-link text-gray-600 hover:text-blue-800 text-sm">Resources</a>
@@ -949,6 +1003,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="mobile-menu" class="hidden lg:hidden border-t border-gray-200">
         <a href="#what-is-aa" class="nav-link block py-3 px-4 text-base hover:bg-gray-100">What is A.A.?</a>
         <a href="#schedule" class="nav-link block py-3 px-4 text-base hover:bg-gray-100">Schedule</a>
+        <a href="#events" class="nav-link block py-3 px-4 text-base hover:bg-gray-100">Events</a>
         <a href="#get-involved" class="nav-link block py-3 px-4 text-base hover:bg-gray-100">Get Involved</a>
         <a href="#literature" class="nav-link block py-3 px-4 text-base hover:bg-gray-100">Literature</a>
         <a href="#resources" class="nav-link block py-3 px-4 text-base hover:bg-gray-100">Resources</a>
@@ -1222,21 +1277,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <button type="button" data-filter="closed" class="bg-white text-gray-700 text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:bg-gray-100">Closed Meeting</button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="schedule-grid"></div>
-            <div class="max-w-3xl mx-auto mt-8 meeting-item" data-type="closed">
-                <div class="bg-white p-6 rounded-lg shadow-md border">
-                    <h3 class="text-xl font-bold text-center text-blue-800 mb-4">Group Conscience Meeting</h3>
-                    <div class="border-t pt-4 text-center">
-                        <p id="group-conscience-date" class="font-bold text-base">6:00 PM on the 3rd Monday of each month</p>
-                        <p class="text-gray-600 italic text-sm mt-1">This is a closed business meeting for Rowlett Group home group members only.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-16">
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-blue-800">Upcoming Special Events <span role="img" aria-label="party popper"><span role="img" aria-label="party popper">🎉</span></span></h2>
-                </div>
-                <div id="special-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center"></div>
-            </div>
             <div class="mt-16">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl sm:text-4xl font-bold text-blue-800">Your First Visit?</h2>
@@ -1351,6 +1391,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="events-page" class="page-content hidden">
+        <div class="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-800">Events & Happenings <span role="img" aria-label="calendar">📅</span></h1>
+                <p class="mt-2 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">Stay connected with Rowlett Group and the Dallas AA community</p>
+            </div>
+
+            <!-- Event Category Filters -->
+            <div id="event-filters" class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10">
+                <button type="button" data-event-filter="all" class="event-filter-btn-active text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300 shadow-sm">All Events</button>
+                <button type="button" data-event-filter="rowlett" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Rowlett Events</button>
+                <button type="button" data-event-filter="speaker" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Speaker Events</button>
+                <button type="button" data-event-filter="area" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Dallas Area</button>
+                <button type="button" data-event-filter="service" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Service</button>
+            </div>
+
+            <!-- Upcoming Events Container -->
+            <div id="events-container" class="max-w-6xl mx-auto space-y-6"></div>
+
+            <!-- No Events Message (hidden by default) -->
+            <div id="no-events-message" class="hidden text-center py-12">
+                <div class="max-w-md mx-auto bg-gray-50 rounded-lg p-8 border border-gray-200">
+                    <i class="fas fa-calendar-times text-5xl text-gray-400 mb-4" aria-hidden="true"></i>
+                    <h3 class="text-xl font-bold text-gray-700 mb-2">No Events Found</h3>
+                    <p class="text-gray-600">There are no upcoming events matching your filter. Check back soon!</p>
+                </div>
+            </div>
+
+            <!-- Past Events Archive Section -->
+            <div class="mt-16 max-w-6xl mx-auto">
+                <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                    <div class="main-accordion-header p-4 sm:p-6 flex justify-between items-center bg-gray-50 hover:bg-blue-50 cursor-pointer">
+                        <h2 class="text-xl sm:text-2xl font-bold text-blue-800">Past Events Archive <span role="img" aria-label="archive">🗄️</span></h2>
+                        <span class="accordion-icon text-blue-600 transform transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </span>
+                    </div>
+                    <div class="main-accordion-content">
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-6">View events from the past 6 months</p>
+                            <div id="past-events-container" class="space-y-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Add Events Info Section -->
+            <div class="mt-12 max-w-4xl mx-auto">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
+                    <h3 class="text-lg font-bold text-blue-900 mb-2">
+                        <i class="fas fa-info-circle mr-2" aria-hidden="true"></i>
+                        Need to Add or Update an Event?
+                    </h3>
+                    <p class="text-blue-800">Contact the webmaster at <a href="mailto:rowlettaa@gmail.com" class="underline hover:text-blue-600">rowlettaa@gmail.com</a>.</p>
                 </div>
             </div>
         </div>
@@ -2417,6 +2515,416 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         }, 50);
     }
+
+    /* ========================================================================
+       EVENTS DATA ARRAY - Enhanced Structure for Events & Happenings Page
+       ========================================================================
+
+       📝 HOW TO ADD A NEW EVENT:
+       --------------------------
+       Copy the template below, fill in the details, and paste into this array.
+
+       TEMPLATE:
+       {
+           // REQUIRED FIELDS
+           date: 'YYYY-MM-DD' or 'recurring-*',  // See recurring options below
+           title: 'Event Name',
+           time: '5:00 PM' or '5:00 PM - 8:00 PM',
+           location: 'Venue Name',
+           address: '123 Street, City, TX 75043',
+           category: 'rowlett',  // Options: rowlett, speaker, area, service, crashed
+
+           // OPTIONAL FIELDS
+           description: 'Detailed event description',
+           speaker: {
+               name: 'First Name L.',
+               homeGroup: 'Group Name',
+               sobrietyDate: '2010-01-01',
+               bio: 'Brief speaker background'
+           },
+           mapLink: 'https://maps.google.com/?q=address',
+           requirements: 'Open to all / Closed / RSVP required',
+           potluck: true,
+           guestsWelcome: true,
+           cost: 'Free' or '$10',
+           contactPerson: 'Name - (555) 555-5555',
+           hostGroup: 'Group hosting (for area events)',
+           groupInvolvement: 'How Rowlett Group is participating',
+           details: 'Additional event notes',
+
+           // STYLING (use existing color schemes)
+           bgColor: 'bg-yellow-50',
+           borderColor: 'border-yellow-400',
+           textColor: 'text-yellow-900'
+       }
+
+       📅 RECURRING EVENT OPTIONS:
+       ---------------------------
+       - 'recurring-first-monday' through 'recurring-first-sunday'
+       - 'recurring-second-monday' through 'recurring-second-sunday'
+       - 'recurring-third-monday' through 'recurring-third-sunday'
+       - 'recurring-fourth-monday' through 'recurring-fourth-sunday'
+       - 'recurring-last-monday' through 'recurring-last-sunday'
+
+       🎨 COLOR SCHEMES (choose one):
+       -------------------------------
+       Rowlett Events:     bg-blue-50, border-blue-400, text-blue-900
+       Anniversaries:      bg-yellow-50, border-yellow-400, text-yellow-900
+       Speaker Events:     bg-purple-50, border-purple-400, text-purple-900
+       Social/Fellowship:  bg-pink-50, border-pink-400, text-pink-900
+       Service:            bg-green-50, border-green-400, text-green-900
+       Area Events:        bg-indigo-50, border-indigo-400, text-indigo-900
+
+       📂 EVENT CATEGORIES:
+       --------------------
+       rowlett   = Rowlett Group events (meetings, potlucks, anniversaries)
+       speaker   = Special speaker meetings
+       area      = Dallas area AA events (conventions, roundups)
+       service   = Service commitments (jail, treatment centers)
+       crashed   = Crashed meetings (Rowlett members attending other groups)
+    ======================================================================== */
+
+    const eventsData = [
+        // ============= ROWLETT GROUP EVENTS =============
+        {
+            date: 'recurring-third-monday',
+            title: 'Group Conscience Meeting',
+            time: '6:00 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'rowlett',
+            description: 'Monthly business meeting where home group members discuss group matters and make decisions about carrying the message.',
+            requirements: 'Closed - Rowlett Group home members only',
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            details: 'This is where we discuss group business, finances, and how to better serve the alcoholic who still suffers.',
+            bgColor: 'bg-blue-50',
+            borderColor: 'border-blue-400',
+            textColor: 'text-blue-900'
+        },
+        {
+            date: 'recurring-last-saturday',
+            title: 'Birthday Celebration',
+            timeParts: { '6:30 PM': 'Potluck Dinner', '7:30 PM': 'Monthly & Yearly Chip Celebrations' },
+            location: 'Casa View Baptist Church',
+            address: '130 E Interstate 30, Garland, TX 75043',
+            category: 'rowlett',
+            description: 'Celebrate sobriety milestones! Monthly and yearly sobriety anniversaries are recognized with chips and medallions.',
+            requirements: 'Open to all',
+            potluck: true,
+            guestsWelcome: true,
+            mapLink: 'https://maps.google.com/?q=130+E+Interstate+30+Garland+TX+75043',
+            details: 'Bring a dish to share and celebrate recovery with us! Family and friends welcome.',
+            bgColor: 'bg-blue-50',
+            borderColor: 'border-blue-400',
+            textColor: 'text-blue-900'
+        },
+        {
+            date: 'recurring-first-saturday',
+            title: 'Ladies Who Lunch',
+            time: 'After 10:30 AM Women\'s Meeting',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'rowlett',
+            description: 'Women\'s fellowship lunch following the first Saturday women\'s meeting.',
+            requirements: 'Women only',
+            potluck: true,
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            details: 'Bring a dish to share and enjoy fellowship with the ladies!',
+            bgColor: 'bg-pink-50',
+            borderColor: 'border-pink-400',
+            textColor: 'text-pink-900'
+        },
+        {
+            date: '2025-07-26',
+            title: 'Rowlett Group 30th Anniversary Celebration',
+            time: '5:00 PM',
+            location: 'Casa View Baptist Church',
+            address: '130 E Interstate 30, Garland, TX 75043',
+            category: 'speaker',
+            description: 'Join us as we celebrate 30 years of carrying the message! Special speaker and fellowship.',
+            speaker: {
+                name: 'Myers R.',
+                homeGroup: 'Ingram, TX',
+                bio: 'Long-time AA member with powerful story of recovery'
+            },
+            requirements: 'Open to all',
+            guestsWelcome: true,
+            mapLink: 'https://maps.google.com/?q=130+E+Interstate+30+Garland+TX+75043',
+            details: 'Three decades of hope, recovery, and carrying the message. Come celebrate with us!',
+            bgColor: 'bg-yellow-50',
+            borderColor: 'border-yellow-400',
+            textColor: 'text-yellow-900'
+        },
+        {
+            date: '2025-11-27',
+            title: 'Thanksgiving Potluck',
+            time: '10:00 AM - 9:00 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'rowlett',
+            description: 'Open all day for fellowship and gratitude! Stop by anytime throughout the day.',
+            requirements: 'Open to all',
+            potluck: true,
+            guestsWelcome: true,
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            details: 'Bring a dish to share. We\'re open all day for food, fellowship, and gratitude!',
+            bgColor: 'bg-yellow-50',
+            borderColor: 'border-yellow-400',
+            textColor: 'text-yellow-900'
+        },
+        {
+            date: 'recurring-second-saturday',
+            title: 'CityWide Dallas AA',
+            timeParts: { '5:30 PM': 'Potluck Dinner', '7:00 PM': 'Speaker Meeting' },
+            location: 'Lover\'s Lane United Methodist Church',
+            address: '9200 Inwood Road, Dallas, TX 75220',
+            category: 'area',
+            description: 'Monthly Dallas area speaker meeting with potluck dinner. A great opportunity to connect with the broader AA community in Dallas.',
+            requirements: 'Open to all',
+            potluck: true,
+            guestsWelcome: true,
+            mapLink: 'https://maps.google.com/?q=9200+Inwood+Road+Dallas+TX+75220',
+            details: 'Visit <a href="https://citywidedallasaa.org" target="_blank" rel="noopener noreferrer" class="underline hover:text-indigo-700">citywidedallasaa.org</a> for more information.',
+            hostGroup: 'CityWide Dallas AA',
+            groupInvolvement: 'Rowlett Group members encouraged to attend and support the Dallas AA community!',
+            bgColor: 'bg-indigo-50',
+            borderColor: 'border-indigo-400',
+            textColor: 'text-indigo-900'
+        },
+
+        // ============= SPEAKER EVENTS AT ROWLETT GROUP =============
+        {
+            date: '2025-11-03',
+            title: 'Stuart R. from Simply AA',
+            time: '7:30 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'speaker',
+            speaker: {
+                name: 'Stuart R.',
+                homeGroup: 'Simply AA'
+            },
+            requirements: 'Open to all',
+            guestsWelcome: true,
+            description: 'Special speaker meeting featuring Stuart R. from Simply AA sharing their experience, strength, and hope.',
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-400',
+            textColor: 'text-purple-900'
+        },
+        {
+            date: '2025-11-04',
+            title: 'Greg L. from Chicago Group - Foundations Meeting',
+            time: '7:30 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'speaker',
+            speaker: {
+                name: 'Greg L.',
+                homeGroup: 'Chicago Group'
+            },
+            requirements: 'Open to all',
+            guestsWelcome: true,
+            description: 'Special guest speaker at our Foundations Meeting. Greg L. will be speaking every Tuesday in November.',
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-400',
+            textColor: 'text-purple-900'
+        },
+        {
+            date: '2025-11-11',
+            title: 'Greg L. from Chicago Group - Foundations Meeting',
+            time: '7:30 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'speaker',
+            speaker: {
+                name: 'Greg L.',
+                homeGroup: 'Chicago Group'
+            },
+            requirements: 'Open to all',
+            guestsWelcome: true,
+            description: 'Special guest speaker at our Foundations Meeting. Greg L. will be speaking every Tuesday in November.',
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-400',
+            textColor: 'text-purple-900'
+        },
+        {
+            date: '2025-11-18',
+            title: 'Greg L. from Chicago Group - Foundations Meeting',
+            time: '7:30 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'speaker',
+            speaker: {
+                name: 'Greg L.',
+                homeGroup: 'Chicago Group'
+            },
+            requirements: 'Open to all',
+            guestsWelcome: true,
+            description: 'Special guest speaker at our Foundations Meeting. Greg L. will be speaking every Tuesday in November.',
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-400',
+            textColor: 'text-purple-900'
+        },
+        {
+            date: '2025-11-25',
+            title: 'Greg L. from Chicago Group - Foundations Meeting',
+            time: '7:30 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'speaker',
+            speaker: {
+                name: 'Greg L.',
+                homeGroup: 'Chicago Group'
+            },
+            requirements: 'Open to all',
+            guestsWelcome: true,
+            description: 'Special guest speaker at our Foundations Meeting. Greg L. will be speaking every Tuesday in November.',
+            mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+            details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-400',
+            textColor: 'text-purple-900'
+        },
+
+        // ============= CRASHED MEETINGS =============
+        {
+            date: '2025-11-15',
+            title: 'Meeting Crash - Esther H. at Terrell Group',
+            time: '7:00 PM',
+            location: 'Terrell Group',
+            address: '108 N Blanche St, Terrell, TX',
+            category: 'crashed',
+            speaker: {
+                name: 'Esther H.',
+                homeGroup: 'Bellwood Group'
+            },
+            description: 'Rowlett Group members supporting Esther H. from Bellwood Group as she speaks at Terrell Group!',
+            requirements: 'Open to all',
+            mapLink: 'https://maps.google.com/?q=108+N+Blanche+St+Terrell+TX',
+            groupInvolvement: 'Come support Esther H. and show fellowship with Terrell Group!',
+            details: 'Great opportunity to crash a meeting and hear a powerful message of recovery.',
+            bgColor: 'bg-pink-50',
+            borderColor: 'border-pink-400',
+            textColor: 'text-pink-900'
+        },
+        {
+            date: '2025-11-15',
+            title: 'Meeting Crash - Lisa R. at Wylie Group',
+            time: '7:00 PM',
+            location: 'Wylie Group',
+            address: '3990 Lakeway Dr, St Paul, TX 75098',
+            category: 'crashed',
+            speaker: {
+                name: 'Lisa R.',
+                homeGroup: 'Rowlett Group'
+            },
+            description: 'Support our own Lisa R. from Rowlett Group as she shares her story at Wylie Group!',
+            requirements: 'Open to all',
+            mapLink: 'https://maps.google.com/?q=3990+Lakeway+Dr+St+Paul+TX+75098',
+            groupInvolvement: 'Come support Lisa R. and show Rowlett Group spirit at Wylie!',
+            details: 'Great opportunity to support one of our own and hear Lisa\'s powerful message.',
+            bgColor: 'bg-pink-50',
+            borderColor: 'border-pink-400',
+            textColor: 'text-pink-900'
+        }
+
+        // ============= SPEAKER EVENTS (EXAMPLES) =============
+        // Example: Uncomment and customize to add speaker events
+        /*
+        {
+            date: '2025-12-15',
+            title: 'Special Speaker Meeting',
+            time: '7:30 PM',
+            location: 'Rowlett Group',
+            address: '362 Oaks Trail #162, Garland, TX 75043',
+            category: 'speaker',
+            speaker: {
+                name: 'John D.',
+                homeGroup: 'Downtown Dallas Group',
+                sobrietyDate: '2000-03-15',
+                bio: '25 years of sobriety, sharing experience, strength, and hope'
+            },
+            requirements: 'Open to all',
+            guestsWelcome: true,
+            description: 'Special speaker sharing their journey of recovery.',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-400',
+            textColor: 'text-purple-900'
+        }
+        */
+
+        // ============= DALLAS AREA EVENTS =============
+        // Example: Uncomment and customize to add area events
+        /*
+        {
+            date: '2026-01-15',
+            title: 'North Texas AA Convention',
+            time: 'All Day',
+            location: 'Dallas Convention Center',
+            address: '650 S Griffin St, Dallas, TX 75202',
+            category: 'area',
+            hostGroup: 'North Texas Area 65',
+            description: 'Annual North Texas AA Convention with speakers, workshops, and fellowship.',
+            requirements: 'Open to all AA members',
+            cost: '$25 registration',
+            mapLink: 'https://maps.google.com/?q=Dallas+Convention+Center',
+            groupInvolvement: 'Rowlett Group members encouraged to attend!',
+            bgColor: 'bg-indigo-50',
+            borderColor: 'border-indigo-400',
+            textColor: 'text-indigo-900'
+        }
+        */
+
+        // ============= SERVICE EVENTS =============
+        // Example: Uncomment and customize to add service events
+        /*
+        {
+            date: '2025-12-20',
+            title: 'Jail Meeting Commitment',
+            time: '7:00 PM',
+            location: 'Rockwall County Jail',
+            address: '972 T L Townsend Dr, Rockwall, TX 75087',
+            category: 'service',
+            description: 'Rowlett Group\'s regular commitment at Rockwall County Jail women\'s pod.',
+            requirements: 'Closed - Pre-approved volunteers only',
+            contactPerson: 'Service Chair - Contact group for details',
+            groupInvolvement: 'Monthly commitment - volunteers needed!',
+            details: 'Taking the message to those who cannot get to meetings.',
+            bgColor: 'bg-green-50',
+            borderColor: 'border-green-400',
+            textColor: 'text-green-900'
+        }
+        */
+
+        // ============= CRASHED MEETINGS =============
+        // Example: Uncomment and customize when planning group crash
+        /*
+        {
+            date: '2026-02-10',
+            title: 'Group Crash - Richardson Group Anniversary',
+            time: '7:00 PM',
+            location: 'Richardson Group',
+            address: '123 Main St, Richardson, TX 75080',
+            category: 'crashed',
+            hostGroup: 'Richardson Group',
+            description: 'Rowlett Group members crashing the Richardson Group\'s 20th anniversary!',
+            requirements: 'Open to all',
+            groupInvolvement: 'Meet at Rowlett Group at 6:15 PM to caravan together',
+            details: 'Show support for our AA neighbors! Great fellowship and speaker.',
+            bgColor: 'bg-pink-50',
+            borderColor: 'border-pink-400',
+            textColor: 'text-pink-900'
+        }
+        */
+    ];
+
     const app = {
         cachedElements: {},
         getElement: function(id) {
@@ -2428,6 +2936,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         initialized: {
             resources: false,
             schedule: false,
+            events: false,
             literature: false,
             ourGroup: false,
             studyGuide: false,
@@ -2436,7 +2945,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             pages: [
                 { title: "Home", hash: "#home", keywords: ["serenity prayer", "preamble", "responsibility", "declaration", "primary purpose", "fellowship", "anonymous", "aa meetings", "sobriety", "recovery", "alcoholism", "help"] },
                 { title: "What is A.A.?", hash: "#what-is-aa", keywords: ["newcomer", "who we are", "meetings", "discussion", "big book", "12 and 12", "open meeting", "closed meeting", "speaker meeting", "literature study", "group conscience", "singleness of purpose", "what aa does", "what aa doesn't do", "court programs", "proof of attendance", "new to aa", "first meeting", "alcoholics anonymous explained"] },
-                { title: "Schedule", hash: "#schedule", keywords: ["meetings", "times", "zoom", "location", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "meeting schedule", "when", "where", "hybrid meetings", "virtual meetings", "in person", "garland", "rowlett", "oaks trail", "group conscience", "special events", "anniversary", "birthday", "celebration", "first visit", "what to expect", "meeting types"] },
+                { title: "Schedule", hash: "#schedule", keywords: ["meetings", "times", "zoom", "location", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "meeting schedule", "when", "where", "hybrid meetings", "virtual meetings", "in person", "garland", "rowlett", "oaks trail", "first visit", "what to expect", "meeting types"] },
+                { title: "Events", hash: "#events", keywords: ["events", "happenings", "special events", "group conscience", "anniversary", "birthday", "celebration", "speaker", "potluck", "fellowship", "area events", "dallas aa", "conventions", "roundups", "service", "commitments", "crashed meetings", "group activities", "calendar", "upcoming"] },
                 { title: "Resources", hash: "#resources", keywords: ["sobriety calculator", "halt", "meditation", "daily reflection", "family", "al-anon", "alateen", "tools", "help", "support", "recovery resources", "step work", "sponsorship", "timer", "hungry angry lonely tired", "self care", "living sober", "how to help", "family members", "loved ones"] },
                 { title: "Get Involved", hash: "#get-involved", keywords: ["service", "volunteer", "speaker", "sponsor", "greeter", "magdalen house", "jail", "salvation army", "green oaks", "hospital", "carrying the message", "service work", "commitment", "rockwall jail", "women's meeting", "men's meeting", "12 step work", "helping others", "give back"] },
                 { title: "Literature", hash: "#literature", keywords: ["big book", "twelve steps", "twelve traditions", "promises", "how it works", "aa literature", "asl", "videos", "read", "watch", "book", "chapter", "doctor's opinion", "bill's story", "we agnostics", "into action", "working with others", "spiritual experience", "traditions long form", "traditions short form"] },
@@ -2707,6 +3217,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
             if (pageId === 'home-page') this.initHomePage();
             if (pageId === 'schedule-page') this.initSchedulePage();
+            if (pageId === 'events-page') this.initEventsPage();
             if (pageId === 'resources-page') this.initResourcesPage();
             if (pageId === 'get-involved-page') this.initGetInvolvedPage();
             if (pageId === 'literature-page') this.initLiteraturePage();
@@ -2778,52 +3289,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 { day: "Friday", dayIndex: 5, meetings: [{ time: "12:00 PM", type: "closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "open", name: "Discussion Meeting" }] },
                 { day: "Saturday", dayIndex: 6, meetings: [{ time: "9:00 AM", type: "closed", name: "Men's Discussion Meeting" }, { time: "10:30 AM", type: "closed", name: "Women's Discussion Meeting" }] }
             ];
-            const specialEvents = [
-                {
-                    date: '2025-07-26',
-                    title: 'Rowlett Group 30th Anniversary',
-                    time: '5:00 PM',
-                    location: 'Casa View Baptist Church<br>130 E E Interstate 30, Garland, TX 75043',
-                    speaker: 'Annika K. from the Dallas North group',
-                    bgColor: 'bg-yellow-50',
-                    borderColor: 'border-yellow-400',
-                    textColor: 'text-yellow-900'
-                },
-                {
-                    date: '2025-11-27',
-                    title: 'Thanksgiving Potluck',
-                    time: '10:00 AM - 9 PM',
-                    location: 'Rowlett Group<br>362 Oaks Trail #162, Garland, TX 75043',
-                    details: 'Stop by anytime,<br>We are open all day for food and fellowship!',
-                    bgColor: 'bg-yellow-50',
-                    borderColor: 'border-yellow-400',
-                    textColor: 'text-yellow-900'
-                },
-                {
-                    date: 'recurring-first-saturday',
-                    title: 'Ladies Who Lunch',
-                    time: 'After Women\'s Meeting',
-                    location: 'Rowlett Group<br>362 Oaks Trail #162, Garland, TX 75043',
-                    details: 'Ladies only - Potluck',
-                    bgColor: 'bg-pink-50',
-                    borderColor: 'border-pink-400',
-                    textColor: 'text-pink-900'
-                },
-                {
-                    date: 'recurring-last-saturday',
-                    title: 'Birthday Celebration',
-                    timeParts: { '6:30 PM': 'Potluck', '7:30 PM': 'Monthly & Yearly Recognitions' },
-                    location: 'Casa View Baptist Church<br>130 E E Interstate 30, Garland, TX 75043',
-                    details: 'Bring Family & Friends',
-                    bgColor: 'bg-blue-50',
-                    borderColor: 'border-blue-400',
-                    textColor: 'text-blue-900'
-                }
-            ];
+
+            // Render meeting schedule
             const scheduleGrid = document.getElementById('schedule-grid');
             const filters = document.getElementById('schedule-filters');
-            const eventsContainer = document.getElementById('special-events-container');
-            if (!scheduleGrid || !filters || !eventsContainer) return;
+            if (!scheduleGrid || !filters) return;
             scheduleGrid.innerHTML = '';
             meetingSchedule.forEach(dayData => {
                 const meetingsHTML = dayData.meetings.map(meeting => {
@@ -2851,89 +3321,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>`;
                 scheduleGrid.innerHTML += dayCardHTML;
             });
-            eventsContainer.innerHTML = '';
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const futureEvents = specialEvents.filter(event => {
-                if (event.date.startsWith('recurring')) {
-                    return true;
-                }
-                const eventDate = new Date(event.date + 'T00:00:00');
-                const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-                return eventDate >= todayStart;
-            });
-            const renderEventHTML = (event) => {
-                let timeDetailsHTML = '';
-                if (event.timeParts) {
-                    timeDetailsHTML = Object.entries(event.timeParts)
-                        .map(([time, desc]) => `<p><span class="font-bold">${time}:</span> ${desc}</p>`)
-                        .join('');
-                } else {
-                    timeDetailsHTML = `<p class="text-base font-semibold">Time: ${event.time}</p>`;
-                }
-                const isRecurring = event.date.startsWith('recurring');
-                const spanClass = isRecurring ? '' : 'md:col-span-2 lg:col-span-1';
-                let eventHTML = `<div class="${event.bgColor} border-l-4 ${event.borderColor} ${event.textColor} p-6 rounded-lg shadow-md ${spanClass}">
-                    <h3 class="text-xl font-bold mb-3">${event.title}</h3>`;
-                if (event.date.startsWith('recurring-last-saturday')) {
-                    let eventYear = today.getFullYear();
-                    let eventMonth = today.getMonth();
-                    let lastSaturday = getLastSaturday(eventYear, eventMonth);
-                    if (today > lastSaturday) {
-                        eventMonth++;
-                        if (eventMonth > 11) {
-                            eventMonth = 0;
-                            eventYear++;
-                        }
-                        lastSaturday = getLastSaturday(eventYear, eventMonth);
-                    }
-                    const displayDate = lastSaturday.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-                    eventHTML += `<p class="text-base font-semibold">Next Celebration: Saturday, ${displayDate}</p>`;
-                } else if (event.date.startsWith('recurring-first-saturday')) {
-                    let eventYear = today.getFullYear();
-                    let eventMonth = today.getMonth();
-                    let firstSaturday = getFirstSaturday(eventYear, eventMonth);
-                    if (today > firstSaturday) {
-                        eventMonth++;
-                        if (eventMonth > 11) {
-                            eventMonth = 0;
-                            eventYear++;
-                        }
-                        firstSaturday = getFirstSaturday(eventYear, eventMonth);
-                    }
-                    const displayDate = firstSaturday.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-                    eventHTML += `<p class="text-base font-semibold">Next Event: Saturday, ${displayDate}</p>`;
-                } else {
-                    const eventDate = new Date(event.date + 'T00:00:00');
-                    const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'long' });
-                    const displayDate = eventDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-                    eventHTML += `<p class="text-base font-semibold">Date: ${dayOfWeek}, ${displayDate}</p>`;
-                }
-                eventHTML += `<div class="mt-3 text-sm space-y-1">${timeDetailsHTML}</div>
-                    <div class="mt-3 text-sm">
-                        <p class="font-bold">Location:</p>
-                        <p>${event.location}</p>
-                    </div>`;
-                if (event.speaker) {
-                    eventHTML += `<div class="mt-3 text-sm">
-                        <p class="font-bold">Special Speaker:</p>
-                        <p>${event.speaker}</p>
-                    </div>`;
-                }
-                if (event.details) {
-                    eventHTML += `<p class="font-bold text-sm italic mt-2">${event.details}</p>`;
-                }
-                eventHTML += `</div>`;
-                return eventHTML;
-            };
-            if (futureEvents.length === 0) {
-                eventsContainer.innerHTML = '<p class="text-center text-gray-600 col-span-full">No special events scheduled at this time. Please check back later!</p>';
-            } else if (futureEvents.length === 1 && futureEvents[0].title === 'Birthday Celebration') {
-                eventsContainer.classList.remove('md:grid-cols-2', 'lg:grid-cols-3');
-                eventsContainer.innerHTML = renderEventHTML(futureEvents[0]);
-            } else {
-                eventsContainer.innerHTML = futureEvents.map(renderEventHTML).join('');
-            }
+
+            // Highlight today's schedule
             const todayIndex = new Date().getDay();
             const todayCard = scheduleGrid.querySelector(`.day-card[data-day="${todayIndex}"]`);
             if (todayCard) {
@@ -2963,6 +3352,303 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 });
             });
             this.initialized.schedule = true;
+        },
+        initEventsPage: function() {
+            if (this.initialized.events) return;
+
+            // Helper function to calculate recurring dates
+            const getRecurringDate = (recurringType, year, month) => {
+                const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                const parts = recurringType.replace('recurring-', '').split('-');
+                const occurrence = parts[0]; // first, second, third, fourth, last
+                const dayName = parts[1]; // monday, tuesday, etc.
+                const targetDay = dayNames.indexOf(dayName);
+
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+
+                if (occurrence === 'last') {
+                    // Find last occurrence of the day in the month
+                    let date = new Date(lastDay);
+                    while (date.getDay() !== targetDay) {
+                        date.setDate(date.getDate() - 1);
+                    }
+                    return date;
+                } else {
+                    // Find first/second/third/fourth occurrence
+                    const occurrenceMap = { first: 1, second: 2, third: 3, fourth: 4 };
+                    const targetOccurrence = occurrenceMap[occurrence];
+                    let date = new Date(firstDay);
+                    let count = 0;
+
+                    while (date <= lastDay) {
+                        if (date.getDay() === targetDay) {
+                            count++;
+                            if (count === targetOccurrence) {
+                                return date;
+                            }
+                        }
+                        date.setDate(date.getDate() + 1);
+                    }
+                }
+                return null;
+            };
+
+            // Helper function to get days until event
+            const getDaysUntil = (eventDate) => {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const diffTime = eventDate - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays;
+            };
+
+            // Helper function to format countdown text
+            const getCountdownText = (daysUntil) => {
+                if (daysUntil === 0) return '<span class="text-red-600 font-bold">TODAY!</span>';
+                if (daysUntil === 1) return '<span class="text-orange-600 font-bold">Tomorrow</span>';
+                if (daysUntil <= 7) return `<span class="text-orange-600 font-bold">In ${daysUntil} days</span>`;
+                if (daysUntil <= 14) return `<span class="text-blue-600">In ${daysUntil} days</span>`;
+                return `In ${daysUntil} days`;
+            };
+
+            // Render individual event card
+            const renderEventCard = (event, eventDate, showPast = false) => {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                let dateDisplayHTML = '';
+                if (event.date.startsWith('recurring')) {
+                    const displayDate = eventDate.toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    dateDisplayHTML = `<p class="text-lg font-bold mb-2"><i class="fas fa-calendar-alt mr-2" aria-hidden="true"></i>${displayDate}</p>`;
+                    if (!showPast) {
+                        const daysUntil = getDaysUntil(eventDate);
+                        if (daysUntil <= 14) {
+                            dateDisplayHTML += `<p class="text-sm mb-3">${getCountdownText(daysUntil)}</p>`;
+                        }
+                    }
+                } else {
+                    const displayDate = eventDate.toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                    });
+                    dateDisplayHTML = `<p class="text-lg font-bold mb-2"><i class="fas fa-calendar-alt mr-2" aria-hidden="true"></i>${displayDate}</p>`;
+                    if (!showPast) {
+                        const daysUntil = getDaysUntil(eventDate);
+                        if (daysUntil <= 30) {
+                            dateDisplayHTML += `<p class="text-sm mb-3">${getCountdownText(daysUntil)}</p>`;
+                        }
+                    }
+                }
+
+                // Time display
+                let timeHTML = '';
+                if (event.timeParts) {
+                    timeHTML = '<div class="mb-3">';
+                    for (const [time, desc] of Object.entries(event.timeParts)) {
+                        timeHTML += `<p class="text-base"><i class="fas fa-clock mr-2" aria-hidden="true"></i><span class="font-semibold">${time}:</span> ${desc}</p>`;
+                    }
+                    timeHTML += '</div>';
+                } else {
+                    timeHTML = `<p class="text-base mb-3"><i class="fas fa-clock mr-2" aria-hidden="true"></i><span class="font-semibold">Time:</span> ${event.time}</p>`;
+                }
+
+                // Location display
+                let locationHTML = `<p class="text-base mb-1"><i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i><span class="font-semibold">${event.location}</span></p>`;
+                if (event.address) {
+                    if (event.mapLink) {
+                        locationHTML += `<p class="text-sm text-gray-600 ml-6 mb-3"><a href="${event.mapLink}" target="_blank" rel="noopener noreferrer" class="hover:underline text-blue-600">${event.address} <i class="fas fa-external-link-alt text-xs" aria-hidden="true"></i></a></p>`;
+                    } else {
+                        locationHTML += `<p class="text-sm text-gray-600 ml-6 mb-3">${event.address}</p>`;
+                    }
+                } else {
+                    locationHTML += '<br>';
+                }
+
+                // Description
+                let descriptionHTML = '';
+                if (event.description) {
+                    descriptionHTML = `<p class="text-base mb-3">${event.description}</p>`;
+                }
+
+                // Speaker info
+                let speakerHTML = '';
+                if (event.speaker) {
+                    speakerHTML = '<div class="bg-white bg-opacity-50 rounded-lg p-3 mb-3">';
+                    speakerHTML += '<p class="font-semibold text-base mb-1"><i class="fas fa-microphone mr-2" aria-hidden="true"></i>Speaker: ' + event.speaker.name + '</p>';
+                    if (event.speaker.homeGroup) {
+                        speakerHTML += '<p class="text-sm text-gray-700 ml-6">' + event.speaker.homeGroup + '</p>';
+                    }
+                    if (event.speaker.bio) {
+                        speakerHTML += '<p class="text-sm text-gray-700 ml-6 mt-1">' + event.speaker.bio + '</p>';
+                    }
+                    if (event.speaker.sobrietyDate) {
+                        const sobrietyYears = Math.floor((today - new Date(event.speaker.sobrietyDate)) / (1000 * 60 * 60 * 24 * 365.25));
+                        speakerHTML += '<p class="text-sm text-gray-700 ml-6 mt-1">' + sobrietyYears + '+ years of sobriety</p>';
+                    }
+                    speakerHTML += '</div>';
+                }
+
+                // Additional details
+                let detailsHTML = '';
+                const detailItems = [];
+                if (event.requirements) detailItems.push(`<i class="fas fa-info-circle mr-1" aria-hidden="true"></i>${event.requirements}`);
+                if (event.potluck) detailItems.push('<i class="fas fa-utensils mr-1" aria-hidden="true"></i>Potluck - bring a dish!');
+                if (event.guestsWelcome) detailItems.push('<i class="fas fa-users mr-1" aria-hidden="true"></i>Family & friends welcome');
+                if (event.cost) detailItems.push(`<i class="fas fa-dollar-sign mr-1" aria-hidden="true"></i>${event.cost}`);
+                if (event.hostGroup) detailItems.push(`<i class="fas fa-home mr-1" aria-hidden="true"></i>Hosted by ${event.hostGroup}`);
+
+                if (detailItems.length > 0) {
+                    detailsHTML = '<div class="text-sm space-y-1 mb-3">' + detailItems.map(item => `<p>${item}</p>`).join('') + '</div>';
+                }
+
+                if (event.groupInvolvement) {
+                    detailsHTML += `<p class="text-sm bg-white bg-opacity-50 rounded p-2 mb-3"><i class="fas fa-hand-holding-heart mr-2" aria-hidden="true"></i>${event.groupInvolvement}</p>`;
+                }
+
+                if (event.details) {
+                    detailsHTML += `<p class="text-sm italic">${event.details}</p>`;
+                }
+
+                if (event.contactPerson) {
+                    detailsHTML += `<p class="text-sm mt-2"><i class="fas fa-phone mr-2" aria-hidden="true"></i>${event.contactPerson}</p>`;
+                }
+
+                // Category badge
+                const categoryLabels = {
+                    rowlett: 'Rowlett Event',
+                    speaker: 'Speaker Event',
+                    area: 'Area Event',
+                    service: 'Service',
+                    crashed: 'Crashed Meeting'
+                };
+                const categoryLabel = categoryLabels[event.category] || event.category;
+                const categoryHTML = `<span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white bg-opacity-70 mt-3">${categoryLabel}</span>`;
+
+                return `
+                    <div class="${event.bgColor} border-l-4 ${event.borderColor} ${event.textColor} p-6 rounded-lg shadow-md" data-event-category="${event.category}">
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3">${event.title}</h3>
+                        ${dateDisplayHTML}
+                        ${timeHTML}
+                        ${locationHTML}
+                        ${descriptionHTML}
+                        ${speakerHTML}
+                        ${detailsHTML}
+                        ${categoryHTML}
+                    </div>
+                `;
+            };
+
+            // Main rendering function
+            const renderEvents = (filterCategory = 'all') => {
+                const container = document.getElementById('events-container');
+                const noEventsMessage = document.getElementById('no-events-message');
+                const pastContainer = document.getElementById('past-events-container');
+
+                if (!container) return;
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                // Separate future and past events
+                const futureEvents = [];
+                const pastEvents = [];
+                const sixMonthsAgo = new Date(today);
+                sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+                eventsData.forEach(event => {
+                    let eventDate;
+
+                    if (event.date.startsWith('recurring')) {
+                        // Calculate next occurrence for recurring events
+                        let year = today.getFullYear();
+                        let month = today.getMonth();
+                        eventDate = getRecurringDate(event.date, year, month);
+
+                        if (eventDate < today) {
+                            month++;
+                            if (month > 11) {
+                                month = 0;
+                                year++;
+                            }
+                            eventDate = getRecurringDate(event.date, year, month);
+                        }
+
+                        futureEvents.push({ event, eventDate });
+                    } else {
+                        eventDate = new Date(event.date + 'T00:00:00');
+
+                        if (eventDate >= today) {
+                            futureEvents.push({ event, eventDate });
+                        } else if (eventDate >= sixMonthsAgo) {
+                            pastEvents.push({ event, eventDate });
+                        }
+                    }
+                });
+
+                // Sort future events by date
+                futureEvents.sort((a, b) => a.eventDate - b.eventDate);
+
+                // Sort past events by date (most recent first)
+                pastEvents.sort((a, b) => b.eventDate - a.eventDate);
+
+                // Filter by category
+                const filteredFutureEvents = filterCategory === 'all'
+                    ? futureEvents
+                    : futureEvents.filter(({event}) => event.category === filterCategory);
+
+                // Render future events
+                if (filteredFutureEvents.length === 0) {
+                    container.innerHTML = '';
+                    if (noEventsMessage) noEventsMessage.classList.remove('hidden');
+                } else {
+                    const eventsHTML = filteredFutureEvents.map(({event, eventDate}) =>
+                        renderEventCard(event, eventDate, false)
+                    ).join('');
+                    container.innerHTML = eventsHTML;
+                    if (noEventsMessage) noEventsMessage.classList.add('hidden');
+                }
+
+                // Render past events (unfiltered - show all past events)
+                if (pastContainer && pastEvents.length > 0) {
+                    const pastHTML = pastEvents.map(({event, eventDate}) =>
+                        renderEventCard(event, eventDate, true)
+                    ).join('');
+                    pastContainer.innerHTML = pastHTML;
+                } else if (pastContainer) {
+                    pastContainer.innerHTML = '<p class="text-gray-500 italic">No past events in the last 6 months.</p>';
+                }
+            };
+
+            // Initialize filter buttons
+            const filterButtons = document.querySelectorAll('[data-event-filter]');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.getAttribute('data-event-filter');
+
+                    // Update active button styling
+                    filterButtons.forEach(b => {
+                        b.classList.remove('event-filter-btn-active');
+                        b.classList.add('event-filter-btn');
+                    });
+                    btn.classList.remove('event-filter-btn');
+                    btn.classList.add('event-filter-btn-active');
+
+                    // Render events with filter
+                    renderEvents(filter);
+                });
+            });
+
+            // Initial render
+            renderEvents('all');
+
+            this.initialized.events = true;
         },
         initResourcesPage: function() {
             if (this.initialized.resources) return;

@@ -948,53 +948,102 @@ app.closeVideoModal = function() {
 
 ### Search Functionality
 
-**Location:** Global feature, search modal lines 910-926
+**Location:** Global feature, search modal lines ~1048-1064, searchData array lines ~2945-2959
 
 **Features:**
-- Modal overlay interface
+- Modal overlay interface with backdrop
 - Real-time search as you type
-- Searches across:
-  - All page titles and headers
-  - Meeting information
-  - Literature titles
-  - Resource descriptions
-  - FAQ content
+- Comprehensive keyword-based search system
+- Case-insensitive matching
 - Results show:
-  - Section/page name
-  - Matched text with highlighting
-  - Click to navigate
+  - Page/section name
+  - Click to navigate directly
+  - Organized by relevance
 - Keyboard shortcuts:
-  - Escape to close
+  - Escape to close modal
+  - Click backdrop to close
   - Enter on result to navigate
+- Mobile-optimized interface
+
+**Searchable Content Coverage:**
+
+The search system includes **500+ keywords** across all pages:
+
+**Home Page Keywords:**
+- Core content: serenity prayer, preamble, responsibility declaration
+- Meeting info: today's meetings, hybrid, virtual, zoom
+- Location: garland texas, rowlett texas, 362 oaks trail
+
+**What is A.A.? Keywords:**
+- Newcomer terms: first meeting, beginner, first timer, is aa for me
+- Meeting types: open, closed, speaker, discussion
+- Common questions: am i an alcoholic, do i need aa, what to expect
+
+**Schedule Keywords:**
+- Days: monday through sunday, weekday, weekend
+- Times: specific times (7:30 pm, 12:00 pm, 9:00 am, 10:30 am, 11:00 am)
+- Meeting types: big book study, 12 & 12 study, discussion, foundations, men's, women's
+- Locations: casa view baptist church, 362 oaks trail 162
+
+**Events Keywords (COMPREHENSIVE):**
+- Specific events: 30th anniversary, birthday celebration, ladies who lunch, thanksgiving
+- Speakers: myers r, stuart r, greg l, esther h, lisa r
+- Groups: ingram, simply aa, chicago group, bellwood group, terrell group, wylie group
+- Event types: potluck, speaker event, crashed meeting, area events
+- Locations: lover's lane umc, casa view, inwood road, terrell, wylie, st paul
+- Dates: july 26, november 15, november 27, third monday, last saturday
+- Features: recurring events, monthly events, filter events, countdown, past events
+
+**Resources Keywords:**
+- Tools: sobriety calculator, halt check, meditation timer, gratitude journal
+- Tracking: days sober, clean time, milestone, chip, medallion, sobriety date
+- Family: al-anon, alateen, nar-anon, family members, loved ones, helping alcoholic
+
+**Get Involved Keywords:**
+- Service positions: sponsor, greeter, treasurer, secretary, gsr
+- Opportunities: magdalen house, rockwall jail, h&i, treatment facilities
+- Activities: 12th step call, hospital visit, prison meeting
+- Phone numbers: 214-324-9261, 972-204-7108
+
+**Literature Keywords:**
+- Books: big book, 12 steps and 12 traditions
+- Chapters: doctor's opinion, bill's story, we agnostics, into action, to wives
+- Steps: step one through step twelve
+- Features: asl videos, american sign language, deaf, hard of hearing
+- Formats: pdf, download, read online, watch, video literature
+
+**Our Group Keywords:**
+- History: founded 1995, 25 years, 30 years, timeline
+- Eras: leap of faith, explosive growth, test of unity, pandemic adaptation
+- People: annika k, searcy w
+- Locations: sunrise square, casa view baptist
+
+**Study Guide Keywords:**
+- Features: 1930s dictionary, word lookup, annotation, color coding
+- Techniques: highlighting, margin notes, study system
+- Content: archaic words, definitions, etymology, vintage terms
+
+**Contact Keywords:**
+- Contact info: 972-925-0096, rowlettaa@gmail.com
+- Location: 362 oaks trail #162, garland tx 75043
+- Actions: call us, email us, directions, map location, contact form
+
+**Contribute Keywords:**
+- Methods: zelle, check, qr code, cash donation, online giving
+- Tradition: 7th tradition, self supporting, voluntary contributions
+- Details: no dues, no fees, group expenses, basket
 
 **Search Implementation:**
 ```javascript
-app.search = function(query) {
-    const searchableContent = [
-        { section: 'Schedule', content: document.getElementById('schedule').innerText },
-        { section: 'Literature', content: document.getElementById('literature').innerText },
-        { section: 'Resources', content: document.getElementById('resources').innerText },
-        // ... all sections
-    ];
+searchData: {
+    pages: [
+        { title: "Page Name", hash: "#page", keywords: ["keyword1", "keyword2", ...] }
+    ]
+}
 
-    const results = [];
-    const queryLower = query.toLowerCase();
-
-    searchableContent.forEach(item => {
-        if (item.content.toLowerCase().includes(queryLower)) {
-            // Extract context around match
-            const index = item.content.toLowerCase().indexOf(queryLower);
-            const start = Math.max(0, index - 50);
-            const end = Math.min(item.content.length, index + query.length + 50);
-            const excerpt = item.content.substring(start, end);
-
-            results.push({
-                section: item.section,
-                excerpt: excerpt,
-                link: `#${item.section.toLowerCase().replace(' ', '-')}`
-            });
-        }
-    });
+// Search matches against all keywords
+// Results link directly to page/section
+// Click result to navigate instantly
 
     app.displaySearchResults(results);
 };

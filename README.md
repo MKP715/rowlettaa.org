@@ -1625,40 +1625,148 @@ Meeting schedule and 30th anniversary event.
 
 ## Content Management Guide
 
+This section provides step-by-step instructions for updating meetings, events, and other content on the website.
+
+### Quick Reference - Common Tasks
+
+| Task | Line Numbers | What to Update |
+|------|--------------|----------------|
+| **Add/Edit Meeting** | ~3235-3243 (Home)<br>~3283-3290 (Schedule) | Both `schedule` object AND `meetingSchedule` array |
+| **Add/Edit Event** | ~2587-2926 | `eventsData` array |
+| **Update Contact Info** | Search for phone/email | Multiple locations (header, contact page, schema) |
+| **Add Literature Video** | ~1700s range | Literature section video arrays |
+| **Update Group Info** | ~1800s range | Our Group timeline section |
+| **Modify Service Opportunities** | ~1500s range | Get Involved section |
+| **Change Zelle QR Code** | ~1600s range | Contribute section |
+
+### File Structure Overview
+
+The website is a **single-file application** (`index.html`) with approximately **4,200 lines** containing:
+- Lines 1-970: HTML head (meta tags, styles, schemas)
+- Lines 971-2500: HTML body (all page sections)
+- Lines 2501-2926: eventsData array (Events & Happenings)
+- Lines 2927-4200: JavaScript (app logic, initialization)
+
 ### How to Update Meeting Schedule
 
-**Location:** Schedule section in HTML
+The meeting schedule appears in **TWO locations** in the code and both must be updated to keep the site consistent.
 
-**Steps:**
-1. Find the schedule data structure in JavaScript section
-2. Locate the day you want to modify
-3. Add/edit/remove meeting objects
+#### Location 1: Home Page "Today's Meetings" Banner (Lines ~3235-3243)
 
-**Example - Adding a new meeting:**
+**Purpose:** Powers the dynamic "Today's Meetings" banner on the home page.
+
+**Structure:**
 ```javascript
-// Find this in the code:
-'Wednesday': [
-    {
-        time: '12:00',
-        type: 'Lunch Discussion',
-        format: 'Open'
-    },
-    {
-        time: '19:30',
-        type: 'Discussion',
-        format: 'Open'
-    },
-    // ADD NEW MEETING HERE:
-    {
-        time: '14:00',
-        type: 'Step Study',
-        format: 'Closed',
-        description: 'Optional description'
-    }
-]
+const schedule = {
+    0: [{ time: "11:00 AM", type: "Open", name: "Discussion Meeting" }],  // Sunday
+    1: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Closed", name: "Big Book Study" }],  // Monday
+    2: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Open", name: "Foundations Meeting" }],  // Tuesday
+    3: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Closed", name: "12 & 12 Study" }],  // Wednesday
+    4: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Closed", name: "Discussion Meeting" }],  // Thursday
+    5: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Open", name: "Discussion Meeting" }],  // Friday
+    6: [{ time: "9:00 AM", type: "Closed", name: "Men's Discussion Meeting" }, { time: "10:30 AM", type: "Closed", name: "Women's Discussion Meeting" }]  // Saturday
+};
 ```
 
-**Time Format:** Use 24-hour format (HH:MM) - it will automatically convert to 12-hour for display.
+**Key Details:**
+- Days are numbered 0-6 (0=Sunday, 6=Saturday)
+- Time format: "12:00 PM" or "7:30 PM" (12-hour format with AM/PM)
+- Type: "Open" or "Closed" (controls badge color)
+- Name: Meeting name/type
+
+#### Location 2: Schedule Page Full Schedule (Lines ~3283-3290)
+
+**Purpose:** Powers the full schedule page with detailed meeting information.
+
+**Structure:**
+```javascript
+const meetingSchedule = [
+    { day: "Sunday", dayIndex: 0, meetings: [
+        { time: "11:00 AM", type: "open", name: "Discussion Meeting" }
+    ]},
+    { day: "Monday", dayIndex: 1, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Big Book Study", note: "1st Monday Open Speaker Meeting" }
+    ]},
+    { day: "Tuesday", dayIndex: 2, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "open", name: "Foundations Meeting", note: "Guest Speaker" }
+    ]},
+    { day: "Wednesday", dayIndex: 3, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "12 & 12 Study" }
+    ]},
+    { day: "Thursday", dayIndex: 4, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Discussion Meeting" }
+    ]},
+    { day: "Friday", dayIndex: 5, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "open", name: "Discussion Meeting" }
+    ]},
+    { day: "Saturday", dayIndex: 6, meetings: [
+        { time: "9:00 AM", type: "closed", name: "Men's Discussion Meeting" },
+        { time: "10:30 AM", type: "closed", name: "Women's Discussion Meeting" }
+    ]}
+];
+```
+
+**Key Details:**
+- day: Full day name as string
+- dayIndex: 0-6 (must match day of week)
+- meetings: Array of meeting objects
+- type: "open" or "closed" (lowercase in schedule page)
+- note: Optional field for special instructions
+- If meeting name includes "study", it will automatically link to Study Guide page
+
+**Example: Adding a New Meeting**
+
+To add a Wednesday 2:00 PM Beginner's Meeting (Open):
+
+**Step 1 - Update Home Page Banner** (find line ~3239):
+```javascript
+3: [
+    { time: "12:00 PM", type: "Closed", name: "Discussion Meeting" },
+    { time: "2:00 PM", type: "Open", name: "Beginner's Meeting" },  // ADD THIS
+    { time: "7:30 PM", type: "Closed", name: "12 & 12 Study" }
+],
+```
+
+**Step 2 - Update Schedule Page** (find line ~3287):
+```javascript
+{ day: "Wednesday", dayIndex: 3, meetings: [
+    { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+    { time: "2:00 PM", type: "open", name: "Beginner's Meeting" },  // ADD THIS
+    { time: "7:30 PM", type: "closed", name: "12 & 12 Study" }
+]},
+```
+
+**Example: Changing Meeting Time**
+
+To change Thursday 7:30 PM meeting from 7:30 PM to 8:00 PM:
+
+**Location 1** (line ~3240):
+```javascript
+4: [
+    { time: "12:00 PM", type: "Closed", name: "Discussion Meeting" },
+    { time: "8:00 PM", type: "Closed", name: "Discussion Meeting" }  // CHANGED
+],
+```
+
+**Location 2** (line ~3288):
+```javascript
+{ day: "Thursday", dayIndex: 4, meetings: [
+    { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+    { time: "8:00 PM", type: "closed", name: "Discussion Meeting" }  // CHANGED
+]},
+```
+
+**Important Notes:**
+- ⚠️ Always update BOTH locations to keep the site consistent
+- Use "Open"/"Closed" (capitalized) in home page banner
+- Use "open"/"closed" (lowercase) in schedule page
+- Time format: "12:00 PM" with space before AM/PM
+- Test the site after changes to ensure both pages show correctly
 
 ### How to Update Contact Information
 
@@ -1703,33 +1811,269 @@ const videos = {
 - `steps` - Step study videos
 - `speakers` - Speaker talks
 
-### How to Update Special Events
+### How to Update Events & Happenings
 
-**Location:** Home page and Our Group section
+**Location:** eventsData array (Lines ~2587-2926)
 
-**For announcements on home page:**
-1. Find the "Today's Meetings" banner section
-2. Add event banner above or below existing content
-3. Use similar styling with yellow/blue background
+The Events page uses a comprehensive data array that powers automatic event display, filtering, and countdown timers. Events are automatically hidden after they pass, and recurring events calculate their next occurrence automatically.
 
-**For timeline events:**
-1. Locate timeline-container in Our Group section
-2. Add new timeline-block div
-3. Alternate between `left` and `right` classes
+#### Understanding the eventsData Array
 
-**Example:**
-```html
-<div class="timeline-block left">
-    <div class="timeline-content">
-        <h3 class="text-xl font-bold text-cyan-600">2025</h3>
-        <h4 class="text-lg font-semibold text-gray-800">Your Event Title</h4>
-        <p class="text-gray-600">Event description...</p>
-        <div class="info-popup">
-            <p>Additional details shown on hover</p>
-        </div>
-    </div>
-</div>
+The array is located near the top of the JavaScript section and includes 200+ lines of documentation. Find the section that starts with:
+
+```javascript
+const eventsData = [
+    // Events go here
+];
 ```
+
+#### Event Object Structure
+
+Each event is a JavaScript object with the following fields:
+
+**REQUIRED FIELDS:**
+- `date`: Either `'YYYY-MM-DD'` or `'recurring-*'` pattern
+- `title`: Event name
+- `time`: Time as string (e.g., "7:00 PM") or `timeParts` object for multiple times
+- `location`: Venue name
+- `address`: Full street address
+- `category`: One of: `'rowlett'`, `'speaker'`, `'area'`, `'service'`, `'crashed'`
+- `bgColor`: Background color class (e.g., `'bg-blue-50'`)
+- `borderColor`: Border color class (e.g., `'border-blue-400'`)
+- `textColor`: Text color class (e.g., `'text-blue-900'`)
+
+**OPTIONAL FIELDS:**
+- `description`: Detailed event description
+- `speaker`: Speaker object with `name`, `homeGroup`, `sobrietyDate`, `bio`
+- `timeParts`: Object for events with multiple times (e.g., `{ '5:30 PM': 'Potluck', '7:00 PM': 'Meeting' }`)
+- `mapLink`: Google Maps URL
+- `requirements`: Access requirements (e.g., "Open to all", "Closed")
+- `potluck`: Boolean, shows potluck icon if true
+- `guestsWelcome`: Boolean, shows family welcome message
+- `cost`: Cost information (e.g., "Free", "$10")
+- `contactPerson`: Contact with phone
+- `hostGroup`: Hosting group name (for area events)
+- `groupInvolvement`: How Rowlett Group participates
+- `details`: Additional notes
+- `note`: Short note displayed with event
+
+#### Recurring Event Patterns (35 options)
+
+For recurring events, use these date patterns:
+
+**Format:** `'recurring-[occurrence]-[day]'`
+
+**Occurrences:** first, second, third, fourth, last
+**Days:** monday, tuesday, wednesday, thursday, friday, saturday, sunday
+
+**Examples:**
+- `'recurring-first-monday'` - First Monday of each month
+- `'recurring-third-monday'` - Third Monday of each month
+- `'recurring-last-saturday'` - Last Saturday of each month
+- `'recurring-second-saturday'` - Second Saturday of each month
+- `'recurring-fourth-tuesday'` - Fourth Tuesday of each month
+
+#### Color Schemes by Category
+
+Choose colors that match the event type:
+
+```javascript
+// Rowlett Events
+bgColor: 'bg-blue-50',
+borderColor: 'border-blue-400',
+textColor: 'text-blue-900'
+
+// Anniversaries/Special Events
+bgColor: 'bg-yellow-50',
+borderColor: 'border-yellow-400',
+textColor: 'text-yellow-900'
+
+// Speaker Events
+bgColor: 'bg-purple-50',
+borderColor: 'border-purple-400',
+textColor: 'text-purple-900'
+
+// Social/Fellowship
+bgColor: 'bg-pink-50',
+borderColor: 'border-pink-400',
+textColor: 'text-pink-900'
+
+// Service Events
+bgColor: 'bg-green-50',
+borderColor: 'border-green-400',
+textColor: 'text-green-900'
+
+// Area/Dallas Events
+bgColor: 'bg-indigo-50',
+borderColor: 'border-indigo-400',
+textColor: 'text-indigo-900'
+```
+
+#### Example: Adding a Recurring Event
+
+**Scenario:** Add a new monthly speaker meeting on the 2nd Friday at 7:30 PM
+
+```javascript
+{
+    date: 'recurring-second-friday',
+    title: 'Monthly Speaker Meeting',
+    time: '7:30 PM',
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'speaker',
+    description: 'Join us for our monthly speaker meeting featuring recovery stories from around the Dallas area.',
+    requirements: 'Open to all',
+    guestsWelcome: true,
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-400',
+    textColor: 'text-purple-900'
+},
+```
+
+#### Example: Adding a One-Time Event
+
+**Scenario:** Add a special holiday event on December 25, 2025
+
+```javascript
+{
+    date: '2025-12-25',
+    title: 'Christmas Day Open House',
+    time: '10:00 AM - 6:00 PM',
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'rowlett',
+    description: 'Open all day for fellowship and support. Drop by anytime!',
+    requirements: 'Open to all',
+    potluck: true,
+    guestsWelcome: true,
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    details: 'Bring a dish to share if you like. We\'ll have coffee and cookies available all day.',
+    bgColor: 'bg-yellow-50',
+    borderColor: 'border-yellow-400',
+    textColor: 'text-yellow-900'
+},
+```
+
+#### Example: Adding an Event with Speaker
+
+**Scenario:** Add a speaker event with detailed speaker information
+
+```javascript
+{
+    date: '2025-06-15',
+    title: 'Special Speaker - John D.',
+    time: '7:30 PM',
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'speaker',
+    speaker: {
+        name: 'John D.',
+        homeGroup: 'Downtown Dallas Group',
+        sobrietyDate: '2000-03-15',
+        bio: '25 years of sobriety, powerful story of recovery from homelessness to helping others'
+    },
+    description: 'Join us for an inspiring evening with John D., who will share his journey from the streets to a life of service.',
+    requirements: 'Open to all',
+    guestsWelcome: true,
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-400',
+    textColor: 'text-purple-900'
+},
+```
+
+#### Example: Adding a Crashed Meeting
+
+**Scenario:** Rowlett member speaking at another group
+
+```javascript
+{
+    date: '2025-08-20',
+    title: 'Meeting Crash - Sarah M. at Plano Group',
+    time: '7:00 PM',
+    location: 'Plano Group',
+    address: '1234 Main St, Plano, TX 75024',
+    category: 'crashed',
+    speaker: {
+        name: 'Sarah M.',
+        homeGroup: 'Rowlett Group'
+    },
+    description: 'Support our own Sarah M. as she shares her story at Plano Group!',
+    requirements: 'Open to all',
+    mapLink: 'https://maps.google.com/?q=1234+Main+St+Plano+TX+75024',
+    groupInvolvement: 'Come support Sarah M. and show Rowlett Group spirit!',
+    details: 'Great opportunity to crash a meeting and support one of our own members.',
+    bgColor: 'bg-pink-50',
+    borderColor: 'border-pink-400',
+    textColor: 'text-pink-900'
+},
+```
+
+#### Example: Multi-Time Event (Potluck + Meeting)
+
+**Scenario:** Event with multiple time slots
+
+```javascript
+{
+    date: '2025-09-10',
+    title: 'Fall Fellowship',
+    timeParts: {
+        '5:00 PM': 'Potluck Dinner',
+        '6:30 PM': 'Speaker Meeting',
+        '7:30 PM': 'Fellowship & Coffee'
+    },
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'rowlett',
+    description: 'Annual fall fellowship with food, speakers, and community.',
+    requirements: 'Open to all',
+    potluck: true,
+    guestsWelcome: true,
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-400',
+    textColor: 'text-blue-900'
+},
+```
+
+#### Steps to Add a New Event
+
+1. **Open index.html** and find the `eventsData` array (around line 2587)
+2. **Choose the location** in the array where you want to add the event:
+   - Rowlett Group events at the top
+   - Speaker events in the middle
+   - Area events, service events, and crashed meetings follow
+3. **Copy the template** from the documentation comment at the top of the array
+4. **Fill in all required fields** and any optional fields you need
+5. **Add a comma** after the previous event's closing `}`
+6. **Paste your new event** before the closing `];`
+7. **Save the file** and test on the website
+
+#### Steps to Edit an Existing Event
+
+1. **Find the event** in the eventsData array by searching for its title
+2. **Modify the fields** you want to change
+3. **Keep the structure intact** (commas, quotes, brackets)
+4. **Save and test**
+
+#### Steps to Remove an Event
+
+1. **Find the event** in the eventsData array
+2. **Delete the entire event object** from the opening `{` to closing `},`
+3. **Check commas** - make sure there's a comma between events, but not after the last event
+4. **Save and test**
+
+#### Important Notes
+
+- ⚠️ Events automatically disappear after their date passes (no manual cleanup needed)
+- ✅ Recurring events automatically calculate the next occurrence
+- 🎨 Always use matching color schemes (bgColor, borderColor, textColor)
+- 🔗 Google Maps links are optional but recommended
+- 📅 Recurring events show countdown timers up to 14 days before
+- 📌 One-time events show countdown timers up to 30 days before
+- 🗂️ Past events are automatically archived for 6 months
+- 🔄 Category filters work automatically based on the `category` field
 
 ### How to Update Service Opportunities
 
@@ -1822,6 +2166,151 @@ const videos = {
 - Use consistent color scales (50, 100, 200...900)
 
 **Logo:** Replace SVG code in header (line 841-845) or substitute with image file
+
+---
+
+## Troubleshooting Common Issues
+
+### Meetings Not Showing
+
+**Problem:** Meetings don't appear on home page or schedule page
+
+**Solutions:**
+1. Check that you updated BOTH locations (home page banner AND schedule page)
+2. Verify the day index matches (0=Sunday through 6=Saturday)
+3. Check for JavaScript syntax errors (missing commas, quotes, brackets)
+4. Open browser console (F12) and look for error messages
+5. Verify `type` is "Open"/"Closed" in home banner, "open"/"closed" in schedule
+
+### Events Not Displaying
+
+**Problem:** Events don't show up on Events page
+
+**Solutions:**
+1. Check that the event is in the `eventsData` array (lines 2587-2926)
+2. Verify all required fields are present: date, title, time, location, address, category, bgColor, borderColor, textColor
+3. Check for syntax errors: missing commas between events, mismatched brackets/quotes
+4. If event date has passed, it won't show (this is intentional - past events auto-hide)
+5. For recurring events, verify the pattern is correct: `'recurring-[occurrence]-[day]'`
+6. Open browser console and look for JavaScript errors
+
+### Recurring Events Showing Wrong Date
+
+**Problem:** Recurring event calculates incorrect date
+
+**Solutions:**
+1. Verify recurring pattern format: `'recurring-third-monday'` (all lowercase, hyphen-separated)
+2. Check spelling of day name (monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+3. Check occurrence (first, second, third, fourth, last)
+4. The system calculates the NEXT occurrence automatically - if today is the event day, it will show next month's date
+
+### Event Filter Not Working
+
+**Problem:** Clicking filter buttons doesn't filter events
+
+**Solutions:**
+1. Check that `category` field matches one of: 'rowlett', 'speaker', 'area', 'service', 'crashed'
+2. Verify category is lowercase
+3. Check JavaScript console for errors
+4. Ensure filter buttons have correct `data-event-filter` attributes
+
+### Schedule Page Shows No Meetings
+
+**Problem:** Full schedule is blank
+
+**Solutions:**
+1. Check `meetingSchedule` array (lines ~3283-3290) is properly formatted
+2. Verify each day has `day`, `dayIndex`, and `meetings` array
+3. Check for syntax errors in the array
+4. Ensure `scheduleGrid` element exists in HTML
+
+### Navigation Not Working
+
+**Problem:** Clicking menu items doesn't change pages
+
+**Solutions:**
+1. Verify all page sections have matching IDs (`id="page-name-page"`)
+2. Check that navigation links use correct hash format (`href="#page-name"`)
+3. Ensure JavaScript is loaded and not blocked
+4. Check browser console for errors
+5. Verify `initNavigation` function is called on page load
+
+### PWA Install Banner Won't Appear
+
+**Problem:** Install app banner doesn't show
+
+**Solutions:**
+1. PWA banner only shows on HTTPS sites (not localhost or http)
+2. User must not have dismissed it previously (check localStorage)
+3. Browser must support PWA (Chrome, Edge, Safari on iOS)
+4. Clear `localStorage.getItem('pwa-dismissed')` to reset
+
+### Search Not Finding Results
+
+**Problem:** Search returns no results for known content
+
+**Solutions:**
+1. Verify search data array includes all pages (around line 2949)
+2. Check that page content is in DOM when search runs
+3. Search is case-insensitive but requires exact word matches
+4. Check browser console for JavaScript errors
+
+### Accordion Sections Won't Open
+
+**Problem:** Clicking accordion headers doesn't expand content
+
+**Solutions:**
+1. Verify elements have correct classes: `.main-accordion-header` and `.main-accordion-content`
+2. Check that JavaScript event listeners are attached
+3. Ensure accordion content has proper structure
+4. Check browser console for errors
+
+### Mobile Menu Not Opening
+
+**Problem:** Hamburger menu doesn't work on mobile
+
+**Solutions:**
+1. Verify `menu-btn` and `mobile-menu` IDs exist
+2. Check that click event listener is attached to menu button
+3. Test on actual mobile device (not just resized browser)
+4. Verify Tailwind breakpoint classes are correct (`lg:hidden`, etc.)
+
+### Colors/Styling Look Wrong
+
+**Problem:** Site colors or styles don't match expected
+
+**Solutions:**
+1. Check that Tailwind CSS CDN is loading (view page source, check CDN link)
+2. Verify custom CSS in `<style>` tag is not being overridden
+3. Check for browser caching - do hard refresh (Ctrl+Shift+R)
+4. Verify color classes are valid Tailwind classes
+5. Check that Font Awesome CDN is loading for icons
+
+### Syntax Error After Making Changes
+
+**Problem:** Site breaks after editing code
+
+**Solutions:**
+1. Check for common syntax errors:
+   - Missing commas between object properties or array items
+   - Mismatched quotes (must use matching single or double quotes)
+   - Mismatched brackets: `{ }`, `[ ]`, `( )`
+   - Missing semicolons at end of statements
+2. Use a code validator or linter
+3. Undo recent changes and apply them one at a time
+4. Check browser console for specific error messages and line numbers
+
+### Best Practices to Avoid Issues
+
+✅ **Always backup before making changes**
+✅ **Test changes locally before deploying**
+✅ **Check browser console for errors after changes**
+✅ **Update both meeting locations when changing schedule**
+✅ **Use consistent formatting (indentation, spacing)**
+✅ **Keep commas, quotes, and brackets balanced**
+✅ **Test on multiple devices (desktop, tablet, mobile)**
+✅ **Validate HTML and JavaScript syntax**
+✅ **Clear browser cache when testing changes**
 
 ---
 
@@ -2657,9 +3146,9 @@ Special thanks to:
 
 ---
 
-**Last Updated:** October 2025
+**Last Updated:** November 2025
 
-**README Version:** 1.0
+**README Version:** 1.1
 
 **Website Version:** 1.0
 

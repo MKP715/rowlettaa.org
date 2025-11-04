@@ -1405,10 +1405,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- Event Category Filters -->
             <div id="event-filters" class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10">
                 <button type="button" data-event-filter="all" class="event-filter-btn-active text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300 shadow-sm">All Events</button>
-                <button type="button" data-event-filter="rowlett" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Rowlett Events</button>
+                <button type="button" data-event-filter="rowlett" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Rowlett Group Events</button>
                 <button type="button" data-event-filter="speaker" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Speaker Events</button>
                 <button type="button" data-event-filter="area" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Dallas Area</button>
-                <button type="button" data-event-filter="service" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Service</button>
+                <button type="button" data-event-filter="service" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Workshops</button>
                 <button type="button" data-event-filter="crashed" class="event-filter-btn text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300">Meeting Crashers</button>
             </div>
 
@@ -2569,11 +2569,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
        🎨 COLOR SCHEMES (choose one):
        -------------------------------
-       Rowlett Events:     bg-blue-50, border-blue-400, text-blue-900
+       Rowlett Group Events: bg-blue-50, border-blue-400, text-blue-900
        Anniversaries:      bg-yellow-50, border-yellow-400, text-yellow-900
        Speaker Events:     bg-purple-50, border-purple-400, text-purple-900
        Social/Fellowship:  bg-pink-50, border-pink-400, text-pink-900
-       Service:            bg-green-50, border-green-400, text-green-900
+       Workshops:          bg-green-50, border-green-400, text-green-900
        Area Events:        bg-indigo-50, border-indigo-400, text-indigo-900
 
        📂 EVENT CATEGORIES:
@@ -2581,7 +2581,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        rowlett   = Rowlett Group events (meetings, potlucks, anniversaries)
        speaker   = Special speaker meetings
        area      = Dallas area AA events (conventions, roundups)
-       service   = Service commitments (jail, treatment centers)
+       service   = Workshops (jail, treatment centers)
        crashed   = Crashed meetings (Rowlett members attending other groups)
     ======================================================================== */
 
@@ -2795,7 +2795,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         },
 
         // ============= CRASHED MEETINGS =============
-        {
+      /*  {
             date: '2025-11-15',
             title: 'Meeting Crash - Esther H. at Terrell Group',
             time: '7:00 PM',
@@ -2814,10 +2814,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             bgColor: 'bg-pink-50',
             borderColor: 'border-pink-400',
             textColor: 'text-pink-900'
-        },
+        }, */
         {
             date: '2025-11-15',
-            title: 'Meeting Crash - Lisa R. at Wylie Group',
+            title: 'Meeting Crashers - Lisa R. at Wylie Group',
             time: '7:00 PM',
             location: 'Wylie Group',
             address: '3990 Lakeway Dr, St Paul, TX 75098',
@@ -3291,12 +3291,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 { day: "Saturday", dayIndex: 6, meetings: [{ time: "9:00 AM", type: "closed", name: "Men's Discussion Meeting" }, { time: "10:30 AM", type: "closed", name: "Women's Discussion Meeting" }] }
             ];
 
+            // Reorder schedule to start from today
+            const todayIndex = new Date().getDay();
+            const reorderedSchedule = [
+                ...meetingSchedule.slice(todayIndex),
+                ...meetingSchedule.slice(0, todayIndex)
+            ];
+
             // Render meeting schedule
             const scheduleGrid = document.getElementById('schedule-grid');
             const filters = document.getElementById('schedule-filters');
             if (!scheduleGrid || !filters) return;
             scheduleGrid.innerHTML = '';
-            meetingSchedule.forEach(dayData => {
+            reorderedSchedule.forEach((dayData, index) => {
                 const meetingsHTML = dayData.meetings.map(meeting => {
                     const typeClass = meeting.type === 'open' ? 'bg-green-100 text-green-800' : 'bg-purple-100 text-purple-800';
                     const noteHTML = meeting.note ? `<p class="text-xs text-gray-500 italic mt-1">${meeting.note}</p>` : '';
@@ -3323,12 +3330,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 scheduleGrid.innerHTML += dayCardHTML;
             });
 
-            // Highlight today's schedule
-            const todayIndex = new Date().getDay();
-            const todayCard = scheduleGrid.querySelector(`.day-card[data-day="${todayIndex}"]`);
+            // Highlight today's schedule (first card is always today)
+            const todayCard = scheduleGrid.querySelector('.day-card:first-child');
             if (todayCard) {
                 const originalTitle = todayCard.querySelector('h3').textContent;
-                scheduleGrid.prepend(todayCard);
                 todayCard.classList.remove('bg-white');
                 todayCard.classList.add('bg-blue-50', 'border-blue-300', 'shadow-lg', 'md:col-span-2', 'lg:col-span-1');
                 todayCard.querySelector('h3').innerHTML = `Today <span class="text-base font-medium text-gray-500">(${originalTitle})</span>`;
@@ -3523,11 +3528,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 // Category badge
                 const categoryLabels = {
-                    rowlett: 'Rowlett Event',
+                    rowlett: 'Rowlett Group Event',
                     speaker: 'Speaker Event',
                     area: 'Area Event',
-                    service: 'Service',
-                    crashed: 'Crashed Meeting'
+                    service: 'Workshops',
+                    crashed: 'Meeting Crashers'
                 };
                 const categoryLabel = categoryLabels[event.category] || event.category;
                 const categoryHTML = `<span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white bg-opacity-70 mt-3">${categoryLabel}</span>`;

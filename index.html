@@ -635,6 +635,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         color: #FFFFFF !important;
         box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     }
+    /* Make single event or last odd event span both columns on desktop */
+    @media (min-width: 768px) {
+        #events-container > *:only-child,
+        #past-events-container > *:only-child,
+        #events-container > *:last-child:nth-child(odd),
+        #past-events-container > *:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+        }
+    }
     .has-tooltip {
         position: relative;
         cursor: help;
@@ -1424,7 +1433,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <!-- Upcoming Events Container -->
-            <div id="events-container" class="max-w-6xl mx-auto space-y-6"></div>
+            <div id="events-container" class="max-w-6xl mx-auto grid md:grid-cols-2 gap-6"></div>
 
             <!-- No Events Message (hidden by default) -->
             <div id="no-events-message" class="hidden text-center py-12">
@@ -1447,7 +1456,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="main-accordion-content">
                         <div class="p-6">
                             <p class="text-gray-600 mb-6">View events from the past 6 months</p>
-                            <div id="past-events-container" class="space-y-4"></div>
+                            <div id="past-events-container" class="grid md:grid-cols-2 gap-4"></div>
                         </div>
                     </div>
                 </div>

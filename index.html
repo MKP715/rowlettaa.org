@@ -1678,10 +1678,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div class="pt-2">
                                 <h4 class="font-bold text-lg mb-2 text-gray-800">WOMEN'S DISCUSSION</h4>
                                 <p class="mb-2 text-gray-700">Every Saturday at 9:00 AM</p>
+                                <div class="mb-2">
+                                    <p class="font-semibold text-gray-800 text-sm">Upcoming Dates:</p>
+                                    <div id="rockwall-women-dates" class="grid grid-cols-2 gap-x-2 text-blue-700 font-medium text-sm"></div>
+                                </div>
                             </div>
                             <div class="pt-2 sm:border-l">
                                 <h4 class="font-bold text-lg mb-2 text-gray-800">MEN'S DISCUSSION</h4>
                                 <p class="mb-2 text-gray-700">Every Sunday at 9:00 PM</p>
+                                <div class="mb-2">
+                                    <p class="font-semibold text-gray-800 text-sm">Upcoming Dates:</p>
+                                    <div id="rockwall-men-dates" class="grid grid-cols-2 gap-x-2 text-blue-700 font-medium text-sm"></div>
+                                </div>
                             </div>
                         </div>
                         <p class="text-gray-600 italic text-sm mt-4">*Background check, orientation and tb test required.*</p>
@@ -1695,6 +1703,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="border-t pt-4">
                             <h4 class="font-bold text-lg mb-2 text-gray-800">MEN'S SHORT STORY</h4>
                             <p class="mb-2 text-gray-700">Every Wednesday at 8:00 PM</p>
+                            <div class="mb-2">
+                                <p class="font-semibold text-gray-800">Upcoming Dates:</p>
+                                <div id="salvation-army-dates" class="grid grid-cols-2 gap-x-2 text-blue-700 font-medium"></div>
+                            </div>
                             <p class="text-gray-600 italic text-sm mb-2">*All men welcome. Chair must have completed the steps.*</p>
                         </div>
                     </div>
@@ -1707,6 +1719,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="border-t pt-4">
                             <h4 class="font-bold text-lg mb-2 text-gray-800">MEN &amp; WOMEN'S SHORT STORY</h4>
                             <p class="mb-2 text-gray-700">Every Wednesday at 6:00 PM</p>
+                            <div class="mb-2">
+                                <p class="font-semibold text-gray-800">Upcoming Dates:</p>
+                                <div id="medical-city-dates" class="grid grid-cols-2 gap-x-2 text-blue-700 font-medium"></div>
+                            </div>
                             <p class="text-gray-600 italic text-sm mb-2">*Background check required.*</p>
                         </div>
                     </div>
@@ -4044,6 +4060,111 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
                 datesElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
             }
+
+            // Calculate Rockwall County Jail Women's dates (Every Saturday)
+            const rockwallWomenElement = document.getElementById('rockwall-women-dates');
+            if (rockwallWomenElement) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const dates = [];
+                let currentDate = new Date(today);
+
+                // Find next Saturday (day 6)
+                const daysUntilSaturday = (6 - currentDate.getDay() + 7) % 7;
+                if (daysUntilSaturday === 0 && currentDate.getDay() === 6) {
+                    // If today is Saturday, include it
+                } else {
+                    currentDate.setDate(currentDate.getDate() + daysUntilSaturday);
+                }
+
+                for (let i = 0; i < 4; i++) {
+                    dates.push(currentDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    }));
+                    currentDate.setDate(currentDate.getDate() + 7);
+                }
+                rockwallWomenElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
+            }
+
+            // Calculate Rockwall County Jail Men's dates (Every Sunday)
+            const rockwallMenElement = document.getElementById('rockwall-men-dates');
+            if (rockwallMenElement) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const dates = [];
+                let currentDate = new Date(today);
+
+                // Find next Sunday (day 0)
+                const daysUntilSunday = (7 - currentDate.getDay()) % 7;
+                if (daysUntilSunday === 0 && currentDate.getDay() === 0) {
+                    // If today is Sunday, include it
+                } else {
+                    currentDate.setDate(currentDate.getDate() + daysUntilSunday);
+                }
+
+                for (let i = 0; i < 4; i++) {
+                    dates.push(currentDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    }));
+                    currentDate.setDate(currentDate.getDate() + 7);
+                }
+                rockwallMenElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
+            }
+
+            // Calculate Salvation Army dates (Every Wednesday)
+            const salvationArmyElement = document.getElementById('salvation-army-dates');
+            if (salvationArmyElement) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const dates = [];
+                let currentDate = new Date(today);
+
+                // Find next Wednesday (day 3)
+                const daysUntilWednesday = (3 - currentDate.getDay() + 7) % 7;
+                if (daysUntilWednesday === 0 && currentDate.getDay() === 3) {
+                    // If today is Wednesday, include it
+                } else {
+                    currentDate.setDate(currentDate.getDate() + daysUntilWednesday);
+                }
+
+                for (let i = 0; i < 4; i++) {
+                    dates.push(currentDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    }));
+                    currentDate.setDate(currentDate.getDate() + 7);
+                }
+                salvationArmyElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
+            }
+
+            // Calculate Medical City Green Oaks dates (Every Wednesday)
+            const medicalCityElement = document.getElementById('medical-city-dates');
+            if (medicalCityElement) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const dates = [];
+                let currentDate = new Date(today);
+
+                // Find next Wednesday (day 3)
+                const daysUntilWednesday = (3 - currentDate.getDay() + 7) % 7;
+                if (daysUntilWednesday === 0 && currentDate.getDay() === 3) {
+                    // If today is Wednesday, include it
+                } else {
+                    currentDate.setDate(currentDate.getDate() + daysUntilWednesday);
+                }
+
+                for (let i = 0; i < 4; i++) {
+                    dates.push(currentDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    }));
+                    currentDate.setDate(currentDate.getDate() + 7);
+                }
+                medicalCityElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
+            }
+
             this.initialized.getInvolved = true;
         },
         initLiteraturePage: function() {

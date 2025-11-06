@@ -492,53 +492,59 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     .page-content {
         animation: fadeIn 0.5s ease-in-out;
+        will-change: opacity, transform;
     }
     @keyframes fadeIn {
         from {
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(10px) translateZ(0);
         }
         to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) translateZ(0);
         }
     }
     @keyframes pulse-subtle {
         0%, 100% {
             opacity: 1;
+            transform: translateZ(0);
         }
         50% {
             opacity: 0.95;
+            transform: translateZ(0);
         }
     }
     .animate-pulse-subtle {
         animation: pulse-subtle 2s ease-in-out infinite;
+        will-change: opacity;
     }
     @keyframes slide-down {
         from {
-            transform: translateY(-100%);
+            transform: translateY(-100%) translateZ(0);
             opacity: 0;
         }
         to {
-            transform: translateY(0);
+            transform: translateY(0) translateZ(0);
             opacity: 1;
         }
     }
     .animate-slide-down {
         animation: slide-down 0.3s ease-out;
+        will-change: transform, opacity;
     }
     @keyframes fade-in {
         from {
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(10px) translateZ(0);
         }
         to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) translateZ(0);
         }
     }
     .animate-fade-in {
         animation: fade-in 0.4s ease-out;
+        will-change: opacity, transform;
     }
     .accordion-header,
     .main-accordion-header {
@@ -554,13 +560,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.5s ease-out;
+        will-change: max-height;
     }
     .accordion-icon {
         transition: transform 0.3s ease;
+        will-change: transform;
     }
     .accordion-header.open .accordion-icon,
     .main-accordion-header.open .accordion-icon {
-        transform: rotate(180deg);
+        transform: rotate(180deg) translateZ(0);
     }
     .literature-tab-active {
         border-color: var(--primary-blue) !important;
@@ -581,9 +589,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     #video-modal-backdrop {
         transition: opacity 0.3s ease-in-out;
+        will-change: opacity;
     }
     #video-modal-content {
         transition: transform 0.3s ease-in-out;
+        will-change: transform;
     }
     .blog-post-content blockquote {
         border-left: 4px solid #9ca3af;
@@ -667,6 +677,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         z-index: 10;
         width: 250px;
         transition: opacity 0.3s;
+        will-change: opacity;
         font-size: 0.875rem;
     }
     .tooltip::after {
@@ -724,6 +735,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         border-radius: 50%;
         z-index: 1;
         transition: all 0.3s ease;
+        will-change: transform, opacity;
     }
     .timeline-block.right::after {
         left: -12px;
@@ -735,13 +747,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         border-radius: 8px;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        will-change: transform;
     }
     .timeline-content:hover {
-        transform: translateY(-5px);
+        transform: translateY(-5px) translateZ(0);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
     .timeline-block:hover::after {
-        transform: scale(1.2);
+        transform: scale(1.2) translateZ(0);
         border-color: #FBBF24;
     }
     .info-popup {
@@ -759,6 +772,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        will-change: opacity, transform, visibility;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
     .info-popup::after {
@@ -774,22 +788,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .timeline-content:hover .info-popup {
         opacity: 1;
         visibility: visible;
-        transform: translateX(-50%) scale(1);
+        transform: translateX(-50%) scale(1) translateZ(0);
     }
     .quick-action-btn {
         transition: all 0.3s ease;
+        will-change: transform;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
     .quick-action-btn:hover {
-        transform: translateY(-2px);
+        transform: translateY(-2px) translateZ(0);
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
     .halt-option {
         cursor: pointer;
         transition: all 0.2s ease;
+        will-change: transform;
     }
     .halt-option:hover {
-        transform: scale(1.02);
+        transform: scale(1.02) translateZ(0);
     }
     .halt-option.selected {
         border-color: #3b82f6;
@@ -1052,7 +1068,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 </div>
 <div class="quick-actions fixed bottom-4 right-4 z-40 flex flex-col gap-2">
-    <button type="button" id="crisis-btn" class="quick-action-btn bg-red-600 text-white w-14 h-14 rounded-full shadow-lg hover:bg-red-700 flex items-center justify-center" title="Crisis Resources">
+    <button type="button" id="crisis-btn" data-modal-open="crisis-modal" class="quick-action-btn bg-red-600 text-white w-14 h-14 rounded-full shadow-lg hover:bg-red-700 flex items-center justify-center" title="Crisis Resources">
         <i class="fas fa-phone text-xl" aria-hidden="true"></i>
         <span class="sr-only">Crisis Resources</span>
     </button>
@@ -1060,7 +1076,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <i class="fas fa-calendar-day text-xl" aria-hidden="true"></i>
         <span class="sr-only">Today's Meetings</span>
     </button>
-    <button type="button" id="search-btn" class="quick-action-btn bg-green-600 text-white w-14 h-14 rounded-full shadow-lg hover:bg-green-700 flex items-center justify-center" title="Search">
+    <button type="button" id="search-btn" data-modal-open="search-modal" class="quick-action-btn bg-green-600 text-white w-14 h-14 rounded-full shadow-lg hover:bg-green-700 flex items-center justify-center" title="Search">
         <i class="fas fa-search text-xl" aria-hidden="true"></i>
         <span class="sr-only">Search</span>
     </button>
@@ -1070,7 +1086,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="p-6 border-b">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl font-bold text-blue-800">Search</h2>
-                <button type="button" id="close-search-modal" class="text-gray-500 hover:text-gray-700">
+                <button type="button" id="close-search-modal" data-modal-close="search-modal" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-2xl" aria-hidden="true"></i>
                     <span class="sr-only">Close search</span>
                 </button>
@@ -1087,7 +1103,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="p-6 bg-red-600 text-white rounded-t-lg">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-bold">Crisis Resources</h2>
-                <button type="button" id="close-crisis-modal" class="text-white hover:text-gray-200">
+                <button type="button" id="close-crisis-modal" data-modal-close="crisis-modal" class="text-white hover:text-gray-200">
                     <i class="fas fa-times text-2xl" aria-hidden="true"></i>
                     <span class="sr-only">Close crisis resources</span>
                 </button>
@@ -2588,6 +2604,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
            hostGroup: 'Group hosting (for area events)',
            groupInvolvement: 'How Rowlett Group is participating',
            details: 'Additional event notes',
+           seriesId: 'unique-series-id',  // Use same ID for multi-date events to group them
 
            // STYLING (use existing color schemes)
            bgColor: 'bg-yellow-50',
@@ -2602,6 +2619,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        - 'recurring-third-monday' through 'recurring-third-sunday'
        - 'recurring-fourth-monday' through 'recurring-fourth-sunday'
        - 'recurring-last-monday' through 'recurring-last-sunday'
+
+       🔗 EVENT SERIES (Multi-Date Events):
+       ------------------------------------
+       For events happening multiple times (e.g., weekly speaker series), use the
+       same 'seriesId' for all dates. They will display as ONE card showing all dates.
+
+       Example: Speaker coming 4 Tuesdays in a row
+       - Create 4 separate event entries with different dates
+       - Give them all the same seriesId: 'speaker-november-2025'
+       - Result: One card showing all 4 dates in a list
+       - Archives: Only after the LAST date passes
+
+       Benefits:
+       - No duplicate cards cluttering the events page
+       - Visitors see all dates at once
+       - Automatically tracks which dates have passed (shown with strikethrough)
 
        🎨 COLOR SCHEMES (choose one):
        -------------------------------
@@ -2767,7 +2800,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-400',
-            textColor: 'text-purple-900'
+            textColor: 'text-purple-900',
+            seriesId: 'greg-l-november-2025'
         },
         {
             date: '2025-11-11',
@@ -2787,7 +2821,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-400',
-            textColor: 'text-purple-900'
+            textColor: 'text-purple-900',
+            seriesId: 'greg-l-november-2025'
         },
         {
             date: '2025-11-18',
@@ -2807,7 +2842,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-400',
-            textColor: 'text-purple-900'
+            textColor: 'text-purple-900',
+            seriesId: 'greg-l-november-2025'
         },
         {
             date: '2025-11-25',
@@ -2827,7 +2863,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             details: 'Part of November speaker series - Greg L. speaking all Tuesdays this month.',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-400',
-            textColor: 'text-purple-900'
+            textColor: 'text-purple-900',
+            seriesId: 'greg-l-november-2025'
         },
 
         // ============= CRASHED MEETINGS =============
@@ -2995,6 +3032,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         },
         init: function() {
             try {
+                this.initSearchCache();
                 this.initServiceWorker();
                 this.initPWAInstall();
                 this.initNavigation();
@@ -3002,10 +3040,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 this.initQuickActions();
                 this.initGeneralEventListeners();
                 this.initialPageLoad();
-                const copyrightYear = document.getElementById('copyright-year');
+                const copyrightYear = this.getElement('copyright-year');
                 if (copyrightYear) copyrightYear.textContent = new Date().getFullYear();
             } catch (error) {showNotification('An error occurred during initialization. Please refresh the page.', 'error');
             }
+        },
+        initSearchCache: function() {
+            // Pre-process search data for performance - cache lowercase versions
+            this.searchData.pages.forEach(page => {
+                page._titleLower = page.title.toLowerCase();
+                page._keywordsLower = page.keywords.map(k => k.toLowerCase());
+            });
         },
         initServiceWorker: function() {
             if ('serviceWorker' in navigator) {
@@ -3034,9 +3079,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         },
         initPWAInstall: function() {
             let deferredPrompt = null;
-            const installBanner = document.getElementById('pwa-install-banner');
-            const installBtn = document.getElementById('pwa-install-btn');
-            const dismissBtn = document.getElementById('pwa-dismiss-btn');
+            const installBanner = this.getElement('pwa-install-banner');
+            const installBtn = this.getElement('pwa-install-btn');
+            const dismissBtn = this.getElement('pwa-dismiss-btn');
             try {
                 const dismissed = localStorage.getItem('rowlettAA_pwaInstallDismissed');
                 if (dismissed === 'true') return;
@@ -3099,17 +3144,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }
                 }
             });
-            document.getElementById('menu-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                const mobileMenu = this.getElement('mobile-menu');
-            if (mobileMenu) mobileMenu.classList.toggle('hidden');
-            });
+            const menuBtn = this.getElement('menu-btn');
+            if (menuBtn) {
+                menuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const mobileMenu = this.getElement('mobile-menu');
+                    if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                });
+            }
         },
         initModals: function() {
-            this.setupModal('crisis-btn', 'crisis-modal', 'close-crisis-modal');
-            this.setupModal('search-btn', 'search-modal', 'close-search-modal');
-            const searchInput = document.getElementById('search-input');
-            const searchResults = document.getElementById('search-results');
+            // Event delegation for all modal open/close actions - prevents memory leaks
+            document.body.addEventListener('click', (e) => {
+                const openBtn = e.target.closest('[data-modal-open]');
+                const closeBtn = e.target.closest('[data-modal-close]');
+
+                if (openBtn) {
+                    const modalId = openBtn.dataset.modalOpen;
+                    this.openModal(modalId);
+                } else if (closeBtn) {
+                    const modalId = closeBtn.dataset.modalClose;
+                    this.closeModal(modalId);
+                } else {
+                    // Close modal when clicking backdrop
+                    const modal = e.target;
+                    if (modal.id && modal.id.endsWith('-modal') && modal.classList.contains('fixed')) {
+                        this.closeModal(modal.id);
+                    }
+                }
+            });
+
+            const searchInput = this.getElement('search-input');
+            const searchResults = this.getElement('search-results');
             window.searchDebounceTimer = null;
             const debouncedSearch = (query) => {
                 clearTimeout(window.searchDebounceTimer);
@@ -3136,12 +3202,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
         },
         initQuickActions: function() {
-            document.getElementById('todays-meetings-btn').addEventListener('click', () => {
-                window.location.hash = '#schedule';
-                setTimeout(() => {
-                    document.getElementById('todays-meetings-banner')?.scrollIntoView({ behavior: 'smooth' });
-                }, 300);
-            });
+            const todaysMeetingsBtn = this.getElement('todays-meetings-btn');
+            if (todaysMeetingsBtn) {
+                todaysMeetingsBtn.addEventListener('click', () => {
+                    window.location.hash = '#schedule';
+                    setTimeout(() => {
+                        const banner = this.getElement('todays-meetings-banner');
+                        banner?.scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
+                });
+            }
         },
         initGeneralEventListeners: function() {
             document.body.addEventListener('click', (e) => {
@@ -3149,21 +3219,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 if (accordionHeader) {
                     const content = accordionHeader.nextElementSibling;
                     const isOpen = accordionHeader.classList.toggle('open');
+                    // Batch DOM reads and writes to prevent layout thrashing
                     requestAnimationFrame(() => {
                         if (isOpen) {
-                            content.style.maxHeight = content.scrollHeight + "px";
+                            // Read phase - cache scrollHeight
+                            const height = content.scrollHeight;
+                            // Write phase
+                            content.style.maxHeight = height + "px";
                             const handleTransitionEnd = (event) => {
                                 if (event.propertyName === 'max-height' && event.target === content) {
-                                    content.style.maxHeight = content.scrollHeight + "px";
-                                    this.updateAllParentAccordions(content);
+                                    requestAnimationFrame(() => {
+                                        const newHeight = content.scrollHeight;
+                                        content.style.maxHeight = newHeight + "px";
+                                        this.updateAllParentAccordions(content);
+                                    });
                                     content.removeEventListener('transitionend', handleTransitionEnd);
                                 }
                             };
                             content.addEventListener('transitionend', handleTransitionEnd);
-                            setTimeout(() => {
-                                content.style.maxHeight = content.scrollHeight + "px";
-                                this.updateAllParentAccordions(content);
-                            }, 100);
                         } else {
                             content.style.maxHeight = "0px";
                             const handleTransitionEnd = (event) => {
@@ -3178,6 +3251,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
             });
             this.initVideoModal();
+
+            // Single global Escape key handler to prevent memory leaks
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+
+                // Check video modal
+                const videoModalBackdrop = this.getElement('video-modal-backdrop');
+                if (videoModalBackdrop && !videoModalBackdrop.classList.contains('hidden')) {
+                    const videoIframe = this.getElement('video-iframe');
+                    if (videoIframe) videoIframe.src = '';
+                    videoModalBackdrop.classList.add('hidden');
+                    videoModalBackdrop.classList.remove('flex');
+                    return;
+                }
+
+                // Check all other modals
+                const modals = ['crisis-modal', 'search-modal'];
+                for (const modalId of modals) {
+                    const modal = this.getElement(modalId);
+                    if (modal && !modal.classList.contains('hidden')) {
+                        this.closeModal(modalId);
+                        return;
+                    }
+                }
+            });
         },
         updateAllParentAccordions: function(element) {
             let parent = element.parentElement;
@@ -3191,17 +3289,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
                 parent = parent.parentElement;
             }
-            parentsToUpdate.reverse();
-            parentsToUpdate.forEach((parent, index) => {
-                setTimeout(() => {
-                    parent.style.maxHeight = parent.scrollHeight + "px";
-                }, index * 20);
-            });
+            // Batch DOM operations to prevent layout thrashing
+            if (parentsToUpdate.length > 0) {
+                requestAnimationFrame(() => {
+                    // Read phase - batch all scrollHeight reads
+                    const heights = parentsToUpdate.map(p => p.scrollHeight);
+                    // Write phase - batch all maxHeight writes
+                    parentsToUpdate.forEach((p, i) => {
+                        p.style.maxHeight = heights[i] + "px";
+                    });
+                });
+            }
         },
         initVideoModal: function() {
-            const videoModalBackdrop = document.getElementById('video-modal-backdrop');
-            const videoIframe = document.getElementById('video-iframe');
-            const closeModalBtn = document.getElementById('close-video-modal');
+            const videoModalBackdrop = this.getElement('video-modal-backdrop');
+            const videoIframe = this.getElement('video-iframe');
+            const closeModalBtn = this.getElement('close-video-modal');
             const closeModal = () => {
                 if (videoIframe) {
                     videoIframe.src = '';
@@ -3225,11 +3328,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }
                 });
             }
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && videoModalBackdrop && !videoModalBackdrop.classList.contains('hidden')) {
-                    closeModal();
-                }
-            });
+            // Escape key handler moved to initGeneralEventListeners to prevent memory leaks
         },
         initialPageLoad: function() {
             let pageId = (window.location.hash.substring(1) || 'home') + '-page';
@@ -3278,7 +3377,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 5: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Open", name: "Discussion Meeting" }],
                 6: [{ time: "9:00 AM", type: "Closed", name: "Men's Discussion Meeting" }, { time: "10:30 AM", type: "Closed", name: "Women's Discussion Meeting" }]
             };
-            const banner = document.getElementById('todays-meetings-banner');
+            const banner = this.getElement('todays-meetings-banner');
             const today = new Date().getDay();
             const todaysMeetings = schedule[today] || [];
             let bannerHTML = '<div class="container mx-auto p-4 text-center">';
@@ -3295,7 +3394,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         },
         initSchedulePage: function() {
             if (this.initialized.schedule) return;
-            const groupConscienceDateEl = document.getElementById('group-conscience-date');
+            const groupConscienceDateEl = this.getElement('group-conscience-date');
             if (groupConscienceDateEl) {
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
@@ -3335,8 +3434,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             ];
 
             // Render meeting schedule
-            const scheduleGrid = document.getElementById('schedule-grid');
-            const filters = document.getElementById('schedule-filters');
+            const scheduleGrid = this.getElement('schedule-grid');
+            const filters = this.getElement('schedule-filters');
             if (!scheduleGrid || !filters) return;
             scheduleGrid.innerHTML = '';
             reorderedSchedule.forEach((dayData, index) => {
@@ -3454,27 +3553,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 return `In ${daysUntil} days`;
             };
 
-            // Render individual event card
-            const renderEventCard = (event, eventDate, showPast = false) => {
+            // Render individual event card (supports single date or multiple dates for series)
+            const renderEventCard = (event, eventDates, showPast = false) => {
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
+                // Handle both single date and array of dates
+                const dates = Array.isArray(eventDates) ? eventDates : [eventDates];
+                const firstDate = dates[0];
+
                 let dateDisplayHTML = '';
-                if (event.date.startsWith('recurring')) {
-                    const displayDate = eventDate.toLocaleDateString('en-US', {
+                if (dates.length > 1) {
+                    // Multiple dates - show series format
+                    dateDisplayHTML = '<div class="mb-3">';
+                    dateDisplayHTML += '<p class="text-lg font-bold mb-2"><i class="fas fa-calendar-alt mr-2" aria-hidden="true"></i>Event Series Dates:</p>';
+                    dateDisplayHTML += '<ul class="ml-8 space-y-1">';
+                    dates.forEach((date, index) => {
+                        const displayDate = date.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric'
+                        });
+                        const isPast = date < today;
+                        const dateClass = isPast ? 'line-through text-gray-500' : 'font-medium';
+                        dateDisplayHTML += `<li class="${dateClass}">${displayDate}${isPast ? ' (Past)' : ''}</li>`;
+                    });
+                    dateDisplayHTML += '</ul>';
+
+                    // Show countdown to next upcoming date
+                    if (!showPast) {
+                        const nextDate = dates.find(d => d >= today);
+                        if (nextDate) {
+                            const daysUntil = getDaysUntil(nextDate);
+                            if (daysUntil <= 30) {
+                                dateDisplayHTML += `<p class="text-sm mt-2 ml-8">${getCountdownText(daysUntil)}</p>`;
+                            }
+                        }
+                    }
+                    dateDisplayHTML += '</div>';
+                } else if (event.date.startsWith('recurring')) {
+                    const displayDate = firstDate.toLocaleDateString('en-US', {
                         weekday: 'long',
                         month: 'long',
                         day: 'numeric'
                     });
                     dateDisplayHTML = `<p class="text-lg font-bold mb-2"><i class="fas fa-calendar-alt mr-2" aria-hidden="true"></i>${displayDate}</p>`;
                     if (!showPast) {
-                        const daysUntil = getDaysUntil(eventDate);
+                        const daysUntil = getDaysUntil(firstDate);
                         if (daysUntil <= 14) {
                             dateDisplayHTML += `<p class="text-sm mb-3">${getCountdownText(daysUntil)}</p>`;
                         }
                     }
                 } else {
-                    const displayDate = eventDate.toLocaleDateString('en-US', {
+                    const displayDate = firstDate.toLocaleDateString('en-US', {
                         weekday: 'long',
                         month: 'long',
                         day: 'numeric',
@@ -3482,7 +3614,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     });
                     dateDisplayHTML = `<p class="text-lg font-bold mb-2"><i class="fas fa-calendar-alt mr-2" aria-hidden="true"></i>${displayDate}</p>`;
                     if (!showPast) {
-                        const daysUntil = getDaysUntil(eventDate);
+                        const daysUntil = getDaysUntil(firstDate);
                         if (daysUntil <= 30) {
                             dateDisplayHTML += `<p class="text-sm mb-3">${getCountdownText(daysUntil)}</p>`;
                         }
@@ -3587,22 +3719,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 `;
             };
 
-            // Main rendering function
-            const renderEvents = (filterCategory = 'all') => {
-                const container = document.getElementById('events-container');
-                const noEventsMessage = document.getElementById('no-events-message');
-                const pastContainer = document.getElementById('past-events-container');
+            // Cache for processed events - prevents rebuilding series on every filter change
+            let cachedFutureEvents = null;
+            let cachedPastEvents = null;
 
-                if (!container) return;
-
+            // Process events once and cache results
+            const processEvents = () => {
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
-                // Separate future and past events
                 const futureEvents = [];
                 const pastEvents = [];
                 const sixMonthsAgo = new Date(today);
                 sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+                // Group events by seriesId
+                const eventSeriesMap = new Map();
 
                 eventsData.forEach(event => {
                     let eventDate;
@@ -3626,24 +3758,84 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     } else {
                         eventDate = new Date(event.date + 'T00:00:00');
 
-                        if (eventDate >= today) {
-                            futureEvents.push({ event, eventDate });
-                        } else if (eventDate >= sixMonthsAgo) {
-                            pastEvents.push({ event, eventDate });
+                        // Check if event has a seriesId
+                        if (event.seriesId) {
+                            if (!eventSeriesMap.has(event.seriesId)) {
+                                eventSeriesMap.set(event.seriesId, {
+                                    event: event,
+                                    dates: []
+                                });
+                            }
+                            eventSeriesMap.get(event.seriesId).dates.push(eventDate);
+                        } else {
+                            // Single event without series
+                            if (eventDate >= today) {
+                                futureEvents.push({ event, eventDate });
+                            } else if (eventDate >= sixMonthsAgo) {
+                                pastEvents.push({ event, eventDate });
+                            }
                         }
                     }
                 });
 
-                // Sort future events by date
-                futureEvents.sort((a, b) => a.eventDate - b.eventDate);
+                // Process series events
+                eventSeriesMap.forEach((seriesData, seriesId) => {
+                    seriesData.dates.sort((a, b) => a - b);
+                    const lastDate = seriesData.dates[seriesData.dates.length - 1];
+                    const firstDate = seriesData.dates[0];
 
-                // Sort past events by date (most recent first)
-                pastEvents.sort((a, b) => b.eventDate - a.eventDate);
+                    // Determine if series belongs to future or past
+                    if (lastDate >= today) {
+                        // At least one date is in the future - show in upcoming
+                        futureEvents.push({
+                            event: seriesData.event,
+                            eventDate: seriesData.dates
+                        });
+                    } else if (lastDate >= sixMonthsAgo) {
+                        // All dates are past but within 6 months
+                        pastEvents.push({
+                            event: seriesData.event,
+                            eventDate: seriesData.dates
+                        });
+                    }
+                });
 
-                // Filter by category
+                // Sort future events by date (use first date for series)
+                futureEvents.sort((a, b) => {
+                    const dateA = Array.isArray(a.eventDate) ? a.eventDate[0] : a.eventDate;
+                    const dateB = Array.isArray(b.eventDate) ? b.eventDate[0] : b.eventDate;
+                    return dateA - dateB;
+                });
+
+                // Sort past events by date (most recent first, use last date for series)
+                pastEvents.sort((a, b) => {
+                    const dateA = Array.isArray(a.eventDate) ? a.eventDate[a.eventDate.length - 1] : a.eventDate;
+                    const dateB = Array.isArray(b.eventDate) ? b.eventDate[b.eventDate.length - 1] : b.eventDate;
+                    return dateB - dateA;
+                });
+
+                return { futureEvents, pastEvents };
+            };
+
+            // Main rendering function - now uses cached data
+            const renderEvents = (filterCategory = 'all') => {
+                const container = this.getElement('events-container');
+                const noEventsMessage = this.getElement('no-events-message');
+                const pastContainer = this.getElement('past-events-container');
+
+                if (!container) return;
+
+                // Use cached events or process if not cached
+                if (!cachedFutureEvents || !cachedPastEvents) {
+                    const processed = processEvents();
+                    cachedFutureEvents = processed.futureEvents;
+                    cachedPastEvents = processed.pastEvents;
+                }
+
+                // Filter by category using cached data
                 const filteredFutureEvents = filterCategory === 'all'
-                    ? futureEvents
-                    : futureEvents.filter(({event}) => event.category === filterCategory);
+                    ? cachedFutureEvents
+                    : cachedFutureEvents.filter(({event}) => event.category === filterCategory);
 
                 // Render future events
                 if (filteredFutureEvents.length === 0) {
@@ -3657,9 +3849,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     if (noEventsMessage) noEventsMessage.classList.add('hidden');
                 }
 
-                // Render past events (unfiltered - show all past events)
-                if (pastContainer && pastEvents.length > 0) {
-                    const pastHTML = pastEvents.map(({event, eventDate}) =>
+                // Render past events (unfiltered - show all past events) using cached data
+                if (pastContainer && cachedPastEvents.length > 0) {
+                    const pastHTML = cachedPastEvents.map(({event, eventDate}) =>
                         renderEventCard(event, eventDate, true)
                     ).join('');
                     pastContainer.innerHTML = pastHTML;
@@ -3694,11 +3886,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         },
         initResourcesPage: function() {
             if (this.initialized.resources) return;
-            const sobrietyDateInput = document.getElementById('sobriety-date');
-            const setSobrietyBtn = document.getElementById('set-sobriety-date-btn');
-            const resetSobrietyBtn = document.getElementById('reset-sobriety-btn');
-            const sobrietySetup = document.getElementById('sobriety-setup');
-            const sobrietyDashboard = document.getElementById('sobriety-dashboard');
+            const sobrietyDateInput = this.getElement('sobriety-date');
+            const setSobrietyBtn = this.getElement('set-sobriety-date-btn');
+            const resetSobrietyBtn = this.getElement('reset-sobriety-btn');
+            const sobrietySetup = this.getElement('sobriety-setup');
+            const sobrietyDashboard = this.getElement('sobriety-dashboard');
             const milestones = [
                 { days: 1, name: '24 Hours', icon: '🌟', color: 'from-yellow-400 to-orange-400' },
                 { days: 7, name: '1 Week', icon: '⭐', color: 'from-blue-400 to-cyan-400' },
@@ -3765,11 +3957,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const remainingDays = daysSober % 365;
                 const months = Math.floor(remainingDays / 30);
                 const days = remainingDays % 30;
-                document.getElementById('days-sober').textContent = daysSober;
-                document.getElementById('years-sober').textContent = years;
-                document.getElementById('months-sober').textContent = months;
-                document.getElementById('days-remaining').textContent = days;
-                document.getElementById('saved-sobriety-date').textContent = savedDate.toLocaleDateString('en-US', {
+                this.getElement('days-sober').textContent = daysSober;
+                this.getElement('years-sober').textContent = years;
+                this.getElement('months-sober').textContent = months;
+                this.getElement('days-remaining').textContent = days;
+                this.getElement('saved-sobriety-date').textContent = savedDate.toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
@@ -3780,18 +3972,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     const prevDays = previousMilestone ? previousMilestone.days : 0;
                     const progress = ((daysSober - prevDays) / (nextMilestone.days - prevDays)) * 100;
                     const daysToGo = nextMilestone.days - daysSober;
-                    document.getElementById('next-milestone-name').textContent = nextMilestone.name;
-                    document.getElementById('milestone-progress-bar').style.width = `${progress}%`;
-                    document.getElementById('milestone-countdown').textContent = `${daysToGo} day${daysToGo !== 1 ? 's' : ''} to go`;
+                    this.getElement('next-milestone-name').textContent = nextMilestone.name;
+                    this.getElement('milestone-progress-bar').style.width = `${progress}%`;
+                    this.getElement('milestone-countdown').textContent = `${daysToGo} day${daysToGo !== 1 ? 's' : ''} to go`;
                 } else {
-                    document.getElementById('next-milestone-name').textContent = 'All Milestones Achieved!';
-                    document.getElementById('milestone-progress-bar').style.width = '100%';
-                    document.getElementById('milestone-countdown').textContent = 'Keep going strong!';
+                    this.getElement('next-milestone-name').textContent = 'All Milestones Achieved!';
+                    this.getElement('milestone-progress-bar').style.width = '100%';
+                    this.getElement('milestone-countdown').textContent = 'Keep going strong!';
                 }
                 renderMilestones(daysSober);
             };
             const renderMilestones = (daysSober) => {
-                const milestonesList = document.getElementById('milestones-list');
+                const milestonesList = this.getElement('milestones-list');
                 milestonesList.innerHTML = milestones.map(milestone => {
                     const achieved = daysSober >= milestone.days;
                     const isCurrent = daysSober < milestone.days && (milestones.indexOf(milestone) === 0 || daysSober >= milestones[milestones.indexOf(milestone) - 1].days);
@@ -3850,8 +4042,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
             updateDashboard();
             const haltOptions = document.querySelectorAll('.halt-option');
-            const haltAdvice = document.getElementById('halt-advice');
-            const haltRecommendations = document.getElementById('halt-recommendations');
+            const haltAdvice = this.getElement('halt-advice');
+            const haltRecommendations = this.getElement('halt-recommendations');
             const selectedHalt = new Set();
             const haltMessages = {
                 hungry: "Consider eating a nutritious meal or healthy snack. Low blood sugar can affect mood and decision-making.",
@@ -3882,9 +4074,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
             let meditationInterval = null;
             let meditationTime = 5 * 60;
-            const timerDisplay = document.getElementById('timer-display');
-            const startMeditationBtn = document.getElementById('start-meditation');
-            const stopMeditationBtn = document.getElementById('stop-meditation');
+            const timerDisplay = this.getElement('timer-display');
+            const startMeditationBtn = this.getElement('start-meditation');
+            const stopMeditationBtn = this.getElement('stop-meditation');
             const meditationTimeBtns = document.querySelectorAll('.meditation-time-btn');
             meditationTimeBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -3939,10 +4131,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 meditationTime = 5 * 60;
                 updateTimerDisplay();
             });
-            const gratitudeInput = document.getElementById('gratitude-input');
-            const addGratitudeBtn = document.getElementById('add-gratitude-btn');
-            const gratitudeContainer = document.getElementById('gratitude-container');
-            const clearGratitudeBtn = document.getElementById('clear-gratitude-btn');
+            const gratitudeInput = this.getElement('gratitude-input');
+            const addGratitudeBtn = this.getElement('add-gratitude-btn');
+            const gratitudeContainer = this.getElement('gratitude-container');
+            const clearGratitudeBtn = this.getElement('clear-gratitude-btn');
             const GRATITUDE_STORAGE_KEY = 'rowlettAA_gratitudeList';
             const escapeHtml = (text) => {
                 const div = document.createElement('div');
@@ -3987,29 +4179,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
                 items.sort((a, b) => b.timestamp - a.timestamp);
                 gratitudeContainer.innerHTML = items.map((item, index) => `
-                    <div class="bg-white p-4 rounded-lg shadow-md border border-green-200 flex items-start justify-between gap-3 animate-fade-in">
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-green-200 flex items-start justify-between gap-3 animate-fade-in" data-timestamp="${item.timestamp}">
                         <div class="flex-1">
                             <p class="text-gray-800 mb-1">${escapeHtml(item.text)}</p>
                             <p class="text-xs text-gray-500">
                                 <i class="far fa-clock mr-1"></i>${formatGratitudeDate(item.timestamp)}
                             </p>
                         </div>
-                        <button type="button" class="delete-gratitude-btn text-red-500 hover:text-red-700 transition-colors p-2" data-index="${index}" aria-label="Delete gratitude item">
+                        <button type="button" class="delete-gratitude-btn text-red-500 hover:text-red-700 transition-colors p-2" data-timestamp="${item.timestamp}" aria-label="Delete gratitude item">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                 `).join('');
-                gratitudeContainer.querySelectorAll('.delete-gratitude-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = parseInt(e.currentTarget.dataset.index);
-                        const items = loadGratitudeItems();
-                        items.sort((a, b) => b.timestamp - a.timestamp);
-                        items.splice(index, 1);
-                        saveGratitudeItems(items);
-                        renderGratitudeList();
-                        showNotification('Gratitude item removed', 'info');
-                    });
-                });
+            };
+            const deleteGratitudeItem = (timestamp) => {
+                const items = loadGratitudeItems();
+                const filteredItems = items.filter(item => item.timestamp !== timestamp);
+                saveGratitudeItems(filteredItems);
+
+                // Remove only the deleted DOM element instead of re-rendering
+                const itemElement = gratitudeContainer.querySelector(`[data-timestamp="${timestamp}"]`);
+                if (itemElement) {
+                    itemElement.style.transition = 'opacity 0.2s';
+                    itemElement.style.opacity = '0';
+                    setTimeout(() => {
+                        itemElement.remove();
+                        // Show empty state if no items left
+                        if (filteredItems.length === 0) {
+                            gratitudeContainer.innerHTML = `<p class="text-gray-500 italic text-center py-8">No gratitude items yet. Add what you're thankful for today!</p>`;
+                        }
+                    }, 200);
+                }
+                showNotification('Gratitude item removed', 'info');
             };
             const addGratitudeItem = () => {
                 const text = gratitudeInput.value.trim();
@@ -4034,6 +4235,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         addGratitudeItem();
                     }
                 });
+                // Use event delegation for delete buttons - single listener instead of one per item
+                gratitudeContainer.addEventListener('click', (e) => {
+                    const deleteBtn = e.target.closest('.delete-gratitude-btn');
+                    if (deleteBtn) {
+                        const timestamp = parseInt(deleteBtn.dataset.timestamp);
+                        deleteGratitudeItem(timestamp);
+                    }
+                });
                 renderGratitudeList();
             }
             if (clearGratitudeBtn) {
@@ -4049,128 +4258,76 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         },
         initGetInvolvedPage: function() {
             if (this.initialized.getInvolved) return;
-            const datesElement = document.getElementById('magdalen-dates');
-            if (datesElement) {
-                const startDate = new Date('2025-07-01T00:00:00');
+
+            // Reusable function to calculate recurring service dates
+            const calculateServiceDates = (options) => {
+                const { startDate, targetDay, interval, count = 4 } = options;
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
                 const dates = [];
-                let currentDate = new Date(startDate);
-                currentDate.setHours(0, 0, 0, 0);
-                while (currentDate < today) {
-                    currentDate.setDate(currentDate.getDate() + 14);
+                let currentDate;
+
+                if (startDate) {
+                    // Start from specific date (e.g., bi-weekly pattern)
+                    currentDate = new Date(startDate);
+                    currentDate.setHours(0, 0, 0, 0);
+                    while (currentDate < today) {
+                        currentDate.setDate(currentDate.getDate() + interval);
+                    }
+                } else if (targetDay !== undefined) {
+                    // Find next occurrence of target day (e.g., weekly pattern)
+                    currentDate = new Date(today);
+                    const daysUntilTarget = (targetDay - currentDate.getDay() + 7) % 7;
+                    if (daysUntilTarget === 0 && currentDate.getDay() === targetDay) {
+                        // If today is the target day, include it
+                    } else {
+                        currentDate.setDate(currentDate.getDate() + daysUntilTarget);
+                    }
                 }
-                for (let i = 0; i < 4; i++) {
+
+                for (let i = 0; i < count; i++) {
                     dates.push(currentDate.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric'
                     }));
-                    currentDate.setDate(currentDate.getDate() + 14);
+                    currentDate.setDate(currentDate.getDate() + interval);
                 }
-                datesElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
+
+                return dates;
+            };
+
+            // Magdalen House - Every other Tuesday starting 2025-07-01
+            const magdalenElement = this.getElement('magdalen-dates');
+            if (magdalenElement) {
+                const dates = calculateServiceDates({ startDate: '2025-07-01T00:00:00', interval: 14 });
+                magdalenElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
             }
 
-            // Calculate Rockwall County Jail Women's dates (Every Saturday)
-            const rockwallWomenElement = document.getElementById('rockwall-women-dates');
+            // Rockwall County Jail Women - Every Saturday
+            const rockwallWomenElement = this.getElement('rockwall-women-dates');
             if (rockwallWomenElement) {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const dates = [];
-                let currentDate = new Date(today);
-
-                // Find next Saturday (day 6)
-                const daysUntilSaturday = (6 - currentDate.getDay() + 7) % 7;
-                if (daysUntilSaturday === 0 && currentDate.getDay() === 6) {
-                    // If today is Saturday, include it
-                } else {
-                    currentDate.setDate(currentDate.getDate() + daysUntilSaturday);
-                }
-
-                for (let i = 0; i < 4; i++) {
-                    dates.push(currentDate.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric'
-                    }));
-                    currentDate.setDate(currentDate.getDate() + 7);
-                }
+                const dates = calculateServiceDates({ targetDay: 6, interval: 7 });
                 rockwallWomenElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
             }
 
-            // Calculate Rockwall County Jail Men's dates (Every Sunday)
-            const rockwallMenElement = document.getElementById('rockwall-men-dates');
+            // Rockwall County Jail Men - Every Sunday
+            const rockwallMenElement = this.getElement('rockwall-men-dates');
             if (rockwallMenElement) {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const dates = [];
-                let currentDate = new Date(today);
-
-                // Find next Sunday (day 0)
-                const daysUntilSunday = (7 - currentDate.getDay()) % 7;
-                if (daysUntilSunday === 0 && currentDate.getDay() === 0) {
-                    // If today is Sunday, include it
-                } else {
-                    currentDate.setDate(currentDate.getDate() + daysUntilSunday);
-                }
-
-                for (let i = 0; i < 4; i++) {
-                    dates.push(currentDate.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric'
-                    }));
-                    currentDate.setDate(currentDate.getDate() + 7);
-                }
+                const dates = calculateServiceDates({ targetDay: 0, interval: 7 });
                 rockwallMenElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
             }
 
-            // Calculate Salvation Army dates (Every Wednesday)
-            const salvationArmyElement = document.getElementById('salvation-army-dates');
+            // Salvation Army - Every Wednesday
+            const salvationArmyElement = this.getElement('salvation-army-dates');
             if (salvationArmyElement) {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const dates = [];
-                let currentDate = new Date(today);
-
-                // Find next Wednesday (day 3)
-                const daysUntilWednesday = (3 - currentDate.getDay() + 7) % 7;
-                if (daysUntilWednesday === 0 && currentDate.getDay() === 3) {
-                    // If today is Wednesday, include it
-                } else {
-                    currentDate.setDate(currentDate.getDate() + daysUntilWednesday);
-                }
-
-                for (let i = 0; i < 4; i++) {
-                    dates.push(currentDate.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric'
-                    }));
-                    currentDate.setDate(currentDate.getDate() + 7);
-                }
+                const dates = calculateServiceDates({ targetDay: 3, interval: 7 });
                 salvationArmyElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
             }
 
-            // Calculate Medical City Green Oaks dates (Every Wednesday)
-            const medicalCityElement = document.getElementById('medical-city-dates');
+            // Medical City Green Oaks - Every Wednesday
+            const medicalCityElement = this.getElement('medical-city-dates');
             if (medicalCityElement) {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const dates = [];
-                let currentDate = new Date(today);
-
-                // Find next Wednesday (day 3)
-                const daysUntilWednesday = (3 - currentDate.getDay() + 7) % 7;
-                if (daysUntilWednesday === 0 && currentDate.getDay() === 3) {
-                    // If today is Wednesday, include it
-                } else {
-                    currentDate.setDate(currentDate.getDate() + daysUntilWednesday);
-                }
-
-                for (let i = 0; i < 4; i++) {
-                    dates.push(currentDate.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric'
-                    }));
-                    currentDate.setDate(currentDate.getDate() + 7);
-                }
+                const dates = calculateServiceDates({ targetDay: 3, interval: 7 });
                 medicalCityElement.innerHTML = dates.map(date => `<div>${date}</div>`).join('');
             }
 
@@ -4281,7 +4438,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             };
             const createReadAccordion = (items) => { const categories = [...new Set(items.map(item => item.category))]; return categories.map(category => `<div class="border border-gray-200 rounded-lg"><div class="accordion-header bg-gray-50 p-4 flex justify-between items-center"><h3 class="text-xl font-bold text-blue-800">${category}</h3><span class="accordion-icon text-blue-600 transform transition-transform duration-300"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span></div><div class="accordion-content"><div class="p-4 border-t border-gray-200 space-y-3">${items.filter(item => item.category === category).map(item => `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between gap-2 text-blue-600 hover:underline hover:text-blue-800"><div class="flex items-center gap-2"><i class="fas fa-file-pdf text-red-500" aria-hidden="true"></i><span>${item.title}</span></div><span class="text-sm text-gray-500">${item.pages || ''}</span></a>`).join('')}</div></div></div>`).join(''); };
             const populateTab = (book, type) => {
-                const container = document.getElementById(`${book}-${type}-content`);
+                const container = this.getElement(`${book}-${type}-content`);
                 if (!container) return;
                 const bookData = literatureData[book];
                 if (!bookData) return;
@@ -4304,7 +4461,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
             };
             ['bb', 'tt'].forEach(book => ['read', 'watch'].forEach(type => populateTab(book, type)));
-            const literaturePageContainer = document.getElementById('literature-page');
+            const literaturePageContainer = this.getElement('literature-page');
             literaturePageContainer.addEventListener('click', (e) => {
                 const literatureTab = e.target.closest('.literature-tab');
                 const watchCard = e.target.closest('.watch-card');
@@ -4323,8 +4480,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     openModal(watchCard.dataset.videoId);
                 }
             });
-            const videoModalBackdrop = document.getElementById('video-modal-backdrop');
-            const videoIframe = document.getElementById('video-iframe');
+            const videoModalBackdrop = this.getElement('video-modal-backdrop');
+            const videoIframe = this.getElement('video-iframe');
             let isVideoModalOpening = false;
             const openModal = (videoId) => {
                 if (isVideoModalOpening || !videoIframe || !videoModalBackdrop) {
@@ -4350,18 +4507,179 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             }
                         }
                     });
-                }, { rootMargin: '50px' });
-                setTimeout(() => {
-                    document.querySelectorAll('.watch-card img[data-src]').forEach(img => {
+                }, {
+                    rootMargin: '200px', // Increased preload distance for smoother scrolling
+                    threshold: 0.01 // Load as soon as 1% visible
+                });
+                // Observe thumbnails immediately without setTimeout delay
+                const literaturePageEl = this.getElement('literature-page');
+                if (literaturePageEl) {
+                    literaturePageEl.querySelectorAll('.watch-card img[data-src]').forEach(img => {
                         videoObserver.observe(img);
                     });
-                }, 100);
+                }
             }
             this.initialized.literature = true;
         },
+        // Timeline data structure for Our Group page
+        timelineData: [
+            {
+                position: 'left',
+                theme: 'sky',
+                popupTitle: 'The Backstory',
+                popupContent: 'From the ashes of the struggling Sunshine Group, eight members (from Rowlett & Rockwall) sought a new, non-smoking home. After finding rents too high, a member, a building contractor, offered his office at Rash & Associates.',
+                title: '1995: A Leap of Faith',
+                icon: 'fa-solid fa-seedling',
+                description: 'On July 22 at 8:00 PM, the first meeting was held at 4501 Rowlett Road in a tiny 10.5\' x 14\' room.'
+            },
+            {
+                position: 'right',
+                theme: 'teal',
+                popupTitle: 'Volunteer Spirit',
+                popupContent: 'Extensive remodeling and refinishing was mostly done by Group volunteers on nights and weekends. The group was geared for long-term growth and "carrying the message."',
+                title: '1996: Building Our Home',
+                icon: 'fa-solid fa-hammer',
+                description: 'The 1st Anniversary BBQ was memorably rained out. That fall, the room tripled in size, and the Open House speaker was 50-year chip holder Searcy W.!'
+            },
+            {
+                position: 'left',
+                theme: 'teal',
+                popupTitle: 'Rapid Expansion',
+                popupContent: 'In Feb 1997, Sunday birthday meetings began. By Sept 1998, with the addition of noon and evening meetings, the group grew from 0 to 17 weekly meetings.',
+                title: '1997-1998: Explosive Growth',
+                icon: 'fa-solid fa-users',
+                description: 'The group expanded its schedule rapidly, combining birthday meetings with Al-Anon and adding multiple noon and 6 PM meetings to serve the growing community.'
+            },
+            {
+                position: 'right',
+                theme: 'teal',
+                popupTitle: 'Key Events',
+                popupContent: [
+                    '<b>May 1999:</b> Approved $500 to double Al-Anon space.',
+                    '<b>Feb 2000:</b> Added Sat. noon & Sun. 6 PM meetings (19 total).',
+                    '<b>June 2001:</b> Participated in the 1st Founder\'s Day picnic.'
+                ],
+                title: '1999-2001: Service & Fellowship',
+                icon: 'fa-solid fa-handshake-angle',
+                description: 'This era focused on service, with a 4th Anniversary party (Searcy W. returned as speaker), more meetings, and participation in Intergroup events.'
+            },
+            {
+                position: 'left',
+                theme: 'amber',
+                popupTitle: 'The Big Move',
+                popupContent: 'After a lease notice in May 2003, the group found the Sunrise Square Center in Garland. On July 27, 50-60 members moved the group in under an hour. The first meeting was held at 6 PM the same day.',
+                title: '2002-2003: A Test of Unity',
+                icon: 'fa-solid fa-truck-moving',
+                description: 'The group held a Sponsorship Workshop, formalized its Bylaws, and faced a forced move. Unity prevailed, with no meetings missed during the transition to Garland.'
+            },
+            {
+                position: 'right',
+                theme: 'amber',
+                popupTitle: 'Building Structure',
+                popupContent: 'The group held its second inventory in May 2004. In October 2005, written job descriptions for trusted servants were approved, and another sponsorship workshop was held in November.',
+                title: '2004-2005: Structure & Service',
+                icon: 'fa-solid fa-list-check',
+                description: 'The group added a Saturday 6 PM meeting but discontinued the men\'s meeting due to low attendance. A second group inventory led to creating formal job descriptions.'
+            },
+            {
+                position: 'left',
+                theme: 'amber',
+                popupTitle: 'Anniversary Themes',
+                popupContent: [
+                    '<b>2006:</b> The 11th Anniversary was titled "It\'s A Party!"',
+                    '<b>2007:</b> The 12th was "Imagine Life Without Faith."'
+                ],
+                title: '2006-2007: Settling In',
+                icon: 'fa-solid fa-anchor',
+                description: 'Lease extensions were negotiated, and in June 2007, the group officially voted to keep the "Rowlett Group" name despite its Garland location.'
+            },
+            {
+                position: 'right',
+                theme: 'amber',
+                popupTitle: 'Fellowship & Fun!',
+                popupContent: 'Members enjoyed Friday nights at Denny\'s, Saturday sing-alongs at Starbucks, July 4th at the lake, and Sober Celebrations with live music by the band Turning Point.',
+                title: '2008-2009: The Group Thrives!',
+                icon: 'fa-solid fa-star',
+                description: 'The Chaha/Bass Pro location boomed with SRO birthday nights. The group held its 3rd inventory, and the 14th Anniversary party had a "Luau" theme.'
+            },
+            {
+                position: 'left',
+                theme: 'amber',
+                popupTitle: 'Workshops & Service',
+                popupContent: [
+                    '<b>Feb 2010:</b> 12 Concepts Study with Jimmy D.',
+                    '<b>June 2012:</b> "How to Chair a Meeting" workshop.',
+                    '<b>July 2014:</b> Traditions Workshop.'
+                ],
+                title: '2010-2014: Another Move',
+                icon: 'fa-solid fa-briefcase',
+                description: 'On Oct 30, 2010, the group moved to its new home "Behind Denny\'s". Throughout this period, members actively carried the message and participated in service.'
+            },
+            {
+                position: 'right',
+                theme: 'red',
+                popupTitle: 'A Fateful Year',
+                popupContent: 'Declining attendance and contributions led four members to find a new, smaller home. The lease at 362 Oaks Trail began Aug 15. The infamous tornado hit on Dec 26.',
+                title: '2015: Resilience & Rebirth',
+                icon: 'fa-solid fa-heart-pulse',
+                description: 'Facing decline, four members stuck together, finding a new home at Oaks Trail. The year ended with a tornado narrowly missing the group\'s birthday night.'
+            },
+            {
+                position: 'left',
+                theme: 'indigo',
+                popupTitle: 'Holding Fast',
+                popupContent: 'Though meetings waxed and waned, the central core held fast. Lunch after Friday noon meetings was a regular tradition. In 2019, a new 3-year lease was signed.',
+                title: '2016-2019: A New Home',
+                icon: 'fa-solid fa-house-chimney-heart',
+                iconExtra: 'fa-solid fa-frog',
+                description: 'Slow, steady growth continued at Oaks Trail. A fresh crop of dedicated members took hold, enjoying diversity, enthusiasm, and newcomers getting sober.'
+            },
+            {
+                position: 'right',
+                theme: 'indigo',
+                popupTitle: 'Digital Fellowship',
+                popupContent: 'The first Zoom meeting was April 1. The "Rowlett Friends of Bill" Facebook page was created to keep members informed. In-person meetings resumed in May.',
+                title: '2020: The Pandemic Pivot',
+                icon: 'fa-solid fa-laptop',
+                description: 'COVID-19 changed everything. In June, the Tuesday night meeting became a dedicated Open Newcomer/Foundations meeting, preceded by a fellowship dinner.'
+            },
+            {
+                position: 'left',
+                theme: 'green',
+                popupTitle: 'Renewed Unity',
+                popupContent: 'Dinner after Friday night meetings grew popular. Due to COVID, Birthday Nights were moved outdoors to local parks. The 26th Anniversary was postponed from Aug 2021 to Feb 2022.',
+                title: '2021-Present: Re-Energized!',
+                icon: 'fa-solid fa-pizza-slice',
+                description: 'Group unity is stronger than ever. Fellowship dinners and outdoor Birthday Nights celebrated with enthusiasm by friends and family became staples of the group.'
+            }
+        ],
+        // Generate timeline HTML from data
+        generateTimelineHTML: function(timelineItems) {
+            return timelineItems.map(item => {
+                const popupContent = Array.isArray(item.popupContent)
+                    ? `<ul class="text-sm list-disc list-inside space-y-1">${item.popupContent.map(li => `<li>${li}</li>`).join('')}</ul>`
+                    : `<p class="text-sm">${item.popupContent}</p>`;
+
+                const extraIcon = item.iconExtra ? `<i class="${item.iconExtra} ml-2 text-${item.theme}-500" aria-hidden="true"></i>` : '';
+
+                return `
+                    <div class="timeline-block ${item.position}">
+                        <div class="timeline-content bg-${item.theme}-50">
+                            <div class="info-popup">
+                                <h4 class="font-bold border-b border-${item.theme}-400 pb-1 mb-2">${item.popupTitle}</h4>
+                                ${popupContent}
+                            </div>
+                            <h2 class="text-2xl font-bold text-${item.theme}-800">${item.title} <i class="${item.icon} ml-2 text-${item.theme}-500" aria-hidden="true"></i>${extraIcon}</h2>
+                            <p class="mt-2 text-slate-700">${item.description}</p>
+                        </div>
+                    </div>`;
+            }).join('');
+        },
         initOurGroupPage: function() {
             if (this.initialized.ourGroup) return;
-            document.getElementById('blog-post-group-history').innerHTML = `
+            const blogPost = this.getElement('blog-post-group-history');
+            if (blogPost) {
+                blogPost.innerHTML = `
                 <div class="bg-slate-800 text-white text-center py-12 px-4">
                     <h1 class="text-4xl md:text-5xl font-extrabold font-inter tracking-tight">The Rowlett Group</h1>
                     <p class="mt-4 text-lg md:text-xl font-lora italic text-slate-300">Over 25 Years of Carrying the Message <span role="img" aria-label="handshake"><span role="img" aria-label="handshake">🤝</span></span></p>
@@ -4373,147 +4691,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </p>
                 </section>
                 <div class="timeline-container">
-                    <div class="timeline-block left">
-                        <div class="timeline-content bg-sky-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-sky-400 pb-1 mb-2">The Backstory</h4>
-                                <p class="text-sm">From the ashes of the struggling Sunshine Group, eight members (from Rowlett & Rockwall) sought a new, non-smoking home. After finding rents too high, a member, a building contractor, offered his office at Rash & Associates.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-sky-800">1995: A Leap of Faith <i class="fa-solid fa-seedling ml-2 text-sky-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">On July 22 at 8:00 PM, the first meeting was held at 4501 Rowlett Road in a tiny 10.5' x 14' room.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block right">
-                        <div class="timeline-content bg-teal-50">
-                             <div class="info-popup">
-                                <h4 class="font-bold border-b border-teal-400 pb-1 mb-2">Volunteer Spirit</h4>
-                                <p class="text-sm">Extensive remodeling and refinishing was mostly done by Group volunteers on nights and weekends. The group was geared for long-term growth and "carrying the message."</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-teal-800">1996: Building Our Home <i class="fa-solid fa-hammer ml-2 text-teal-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">The 1st Anniversary BBQ was memorably rained out. That fall, the room tripled in size, and the Open House speaker was 50-year chip holder Searcy W.!</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block left">
-                         <div class="timeline-content bg-teal-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-teal-400 pb-1 mb-2">Rapid Expansion</h4>
-                                <p class="text-sm">In Feb 1997, Sunday birthday meetings began. By Sept 1998, with the addition of noon and evening meetings, the group grew from 0 to 17 weekly meetings.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-teal-800">1997-1998: Explosive Growth <i class="fa-solid fa-users ml-2 text-teal-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">The group expanded its schedule rapidly, combining birthday meetings with Al-Anon and adding multiple noon and 6 PM meetings to serve the growing community.</p>
-                         </div>
-                    </div>
-                    <div class="timeline-block right">
-                         <div class="timeline-content bg-teal-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-teal-400 pb-1 mb-2">Key Events</h4>
-                                <ul class="text-sm list-disc list-inside space-y-1">
-                                    <li><b>May 1999:</b> Approved $500 to double Al-Anon space.</li>
-                                    <li><b>Feb 2000:</b> Added Sat. noon & Sun. 6 PM meetings (19 total).</li>
-                                     <li><b>June 2001:</b> Participated in the 1st Founder's Day picnic.</li>
-                                </ul>
-                            </div>
-                            <h2 class="text-2xl font-bold text-teal-800">1999-2001: Service & Fellowship <i class="fa-solid fa-handshake-angle ml-2 text-teal-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">This era focused on service, with a 4th Anniversary party (Searcy W. returned as speaker), more meetings, and participation in Intergroup events.</p>
-                         </div>
-                    </div>
-                    <div class="timeline-block left">
-                         <div class="timeline-content bg-amber-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-amber-400 pb-1 mb-2">The Big Move</h4>
-                                <p class="text-sm">After a lease notice in May 2003, the group found the Sunrise Square Center in Garland. On July 27, 50-60 members moved the group in under an hour. The first meeting was held at 6 PM the same day.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-amber-800">2002-2003: A Test of Unity <i class="fa-solid fa-truck-moving ml-2 text-amber-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">The group held a Sponsorship Workshop, formalized its Bylaws, and faced a forced move. Unity prevailed, with no meetings missed during the transition to Garland.</p>
-                         </div>
-                    </div>
-                    <div class="timeline-block right">
-                        <div class="timeline-content bg-amber-50">
-                             <div class="info-popup">
-                                <h4 class="font-bold border-b border-amber-400 pb-1 mb-2">Building Structure</h4>
-                                <p class="text-sm">The group held its second inventory in May 2004. In October 2005, written job descriptions for trusted servants were approved, and another sponsorship workshop was held in November.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-amber-800">2004-2005: Structure & Service <i class="fa-solid fa-list-check ml-2 text-amber-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">The group added a Saturday 6 PM meeting but discontinued the men's meeting due to low attendance. A second group inventory led to creating formal job descriptions.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block left">
-                        <div class="timeline-content bg-amber-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-amber-400 pb-1 mb-2">Anniversary Themes</h4>
-                                <ul class="text-sm list-disc list-inside space-y-1">
-                                    <li><b>2006:</b> The 11th Anniversary was titled "It's A Party!"</li>
-                                    <li><b>2007:</b> The 12th was "Imagine Life Without Faith."</li>
-                                </ul>
-                            </div>
-                            <h2 class="text-2xl font-bold text-amber-800">2006-2007: Settling In <i class="fa-solid fa-anchor ml-2 text-amber-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">Lease extensions were negotiated, and in June 2007, the group officially voted to keep the "Rowlett Group" name despite its Garland location.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block right">
-                        <div class="timeline-content bg-amber-50">
-                             <div class="info-popup">
-                                <h4 class="font-bold border-b border-amber-400 pb-1 mb-2">Fellowship & Fun!</h4>
-                                <p class="text-sm">Members enjoyed Friday nights at Denny's, Saturday sing-alongs at Starbucks, July 4th at the lake, and Sober Celebrations with live music by the band Turning Point.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-amber-800">2008-2009: The Group Thrives! <i class="fa-solid fa-star ml-2 text-amber-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">The Chaha/Bass Pro location boomed with SRO birthday nights. The group held its 3rd inventory, and the 14th Anniversary party had a "Luau" theme.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block left">
-                        <div class="timeline-content bg-amber-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-amber-400 pb-1 mb-2">Workshops & Service</h4>
-                                <ul class="text-sm list-disc list-inside space-y-1">
-                                    <li><b>Feb 2010:</b> 12 Concepts Study with Jimmy D.</li>
-                                    <li><b>June 2012:</b> "How to Chair a Meeting" workshop.</li>
-                                    <li><b>July 2014:</b> Traditions Workshop.</li>
-                                </ul>
-                            </div>
-                            <h2 class="text-2xl font-bold text-amber-800">2010-2014: Another Move <i class="fa-solid fa-briefcase ml-2 text-amber-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">On Oct 30, 2010, the group moved to its new home "Behind Denny's". Throughout this period, members actively carried the message and participated in service.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block right">
-                        <div class="timeline-content bg-red-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-red-400 pb-1 mb-2">A Fateful Year</h4>
-                                <p class="text-sm">Declining attendance and contributions led four members to find a new, smaller home. The lease at 362 Oaks Trail began Aug 15. The infamous tornado hit on Dec 26.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-red-800">2015: Resilience & Rebirth <i class="fa-solid fa-heart-pulse ml-2 text-red-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">Facing decline, four members stuck together, finding a new home at Oaks Trail. The year ended with a tornado narrowly missing the group's birthday night.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block left">
-                        <div class="timeline-content bg-indigo-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-indigo-400 pb-1 mb-2">Holding Fast</h4>
-                                <p class="text-sm">Though meetings waxed and waned, the central core held fast. Lunch after Friday noon meetings was a regular tradition. In 2019, a new 3-year lease was signed.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-indigo-800">2016-2019: A New Home <i class="fa-solid fa-house-chimney-heart ml-2 text-indigo-500" aria-hidden="true"></i><i class="fa-solid fa-frog ml-2 text-indigo-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">Slow, steady growth continued at Oaks Trail. A fresh crop of dedicated members took hold, enjoying diversity, enthusiasm, and newcomers getting sober.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block right">
-                        <div class="timeline-content bg-indigo-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-indigo-400 pb-1 mb-2">Digital Fellowship</h4>
-                                <p class="text-sm">The first Zoom meeting was April 1. The "Rowlett Friends of Bill" Facebook page was created to keep members informed. In-person meetings resumed in May.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-indigo-800">2020: The Pandemic Pivot <i class="fa-solid fa-laptop ml-2 text-indigo-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">COVID-19 changed everything. In June, the Tuesday night meeting became a dedicated Open Newcomer/Foundations meeting, preceded by a fellowship dinner.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-block left">
-                        <div class="timeline-content bg-green-50">
-                            <div class="info-popup">
-                                <h4 class="font-bold border-b border-green-400 pb-1 mb-2">Renewed Unity</h4>
-                                <p class="text-sm">Dinner after Friday night meetings grew popular. Due to COVID, Birthday Nights were moved outdoors to local parks. The 26th Anniversary was postponed from Aug 2021 to Feb 2022.</p>
-                            </div>
-                            <h2 class="text-2xl font-bold text-green-800">2021-Present: Re-Energized! <i class="fa-solid fa-pizza-slice ml-2 text-green-500" aria-hidden="true"></i></h2>
-                            <p class="mt-2 text-slate-700">Group unity is stronger than ever. Fellowship dinners and outdoor Birthday Nights celebrated with enthusiasm by friends and family became staples of the group.</p>
-                        </div>
-                    </div>
+                    ${this.generateTimelineHTML(this.timelineData)}
                 </div>
                 <footer class="text-center py-8 px-4 mt-8">
                     <p class="font-lora italic text-slate-500">"Imagine Life Without Faith"</p>
@@ -4533,11 +4711,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                 </div>
             `;
+            }
             this.initialized.ourGroup = true;
         },
         initStudyGuidePage: function() {
             if (this.initialized.studyGuide) return;
-            const backToResourcesBtn = document.getElementById('back-to-resources-btn');
+            const backToResourcesBtn = this.getElement('back-to-resources-btn');
             if (backToResourcesBtn) {
                 backToResourcesBtn.addEventListener('click', () => {
                     window.location.hash = '#resources';
@@ -4545,9 +4724,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     this.initResourcesPage();
                 });
             }
-            const wordInput = document.getElementById('word-input');
-            const lookupBtn = document.getElementById('lookup-btn');
-            const resultsDiv = document.getElementById('dictionary-results');
+            const wordInput = this.getElement('word-input');
+            const lookupBtn = this.getElement('lookup-btn');
+            const resultsDiv = this.getElement('dictionary-results');
             if (lookupBtn && wordInput && resultsDiv) {
                 const fetchDictionaryEntry = async (word) => {
                     if (!word) {
@@ -4639,11 +4818,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     resultsDiv: !!resultsDiv
                 });
             }
-            const noteInput = document.getElementById('note-input');
-            const saveNoteBtn = document.getElementById('save-note-btn');
-            const notesContainer = document.getElementById('notes-container');
-            const searchNotesInput = document.getElementById('search-notes-input');
-            const clearSearchBtn = document.getElementById('clear-search-btn');
+            const noteInput = this.getElement('note-input');
+            const saveNoteBtn = this.getElement('save-note-btn');
+            const notesContainer = this.getElement('notes-container');
+            const searchNotesInput = this.getElement('search-notes-input');
+            const clearSearchBtn = this.getElement('clear-search-btn');
             const loadNotes = () => {
                 try {
                     const notes = JSON.parse(localStorage.getItem('rowlettAA_studyNotes') || '[]');
@@ -4803,31 +4982,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 window.meditationInterval = null;
             }
         },
-        setupModal: function(openBtnId, modalId, closeBtnId) {
-            const openBtn = document.getElementById(openBtnId);
-            const modal = document.getElementById(modalId);
-            const closeBtn = document.getElementById(closeBtnId);
-            if (!openBtn || !modal || !closeBtn) return;
-            openBtn.addEventListener('click', () => this.openModal(modalId));
-            closeBtn.addEventListener('click', () => this.closeModal(modalId));
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) this.closeModal(modalId);
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-                    this.closeModal(modalId);
-                }
-            });
-        },
         openModal: function(modalId) {
-            const modal = document.getElementById(modalId);
+            const modal = this.getElement(modalId);
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             }
         },
         closeModal: function(modalId) {
-            const modal = document.getElementById(modalId);
+            const modal = this.getElement(modalId);
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
@@ -4835,20 +4998,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         },
         performSearch: function(query) {
             if (!query || query.trim().length < 2) return [];
-            query = query.toLowerCase();
+            const queryLower = query.toLowerCase();
+            const queryWords = queryLower.split(' ');
+
             const results = this.searchData.pages.map(page => {
                 let score = 0;
-                const queryWords = query.split(' ');
-                if (page.title.toLowerCase().includes(query)) score += 100;
+
+                // Use cached lowercase title
+                if (page._titleLower.includes(queryLower)) score += 100;
                 queryWords.forEach(word => {
-                    if (page.title.toLowerCase().includes(word)) score += 50;
+                    if (page._titleLower.includes(word)) score += 50;
                 });
-                page.keywords.forEach(keyword => {
-                    if (keyword.includes(query)) score += 30;
+
+                // Use cached lowercase keywords
+                page._keywordsLower.forEach(keyword => {
+                    if (keyword.includes(queryLower)) score += 30;
                     queryWords.forEach(word => {
                         if (keyword.includes(word)) score += 10;
                     });
                 });
+
                 return { ...page, score };
             }).filter(page => page.score > 0).sort((a, b) => b.score - a.score);
             return results;

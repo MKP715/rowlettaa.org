@@ -477,6 +477,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         margin-left: auto;
         margin-right: auto;
     }
+    /* Full width sections that break out of page-container */
+    .full-width-section {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+    }
     .font-serif,
     .book-page {
         font-family: var(--font-serif);
@@ -882,8 +891,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .hero-gradient {
         position: relative;
         width: 100%;
-        height: 50vh;
-        max-height: 400px;
+        height: 40vh;
+        max-height: 320px;
         overflow: hidden;
         background: linear-gradient(
             -45deg,
@@ -1198,8 +1207,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <main id="main-content" class="page-container">
     <section id="home-page" class="page-content">
-        <div id="todays-meetings-banner" class="bg-yellow-100 border-b-4 border-yellow-300 text-yellow-900"></div>
-        <div class="relative text-white text-center">
+        <div id="todays-meetings-banner" class="full-width-section bg-yellow-100 border-b-4 border-yellow-300 text-yellow-900"></div>
+        <div class="full-width-section relative text-white text-center">
             <div class="hero-gradient" role="img" aria-label="Animated gradient representing hope, new beginnings, and the journey of recovery in Alcoholics Anonymous"></div>
             <div class="absolute inset-0 flex flex-col justify-center items-center p-4" style="z-index: 10;">
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">Rowlett Group of AA</h1>
@@ -2538,24 +2547,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
     </section>
-    <section class="bg-blue-50 border-t-2 border-b-2 border-blue-200 py-10">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-2xl font-bold text-blue-800 mb-4">A.A. Resources &amp; Information <span role="img" aria-label="globe"><span role="img" aria-label="globe">🌐</span></span></h2>
-            <p class="max-w-3xl mx-auto text-blue-900 mb-8">Our group is part of a larger fellowship. The following resources can connect you with A.A. at the local, regional, and worldwide levels.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 bg-white rounded-lg shadow-md">
+    <section class="full-width-section bg-blue-50 border-t-2 border-b-2 border-blue-200 py-6">
+        <div class="w-full px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">A.A. Resources &amp; Information <span role="img" aria-label="globe"><span role="img" aria-label="globe">🌐</span></span></h2>
+            <p class="max-w-3xl mx-auto text-blue-900 mb-5">Our group is part of a larger fellowship. The following resources can connect you with A.A. at the local, regional, and worldwide levels.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 max-w-7xl mx-auto">
+                <div class="p-4 bg-white rounded-lg shadow-md">
                     <h3 class="font-bold text-lg text-blue-700 mb-2">Dallas A.A. Intergroup</h3>
-                    <p class="text-sm text-gray-600 mb-4">Find meetings throughout the Dallas area, get information on local events, and access resources provided by the Dallas Intergroup Association.</p>
+                    <p class="text-sm text-gray-600 mb-2">Find meetings throughout the Dallas area, get information on local events, and access resources provided by the Dallas Intergroup Association.</p>
                     <a href="https://www.aadallas.org/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800">Visit AADallas.org →</a>
                 </div>
-                <div class="p-6 bg-white rounded-lg shadow-md">
+                <div class="p-4 bg-white rounded-lg shadow-md">
                     <h3 class="font-bold text-lg text-blue-700 mb-2">A.A. World Services (GSO)</h3>
-                    <p class="text-sm text-gray-600 mb-4">The official website of Alcoholics Anonymous. Find literature, information for professionals, and learn about A.A. as a whole.</p>
+                    <p class="text-sm text-gray-600 mb-2">The official website of Alcoholics Anonymous. Find literature, information for professionals, and learn about A.A. as a whole.</p>
                     <a href="https://www.aa.org/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800">Visit AA.org →</a>
                 </div>
-                <div class="p-6 bg-white rounded-lg shadow-md">
+                <div class="p-4 bg-white rounded-lg shadow-md">
                     <h3 class="font-bold text-lg text-blue-700 mb-2">NETA 65 (Area 65)</h3>
-                    <p class="text-sm text-gray-600 mb-4">The Northeast Texas Area 65 website. Find information about area assemblies, service committees, and regional A.A. events.</p>
+                    <p class="text-sm text-gray-600 mb-2">The Northeast Texas Area 65 website. Find information about area assemblies, service committees, and regional A.A. events.</p>
                     <a href="https://neta65.org/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800">Visit NETA65.org →</a>
                 </div>
             </div>
@@ -3545,6 +3554,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         initEventsPage: function() {
             if (this.initialized.events) return;
 
+            // Mark as initialized immediately to prevent duplicate calls
+            this.initialized.events = true;
+
+            // Show loading state immediately
+            const container = this.getElement('events-container');
+            const pastContainer = this.getElement('past-events-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="col-span-full flex justify-center items-center py-12">
+                        <div class="text-center">
+                            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                            <p class="text-gray-600">Loading events...</p>
+                        </div>
+                    </div>
+                `;
+            }
+
             // Helper function to calculate recurring dates
             const getRecurringDate = (recurringType, year, month) => {
                 const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -3908,29 +3934,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
             };
 
-            // Initialize filter buttons
-            const filterButtons = document.querySelectorAll('[data-event-filter]');
-            filterButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const filter = btn.getAttribute('data-event-filter');
+            // Defer heavy calculations to prevent blocking
+            const initializeEventsAsync = () => {
+                // Initialize filter buttons
+                const filterButtons = document.querySelectorAll('[data-event-filter]');
+                filterButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const filter = btn.getAttribute('data-event-filter');
 
-                    // Update active button styling
-                    filterButtons.forEach(b => {
-                        b.classList.remove('event-filter-btn-active');
-                        b.classList.add('event-filter-btn');
+                        // Update active button styling
+                        filterButtons.forEach(b => {
+                            b.classList.remove('event-filter-btn-active');
+                            b.classList.add('event-filter-btn');
+                        });
+                        btn.classList.remove('event-filter-btn');
+                        btn.classList.add('event-filter-btn-active');
+
+                        // Render events with filter
+                        renderEvents(filter);
                     });
-                    btn.classList.remove('event-filter-btn');
-                    btn.classList.add('event-filter-btn-active');
-
-                    // Render events with filter
-                    renderEvents(filter);
                 });
-            });
 
-            // Initial render
-            renderEvents('all');
+                // Initial render
+                renderEvents('all');
+            };
 
-            this.initialized.events = true;
+            // Use requestIdleCallback for better performance, fallback to setTimeout
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(initializeEventsAsync, { timeout: 1000 });
+            } else {
+                setTimeout(initializeEventsAsync, 0);
+            }
         },
         initResourcesPage: function() {
             if (this.initialized.resources) return;

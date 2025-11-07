@@ -985,6 +985,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             min-width: 320px;
         }
     }
+    /* Event cards - match today card width when alone in row */
+    @media (min-width: 768px) {
+        #events-container>div:nth-child(odd):last-child {
+            grid-column: 1 / -1;
+            justify-self: center;
+            width: 50%;
+            min-width: 320px;
+        }
+    }
 </style>
 <script type="application/ld+json">
 {
@@ -1506,7 +1515,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <!-- Upcoming Events Container -->
-            <div id="events-container" class="max-w-6xl mx-auto grid md:grid-cols-2 gap-6"></div>
+            <div id="events-container" class="grid md:grid-cols-2 gap-6"></div>
 
             <!-- No Events Message (hidden by default) -->
             <div id="no-events-message" class="hidden text-center py-12">
@@ -1536,8 +1545,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <!-- How to Add Events Info Section -->
-            <div class="mt-12 max-w-4xl mx-auto">
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
+            <div class="mt-12 max-w-2xl mx-auto">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg text-center">
                     <h3 class="text-lg font-bold text-blue-900 mb-2">
                         <i class="fas fa-info-circle mr-2" aria-hidden="true"></i>
                         Need to Add or Update an Event?

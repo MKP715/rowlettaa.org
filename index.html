@@ -994,6 +994,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             min-width: 320px;
         }
     }
+    /* Reduce hero gradient height for mobile view */
+    @media (max-width: 767px) {
+        .hero-gradient {
+            height: 30vh;
+            max-height: 240px;
+        }
+    }
 </style>
 <script type="application/ld+json">
 {

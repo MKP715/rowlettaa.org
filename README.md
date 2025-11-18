@@ -1,1988 +1,772 @@
 # Rowlett Group of AA Website
 
-## Project Overview
+**Live Site:** https://rowlettaa.org/
 
-This is a comprehensive single-page application (SPA) for the Rowlett Group of Alcoholics Anonymous in Garland, TX. The website serves as a complete resource hub for individuals seeking recovery support, providing meeting schedules, educational content, recovery tools, and community information.
+A modern, feature-rich single-page application (SPA) for the Rowlett Group of Alcoholics Anonymous in Garland, TX. This website serves as a comprehensive resource hub providing meeting schedules, event calendars, recovery tools, literature, and community information—all in a single, optimized HTML file.
 
-**Live URL:** https://www.rowlettaa.org/
+## Quick Facts
 
-**Founded:** 1995
+- **Location:** 362 Oaks Trail #162, Garland, TX 75043
+- **Contact:** (972) 925-0096 | rowlettaa@gmail.com
+- **Founded:** 1995
+- **Technology:** Single HTML file (358KB) - No build process required
+- **Features:** 12 pages/sections, PWA support, offline capable, mobile responsive
+- **Weekly Meetings:** 15 meetings across 7 days
+- **Architecture:** Vanilla JavaScript SPA with Tailwind CSS
 
-**Location:** 362 Oaks Trail #162, Garland, TX 75043
-
-**Contact:** (972) 925-0096 | rowlettaa@gmail.com
-
-## Quick Statistics
-
-- **12 Main Pages/Sections** - Complete website coverage
-- **15 Weekly Meetings** - All HYBRID (in-person + Zoom)
-- **60+ Literature PDFs** - Big Book + 12&12, all linked to AA.org
-- **45+ ASL Videos** - Full accessibility for deaf/hard-of-hearing
-- **20+ Sobriety Milestones** - Advanced tracking from 24 hours to 30+ years
-- **4 Recovery Tools** - Sobriety Calculator, Meditation Timer, HALT Check, Gratitude Journal
-- **5+ Service Opportunities** - Magdalen House, Rockwall Jail, Green Oaks, Salvation Army, Speakers
-- **25+ Years of History** - Interactive timeline from 1995 to present
-- **3 Quick Action Buttons** - Crisis, Today's Meetings, Search
-- **100% PWA Capable** - Full offline support and installable
-- **275KB Single File** - No build process, instant deployment
-- **WCAG 2.1 AA Compliant** - Full accessibility support
+---
 
 ## Table of Contents
 
-1. [Features](#features)
-2. [Technical Stack](#technical-stack)
-3. [File Structure](#file-structure)
-4. [Detailed Component Documentation](#detailed-component-documentation)
-5. [JavaScript Functionality](#javascript-functionality)
-6. [CSS and Styling](#css-and-styling)
-7. [SEO and Accessibility](#seo-and-accessibility)
-8. [Content Management Guide](#content-management-guide)
-9. [Testing Guidelines](#testing-guidelines)
-10. [Deployment Instructions](#deployment-instructions)
-11. [Browser Compatibility](#browser-compatibility)
-12. [Developer Guide](#developer-guide)
+### Getting Started
+1. [Application Overview](#application-overview)
+2. [Features and Pages](#features-and-pages)
+3. [Architecture and Technical Design](#architecture-and-technical-design)
+
+### Content Management
+4. [How to Update Events](#how-to-update-events)
+5. [How to Update Meeting Schedule](#how-to-update-meeting-schedule)
+6. [How to Update Content](#how-to-update-content)
+
+### Technical Reference
+7. [Deployment](#deployment)
+8. [JavaScript Functions Reference](#javascript-functions-reference)
+9. [Styling and Design System](#styling-and-design-system)
+10. [Performance and Optimization](#performance-and-optimization)
+11. [Troubleshooting](#troubleshooting)
+12. [Support](#support)
 
 ---
 
-## Features
+## Application Overview
 
-### Core Pages (12 Main Sections)
+### What is This Website?
 
-#### 1. **Home Page** (`#home`)
-- Hero section with inspirational imagery
-- Serenity Prayer display
-- AA Preamble
-- Responsibility Declaration
-- Quick call-to-action to meeting schedule
-- Today's meetings banner (dynamic based on current day)
-- Welcome message for newcomers
+The Rowlett Group AA website is a single-page application (SPA) that consolidates all group information, resources, and tools into one optimized file. Unlike traditional multi-page websites, this application:
 
-#### 2. **What is A.A.?** (`#what-is-aa`)
-- Introduction to Alcoholics Anonymous
-- 12 Steps with expandable details and explanations
-- 12 Traditions with full descriptions
-- FAQ accordion with common questions
-- "Am I an Alcoholic?" self-assessment questionnaire
-- Educational content about AA principles
+- **Loads once, navigates instantly** - All content loads on first visit, then navigation is instant
+- **Works offline** - Progressive Web App (PWA) features allow offline access to all content
+- **No build process** - Simple HTML file that can be edited directly and deployed immediately
+- **Mobile-first** - Fully responsive design works on all devices
+- **Self-contained** - No external dependencies beyond CDN resources (Tailwind CSS, Font Awesome)
 
-#### 3. **Meeting Schedule** (`#schedule`)
-- Weekly meeting calendar with 7-day grid (15 meetings per week)
-- **All meetings are HYBRID (in-person + Zoom)**
-- Multiple meeting types: Discussion, Big Book Study, 12 & 12 Study, Foundations (newcomer), Speaker
-- Meeting details: time, format (open/closed), location
-- Gender-specific meetings: Men's Closed (Saturday 9 AM), Women's Closed (Saturday 10:30 AM)
-- Special Saturday meetings: 3 meetings (morning and afternoon/evening)
-- Sunday discussion meeting (11:00 AM, Open)
-- Weekday lunch meetings (12:00 PM closed meetings Mon-Fri)
-- Evening meetings (7:30 PM Mon-Fri, 4:00 PM Saturday)
-- **First Monday Special:** Big Book Study changes to Speaker Meeting on 1st Monday
-- Color-coded meeting cards for easy identification
-- Filter functionality by day of week and meeting type
-- Responsive grid layout
-- **Special Events Section:**
-  - 30th Anniversary Celebration (TBD)
-  - Monthly Anniversary Celebration (Birthday meetings)
-  - Group Conscience Meeting (3rd Monday of each month at 6:00 PM)
-  - Dynamic future-date calculation that auto-updates
+### Core Purpose
 
-#### 4. **Events & Happenings** (`#events`)
-- **Dynamic event population from easily updateable array**
-- **Category filtering system:**
-  - Rowlett Events (group activities, anniversary, birthday)
-  - Speaker Events (guest speakers at Rowlett Group)
-  - Dallas Area Events (broader AA community)
-  - Service Events (commitments, service opportunities)
-  - Crashed Meetings (members speaking at other groups)
-- **Recurring event calculations with 35+ pattern support:**
-  - First/Second/Third/Fourth/Last [Day of Week]
-  - Auto-hide past events (no manual cleanup needed)
-  - Next occurrence calculation for recurring events
-- **Event features:**
-  - Speaker details and background
-  - Location with Google Maps integration
-  - Countdown timers to upcoming events
-  - Past events archive (6-month history)
-  - Event cards with color-coding by category
-  - Time, date, address, and description for all events
-- **Current events tracked (November 2025):**
-  - Monthly Group Conscience (3rd Monday, 6:00 PM)
-  - Birthday Celebration (Last Saturday, 4:00 PM)
-  - Ladies Who Lunch (1st Saturday after 10:30 AM Women's Meeting)
-  - 30th Anniversary Celebration (July 26, 2025)
-  - CityWide Dallas AA (2nd Saturday monthly at Lover's Lane UMC)
-  - Stuart R. from Simply AA (November 3, 2025)
-  - Greg L. from Chicago Group (All Tuesdays in November)
-  - Esther H. at Terrell Group (November 15)
-  - Lisa R. at Wylie Group (November 15)
-  - Thanksgiving Meal (November 27)
-- Filter by category for focused browsing
-- Mobile-responsive card layout
-- Contact webmaster to add/update events via rowlettaa@gmail.com
+The website serves multiple audiences:
 
-#### 5. **Resources** (`#resources`)
-- **Sobriety Calculator with Advanced Milestone Tracking:**
-  - 20+ progressive sobriety milestones (24 hours to 30+ years)
-  - Milestone levels: 24 Hours, 1 Week, 30 Days, 60 Days, 90 Days, 6 Months, 1 Year, 18 Months, 2 Years, 3 Years, 5 Years, 10 Years, 15 Years, 20 Years, 25 Years, 30 Years
-  - Animated progress bars with gradient colors showing progress to next milestone
-  - Countdown display to next milestone with days/hours remaining
-  - Detailed time calculations: total days, years/months/remaining days breakdown
-  - Persistent storage of sobriety date (localStorage)
-  - Reset functionality with confirmation prompt
-- **HALT Support Tool:**
-  - Interactive self-assessment for Hungry, Angry, Lonely, Tired
-  - Toggle selection with visual feedback
-  - Context-aware recovery advice for each state:
-    - Hungry: Nutritious meal recommendation
-    - Angry: Breathing/sponsor suggestion
-    - Lonely: Connection reminder
-    - Tired: Rest recommendation
-  - Personalized recommendations based on multiple selections
-  - Relapse prevention through proactive self-care
-- **Meditation Timer:**
-  - Preset durations: 5, 10, 15 minutes
-  - Large digital countdown display (MM:SS format)
-  - Start/Stop controls
-  - Audio completion notification
-  - Success notification on completion
-  - Tracks meditation sessions
-- **Gratitude Journal:**
-  - Add daily gratitude entries (200-character limit)
-  - Text input with Enter key support
-  - Persistent storage (localStorage)
-  - Automatic timestamps with each entry
-  - Delete individual entries
-  - Clear all option with confirmation prompt
-  - Auto-save with success notifications
-  - XSS protection with HTML escaping
-  - Chronological display (newest first)
-  - Empty state messaging
-  - Display entry count
+1. **Newcomers** - Find meetings, understand AA, access resources
+2. **Members** - Stay updated on events, access literature, use recovery tools
+3. **Visitors** - Learn about the group, find contact information, understand AA principles
+4. **Service Workers** - Access group information for directories and outreach
 
-#### 6. **Get Involved** (`#get-involved`)
-- **Service Opportunities:**
-  - **Magdalen House:** Women's recovery facility with volunteer dates
-    - Phone: (214) 324-9261
-    - Website: www.magdalenhouse.org
-  - **Rockwall Jail:** Correctional facility AA meetings
-    - Phone: (972) 204-7108
-    - Rockwall County Sheriff's Office
-  - **Green Oaks:** Treatment facility partnerships
-  - **Salvation Army:** Community partnership
-    - Phone: (214) 821-1116
-  - **Speaker Events:** Available speakers for outreach
-- Detailed descriptions of each service opportunity
-- Minimum 6 months sobriety required for service work
-- "Carrying the message" emphasis
-- Sponsorship opportunities
-- 12-step work
-- Contact information for getting involved
-- Fellowship activities information
+### Key Statistics
 
-#### 7. **Literature** (`#literature`)
-- **Dual-Tab System for Each Book:**
-  - **"Read" Tab:** Direct PDF links to official AA.org materials
-  - **"Watch" Tab:** American Sign Language (ASL) videos (45+ videos)
-- **Big Book Study Materials:**
-  - Complete Big Book coverage with 60+ PDFs including:
-    - Title Page, Copyright, Contents, Preface
-    - 4 Forewords (1st, 2nd, 3rd, 4th editions)
-    - Doctor's Opinion
-    - 11 Main Chapters (Bill's Story through A Vision For You)
-    - Personal Stories (3 parts with multiple narratives)
-    - 7 Appendices (Traditions, Spiritual Experience, Medical View, etc.)
-  - 30+ ASL videos for deaf/hard-of-hearing community
-  - Page number references for all PDFs
-- **12 Steps and 12 Traditions (Twelve and Twelve):**
-  - Copyright & Introduction
-  - Foreword
-  - All 12 Steps explained (individual PDFs)
-  - All 12 Traditions explained (individual PDFs)
-  - Traditions Long Form
-  - 15+ ASL video versions
-  - Total: 19 PDF links to AA.org
-- **Literature Organization:**
-  - Accordion-style collapsible sections with color-coded categories
-  - Tab system (Read vs Watch)
-  - Smooth expand/collapse animations
-  - Clean, organized presentation
-  - Direct external links to AA.org official resources
-- Accessibility-focused with comprehensive ASL integration
-- Mobile-responsive layout
-
-#### 8. **Our Group** (`#our-group`)
-- **Interactive 25+ Year Timeline (1995-Present):**
-  - 12 major historical eras including:
-    - Leap of Faith (1995) - Group founded in small office
-    - Building Foundation (1996) - First meetings established
-    - Explosive Growth (1997-1998) - 0 to 17 meetings/week
-    - Service & Fellowship (1999-2001) - Sponsorship workshops, Al-Anon partnership
-    - Test of Unity (2002-2003) - Forced move to Sunrise Square
-    - Structure & Service (2004-2005) - Bylaws formalized
-    - Settling In (2006-2007) - Name retention despite location change
-    - Group Thrives (2008-2009) - Stable growth
-    - Another Move (2010-2014) - Relocation to Oaks Trail
-    - Resilience & Rebirth (2015) - Tornado near miss
-    - Continued Growth (2020+) - Online Zoom expansion (First Zoom: April 1, 2020)
-    - Current (Present) - Hybrid in-person/online format
-  - Color-coded timeline blocks (alternating left/right design)
-  - Timeline markers with contextual icons
-  - Hover-activated information popups
-  - Key dates and milestones
-  - Historical narrative of group development
-- **Featured Speakers:** Annika K. (Dallas North), Searcy W. (50-year chip holder)
-- **30th Anniversary Information:**
-  - Date: TBD
-  - Major celebration planned
-  - Guest Speaker: Annika K.
-- Group founding in 1995
-- Evolution and growth story
-- Community connections
-
-#### 9. **Study Guide** (`#study-guide`)
-- **1930s Dictionary Tool:**
-  - Text input with real-time word lookup
-  - External API integration (dictionaryapi.dev)
-  - Helps understand archaic Big Book terminology
-  - Features:
-    - Phonetic pronunciation guides
-    - Multiple definitions
-    - Word history/etymology
-    - Usage examples
-    - Part of speech identification
-  - Error handling for connectivity issues/offline mode
-  - Fallback messaging for API errors
-- **Personal Study Notes System:**
-  - Multi-line text area (4 rows, expandable)
-  - Rich note-taking with auto-generated timestamps
-  - Edit functionality (inline editing)
-  - Delete with confirmation prompt
-  - Search/filter functionality across all notes
-  - Persistent storage (localStorage)
-  - Unique ID for each note
-  - Created and edited date/time tracking
-  - Displays note count
-  - Fully searchable notes library
-  - Auto-save capability
-- **Color-Coded Annotation System:**
-  - Comprehensive table showing study methods
-  - Underlining techniques with examples
-  - Color coding strategies (red, blue, green, yellow, purple highlights)
-  - Margin annotation examples
-  - Highlighting techniques with visual guides
-  - Symbols and notation systems
-- **Study Method Instructions:**
-  - Step-by-step guidance
-  - Visual examples
-  - Best practices for Big Book study
-  - Comprehension tips
-
-#### 10. **Contact** (`#contact`)
-- **Primary Contact Information:**
-  - Phone: (972) 925-0096 (24/7)
-  - Email: rowlettaa@gmail.com
-  - Physical address: 362 Oaks Trail #162, Garland, TX 75043
-- **Additional Resources:**
-  - Dallas AA Central Office: (214) 887-6699
-  - Rockwall County Sheriff (Jail): (972) 204-7108
-  - Magdalen House: (214) 324-9261
-  - Dallas Al-Anon: (214) 799-7616, (972) 407-0120, (972) 301-0700
-  - Salvation Army: (214) 821-1116
-- Google Maps integration with embedded interactive map
-- Direct directions link
-- Geographic coordinates: 32.912624, -96.638883
-- Mailing information
-- Embedded Google Contact Form (iframe)
-- Contact form fields: Name, email, message
-- All contact methods: Phone, email, form, in-person
-
-#### 11. **Contribute** (`#contribute`)
-- **Donation Methods:**
-  - **Zelle digital payments:** Via Zelle QR code (phone number linked to Zelle account)
-  - **Check donations:** Made payable to "Rowlett Group"
-  - Mailing address: 362 Oaks Trail #162, Garland, TX 75043
-  - In-person donations at meetings
-  - Payment instructions and guidance
-- **7th Tradition Principles:**
-  - "Every A.A. group ought to be fully self-supporting"
-  - Detailed explanation of tradition
-  - Self-supporting principle details
-  - Transparency about how contributions are used
-  - No dues or fees policy emphasis
-  - Voluntary contribution information
-  - Group expenses covered: Rent, coffee, literature, utilities
-
-### Global Features
-
-#### Progressive Web App (PWA)
-- **Full PWA Capabilities:**
-  - Installable on mobile and desktop devices
-  - Service worker (rowlett-aa-cache-v2)
-  - Cache-first strategy for offline functionality
-  - 100% offline support for cached content
-  - App manifest with icons (192x192 and 512x512)
-  - Theme color: #1e40af (blue)
-  - Display mode: Standalone
-- **PWA Install Banner:**
-  - Auto-displays on first visit for eligible devices
-  - Slide-down animation
-  - Install and Dismiss buttons
-  - Dismissal stored in localStorage (persistent preference)
-  - "Add to Home Screen" functionality
-  - Skip link available
-- **Offline Features:**
-  - Cached meeting schedule
-  - Offline access to stored notes and gratitude entries
-  - Literature accessible offline (when cached)
-  - Sobriety data persists offline
-- Standalone app experience (no browser UI when installed)
-
-#### Quick Action Buttons (Floating)
-Three persistent floating action buttons (FAB) with fixed positioning:
-1. **Crisis Resources Button** (Red)
-   - ID: `crisis-btn`
-   - Icon: Phone
-   - Opens crisis resources modal
-   - Emergency hotlines and support
-   - Always accessible for urgent needs
-2. **Today's Meetings Button** (Blue)
-   - ID: `todays-meetings-btn`
-   - Icon: Calendar
-   - Jumps to current day's schedule
-   - Scrolls to meeting banner showing today's meetings
-3. **Search Button** (Green)
-   - ID: `search-btn`
-   - Icon: Magnifying glass
-   - Opens site-wide search modal
-   - Global search functionality
-
-All FAB buttons features:
-- Always visible while scrolling (sticky positioning)
-- Mobile-responsive positioning
-- Hover effects with visual feedback
-- Accessible via keyboard
-- Touch-friendly targets for mobile
-- Color-coded for easy identification
-
-#### Search Functionality
-- **Modal-based search interface:**
-  - Full-page overlay backdrop
-  - Text input with placeholder prompt
-  - Close button (X)
-  - Escape key support to close
-- **Real-time search capabilities:**
-  - Search as you type
-  - Results appear dynamically
-  - Searches across all site content:
-    - Page titles and headers
-    - Meeting times, types, and formats
-    - Literature titles and descriptions
-    - Resource descriptions
-    - Historical timeline content
-    - Contact information
-    - FAQ content
-- **Search features:**
-  - Comprehensive indexed content
-  - Result highlighting
-  - Navigation links to matching content
-  - Click result to navigate to location
-  - Results count display
-  - "Start typing" prompt when empty
-- **Accessibility:**
-  - Keyboard accessible (Escape to close, Enter to search)
-  - Screen reader compatible
-  - Mobile-optimized design
-  - Touch-friendly interface
-
-#### Crisis Resources Modal
-**Modal ID:** `crisis-modal`
-- **Emergency hotlines with 24/7 availability:**
-  - **National Suicide Prevention Lifeline:** 988
-  - **Crisis Text Line:** Text "HELLO" to 741741
-  - **Dallas AA Central Office:** (214) 887-6699
-  - **Rowlett Group Direct Contact:** (972) 925-0096
-- **Emergency Guidance:**
-  - Call 911 for life-threatening situations
-  - Go to nearest emergency room when needed
-  - Instructions for when to seek immediate help
-- **Modal Features:**
-  - Red header/urgent styling for visibility
-  - Prominent phone icons
-  - Clickable phone numbers (tel: protocol)
-  - Text link compatibility (sms: protocol)
-  - Close button
-  - Full-page overlay
-  - Always accessible via red FAB button
-
-#### Navigation System
-- **Desktop Navigation:**
-  - Sticky header that stays visible while scrolling
-  - Horizontal menu bar (right-aligned)
-  - Logo on left with group branding
-  - Main navigation links:
-    - Home
-    - What is A.A.?
-    - Schedule
-    - Get Involved
-    - Literature
-    - Our Group
-    - Contact Us
-    - Contribute (button-styled)
-  - Visual underline animation on hover
-  - Active page highlighting (blue color, font weight 600)
-  - Smooth scroll to sections
-  - Changes to mobile menu at <1024px breakpoint
-- **Mobile Navigation:**
-  - Hamburger menu toggle icon
-  - Slide-out sidebar drawer
-  - All main navigation links included
-  - Touch-friendly spacing and targets
-  - Mobile-optimized layout
-- **Accessibility Features:**
-  - "Skip to main content" link (screen reader visible)
-  - ARIA labels on navigation buttons
-  - Semantic HTML structure
-  - Keyboard navigation support
-  - Focus management
-  - Logical tab order
-- **Hash-based SPA Navigation:**
-  - URLs: #home, #what-is-aa, #schedule, #get-involved, #literature, #our-group, #study-guide, #contact, #contribute
-  - Browser back/forward button support
-  - Smooth page transitions with fadeIn animation
-
-#### Today's Meetings Banner
-- **Dynamic display based on current day of week:**
-  - Automatically detects system date
-  - Shows all meetings scheduled for today
-  - Updates in real-time (no refresh needed)
-- **Banner features:**
-  - Prominent yellow background for visibility
-  - Positioned at top of home page
-  - Includes meeting times (formatted in 12-hour)
-  - Shows meeting names and types
-  - Displays open/closed format badges
-  - Click to jump to full schedule
-- **Accessible via:**
-  - Home page (auto-display)
-  - Today's Meetings FAB button (blue, calendar icon)
+- **358KB total file size** - Optimized for fast loading
+- **12 distinct pages/sections** - Full website in single-page format
+- **15 weekly meetings** - Complete schedule with filtering
+- **Dynamic events system** - Automatic date handling, recurring patterns, category filtering
+- **59 JavaScript functions** - 100% utilized, zero dead code
+- **6 event categories** - Rowlett, Speaker, Area, Service, Crashed meetings, Fellowship events
+- **5 color-coded event types** - Visual distinction for quick identification
 
 ---
 
-## Technical Stack
+## Features and Pages
 
-### Frontend Framework
-- **Pure JavaScript** (Vanilla JS) - No framework dependencies
-- Single-page application (SPA) architecture
-- Component-based design pattern
+The application contains 12 main sections, each serving a specific purpose:
 
-### CSS Framework
-- **Tailwind CSS 3.x** - Utility-first CSS framework loaded via CDN
-- Custom CSS for animations and specific components
-
-### External Libraries
-- **Font Awesome 6.5.1** - Icon library for UI elements
-- **Google Fonts:**
-  - Inter (400, 500, 600, 700) - Primary sans-serif font
-  - Lora (400, 600, italic) - Secondary serif font for quotes and book pages
-
-### APIs & Integrations
-- **Dictionary API** (dictionaryapi.dev) - 1930s word definitions for Big Book study
-- **Google Maps** - Embedded map, location, and directions
-- **Zelle** - Digital payment integration for donations via QR code
-- **External AA Resources:**
-  - AA.org official materials (PDF links)
-  - AA World Services literature
-  - Local AA resources integration
-
-### Web Technologies
-- **HTML5** - Semantic markup with proper structure
-- **CSS3** - Advanced animations, transitions, flexbox, grid
-- **JavaScript ES6+** - Modern JavaScript features
-- **localStorage** - Client-side data persistence
-- **Service Worker Ready** - PWA capabilities
-
-### SEO & Metadata
-- **Schema.org Structured Data:**
-  - Organization schema
-  - FAQPage schema
-  - BreadcrumbList schema
-  - Schedule/Event schema
-  - LocalBusiness schema
-- **Open Graph** - Social media preview optimization
-- **Twitter Cards** - Twitter-specific metadata
-- **Canonical URLs** - Search engine optimization
-- **Sitemap** - XML sitemap reference
-
-### Performance Optimizations
-- **Resource Hints:**
-  - preconnect - CDN connections
-  - dns-prefetch - YouTube domains
-  - preload - Critical CSS and scripts
-- **Lazy Loading** - Images and video thumbnails
-- **Async/Defer** - Script loading optimization
-
----
-
-## File Structure
-
-This is a **single-file application** where everything is contained in `index.html`:
-
-```
-index.html
-├── <head>
-│   ├── Meta Tags (Lines 1-80)
-│   │   ├── SEO metadata
-│   │   ├── Social media (Open Graph, Twitter)
-│   │   ├── Mobile optimization
-│   │   ├── Geolocation data
-│   │   └── Theme colors
-│   ├── External Resources (Lines 69-80)
-│   │   ├── Tailwind CSS CDN
-│   │   ├── Font Awesome icons
-│   │   └── Google Fonts
-│   ├── Structured Data (Lines 82-834)
-│   │   ├── Organization schema
-│   │   ├── FAQ schema
-│   │   ├── Breadcrumb schema
-│   │   ├── Event/Schedule schema
-│   │   └── LocalBusiness schema
-│   └── CSS Styles (Lines 295-723)
-│       ├── CSS variables/root
-│       ├── Component styles
-│       ├── Animations
-│       ├── Responsive media queries
-│       └── Accessibility styles
-├── <body>
-│   ├── Accessibility (skip link)
-│   ├── Header (navigation)
-│   ├── Global components (PWA banner, quick actions)
-│   ├── Modals (search, crisis)
-│   ├── Main content (all pages/sections)
-│   └── Scripts (<script> block)
-```
-
-### Why Single File Architecture?
-
-1. **Simple Deployment** - Upload one file to any hosting service
-2. **No Build Process** - Works immediately without compilation
-3. **Easy Maintenance** - All code in one location
-4. **Fast Loading** - Single HTTP request for main content
-5. **Offline Capable** - Can be cached entirely for PWA
-
----
-
-## Detailed Component Documentation
-
-### Navigation Component
-
-**Location:** Lines 838-873
+### 1. Home Page
+**Purpose:** Welcome visitors, provide quick overview and navigation
 
 **Features:**
-- Sticky positioning (stays at top while scrolling)
-- Backdrop blur effect for modern aesthetic
-- Logo with custom SVG graphic
-- Desktop: Horizontal navigation with 7 links
-- Mobile: Hamburger menu with slide-down drawer
-- Active page highlighting with blue color and underline animation
-- Special "Contribute" button with blue background
+- Hero section with group name and tagline
+- Quick access navigation to all sections
+- Meeting highlight (today's meetings)
+- Welcome message and AA preamble
+- Responsive carousel of recovery quotes
+- Call-to-action buttons (Find Meeting, Upcoming Events, Contact)
+
+**Content Location:** Lines ~1500-1700 in index.html
+
+---
+
+### 2. Events Calendar
+**Purpose:** Display upcoming and past AA-related events with intelligent filtering
+
+**Features:**
+- **Dynamic date calculation** - Events automatically show/hide based on dates
+- **Recurring event support** - Monthly patterns (e.g., "third Monday") and series patterns
+- **Category filtering** - Toggle between All, Rowlett, Speaker, Area, Service, Crashed events
+- **Event series grouping** - Multiple dates shown in single card with strikethrough for past dates
+- **Countdown timers** - Shows days until upcoming events
+- **Color-coded categories** - Visual distinction by event type
+- **Automatic archiving** - Events older than 6 months automatically hidden
+- **Past events toggle** - View historical events when needed
+
+**Event Categories:**
+- **Rowlett Events** (Blue) - Group-specific events, celebrations, business meetings
+- **Speaker Events** (Purple) - Speaker meetings, shares, testimonials
+- **Area Events** (Indigo) - Dallas Area events, district meetings
+- **Service Events** (Green) - Workshops, GSR orientations, service opportunities
+- **Crashed Meetings** (Orange) - When group members support other groups
+- **Fellowship** (Pink) - Social events, potlucks, informal gatherings
 
 **How It Works:**
-```javascript
-// Navigation initialization
-app.initNavigation = function() {
-    // Mobile menu toggle
-    document.getElementById('menu-btn').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-    });
-
-    // Smooth scrolling to sections
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = this.getAttribute('href');
-            app.navigateTo(target);
-        });
-    });
-};
-```
-
-**Modification Guide:**
-- To add a navigation link: Add `<a>` elements in both desktop (line 847-854) and mobile (line 865-871) sections
-- To change logo: Modify SVG code or replace with `<img>` tag (line 841-845)
-- To adjust sticky behavior: Modify `sticky top-0` classes in header tag
-
-### PWA Installation Banner
-
-**Location:** Lines 875-893
-
-**Features:**
-- Auto-displays on first visit for eligible devices
-- Slide-down animation
-- Shows app icon, title, and benefits
-- Install and Dismiss buttons
-- Stores dismissal preference in localStorage
-
-**How It Works:**
-```javascript
-// PWA install prompt
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    if (!localStorage.getItem('pwa-dismissed')) {
-        document.getElementById('pwa-install-banner').classList.remove('hidden');
-    }
-});
-
-// Install button click
-document.getElementById('pwa-install-btn').addEventListener('click', async () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        document.getElementById('pwa-install-banner').classList.add('hidden');
-    }
-});
-```
-
-**Modification Guide:**
-- To change banner colors: Modify `bg-gradient-to-r from-blue-600 to-blue-700` classes
-- To adjust timing: Add delay before showing banner
-- To customize text: Edit content in lines 878-882
-
-### Meeting Schedule Component
-
-**Location:** Schedule section in main content
-
-**Features:**
-- 7-day weekly grid layout
-- Each day card shows:
-  - Day name
-  - All meetings for that day
-  - Meeting time (12-hour format)
-  - Meeting type (Discussion, Speaker, Study, etc.)
-  - Format badge (Open/Closed)
-- Responsive layout: 3 columns on desktop, stacks on mobile
-- Sunday card spans full width on large screens (special styling)
-- Color-coded backgrounds for visual distinction
-
-**Meeting Data Structure:**
-```javascript
-const schedule = {
-    'Sunday': [
-        {
-            time: '11:00',
-            type: 'Beginners Meeting',
-            format: 'Open',
-            description: 'Perfect for newcomers'
-        }
-    ],
-    'Monday': [
-        {
-            time: '12:00',
-            type: 'Lunch Discussion',
-            format: 'Open'
-        },
-        {
-            time: '19:30',
-            type: 'Discussion',
-            format: 'Open'
-        }
-    ],
-    // ... etc
-};
-```
-
-**Modification Guide:**
-- To add a meeting: Add object to appropriate day array in schedule data
-- To change meeting time: Edit 'time' property (use HH:MM 24-hour format, will auto-convert to 12-hour display)
-- To add a new meeting type: Add new object with type, time, format, and optional description
-- To change colors: Modify `bg-[color]-50` classes in day cards
-
-### Sobriety Calculator
-
-**Location:** Resources section
-
-**Features:**
-- Date input for sobriety date
-- Real-time calculation of:
-  - Years, months, weeks, days
-  - Total hours and minutes
-  - Exact duration
-- 17 milestone levels with specific badges:
-  - 24 Hours (🌅)
-  - 1 Week (⭐)
-  - 30 Days (🏆)
-  - 60 Days (💎)
-  - 90 Days (🎯)
-  - 6 Months (🌟)
-  - 9 Months (💪)
-  - 1 Year (🎊)
-  - 2 Years (🏅)
-  - 3 Years (👑)
-  - 5 Years (🌈)
-  - 10 Years (💫)
-  - 15 Years (🔥)
-  - 20 Years (🎖️)
-  - 25 Years (⚡)
-  - 30 Years (🌠)
-  - 40+ Years (🏔️)
-- Encouraging messages for each milestone
-- Persistent storage of sobriety date
-
-**Calculation Logic:**
-```javascript
-app.calculateSobriety = function() {
-    const inputDate = document.getElementById('sobriety-date').value;
-    if (!inputDate) return;
-
-    const sobrietyDate = new Date(inputDate);
-    const now = new Date();
-    const diffMs = now - sobrietyDate;
-
-    if (diffMs < 0) {
-        // Show error for future dates
-        return;
-    }
-
-    // Calculate all units
-    const years = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 365.25));
-    const months = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 30.44));
-    const weeks = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 7));
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(diffMs / (1000 * 60 * 60));
-    const minutes = Math.floor(diffMs / (1000 * 60));
-
-    // Determine milestone and show appropriate badge
-    // Display results
-};
-```
-
-**Modification Guide:**
-- To add new milestone: Add case in milestone determination logic with appropriate emoji and message
-- To change milestone thresholds: Adjust day counts in conditional logic
-- To customize messages: Edit text strings in milestone display section
-- To add features: Consider adding chip tracker, meeting counter, or savings calculator
-
-### HALT Check Tool
-
-**Location:** Study Guide section
-
-**Features:**
-- Self-assessment tool for emotional/physical state
-- 4 categories: Hungry, Angry, Lonely, Tired
-- Visual selection interface with icons
-- Click to select/deselect states
-- Submit to get personalized recommendations
-- Specific guidance for each combination:
-  - Single states: Direct advice (eat, process anger, connect, rest)
-  - Multiple states: Prioritized action steps
-  - All four: Emergency self-care plan
-- Clear selections button
-- Educational about HALT acronym
-
-**How It Works:**
-```javascript
-app.checkHalt = function() {
-    const selected = [];
-    document.querySelectorAll('.halt-option.selected').forEach(option => {
-        selected.push(option.dataset.state);
-    });
-
-    if (selected.length === 0) {
-        // Show prompt to select at least one
-        return;
-    }
-
-    let recommendations = [];
-
-    if (selected.includes('hungry')) {
-        recommendations.push('Eat a healthy meal or snack...');
-    }
-    if (selected.includes('angry')) {
-        recommendations.push('Take a moment to identify what triggered...');
-    }
-    if (selected.includes('lonely')) {
-        recommendations.push('Reach out to your sponsor or a fellowship member...');
-    }
-    if (selected.includes('tired')) {
-        recommendations.push('Rest is crucial for recovery...');
-    }
-
-    // Display recommendations
-    app.showNotification(recommendations.join(' '), 'info');
-};
-```
-
-**Modification Guide:**
-- To add new states: Add new halt-option div with data-state attribute
-- To customize recommendations: Edit recommendation text in checkHalt function
-- To add resources: Link to specific contacts, meetings, or external resources
-- To enhance: Add daily tracking feature with localStorage to track patterns
-
-### Literature Video System
-
-**Location:** Literature section
-
-**Features:**
-- Tabbed interface with 4 categories
-- 63+ total videos organized by type
-- Each video card includes:
-  - YouTube thumbnail (auto-loaded)
-  - Video title
-  - Brief description
-  - Duration/length
-- Click to open modal video player
-- Modal features:
-  - Full YouTube embed
-  - Close button
-  - Click outside to close
-  - Pause on close
-  - Responsive sizing
-- Scrollable grid container
-- Lazy loading of thumbnails
-
-**Video Data Structure:**
-```javascript
-const videos = {
-    bigbook: [
-        {
-            id: 'youtube-video-id',
-            title: 'Chapter 1: Bill\'s Story',
-            description: 'Brief description',
-            thumbnail: 'URL or uses YouTube default'
-        },
-        // ... more videos
-    ],
-    twelve: [
-        // 12 & 12 videos
-    ],
-    steps: [
-        // Step study videos
-    ],
-    speakers: [
-        // Speaker talk videos
-    ]
-};
-```
-
-**Modal Player Implementation:**
-```javascript
-app.openVideoModal = function(videoId) {
-    const modal = document.getElementById('video-modal');
-    const iframe = modal.querySelector('iframe');
-
-    // Set YouTube embed URL
-    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-
-    // Show modal
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-};
-
-app.closeVideoModal = function() {
-    const modal = document.getElementById('video-modal');
-    const iframe = modal.querySelector('iframe');
-
-    // Stop video
-    iframe.src = '';
-
-    // Hide modal
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-};
-```
-
-**Modification Guide:**
-- To add a video: Add object to appropriate category array with YouTube ID, title, and description
-- To add new category: Create new tab button and content section, add to video data structure
-- To change layout: Modify grid classes (currently `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`)
-- To add playlists: Group videos by sub-categories within each main category
-- To enhance: Add favorites feature, watch history, or notes on videos
-
-### Timeline History Component
-
-**Location:** Our Group section
-
-**Features:**
-- Vertical timeline with center line
-- Alternating left/right layout
-- Key milestones from 1995-2025
-- Each block includes:
-  - Year/date
-  - Event title
-  - Description
-  - Color-coded dots
-- Hover effects:
-  - Card lift animation
-  - Dot scaling
-  - Color change
-  - Info popup display
-- Responsive: Converts to single column on mobile
-- Visual line connecting all events
-
-**Timeline Structure:**
-```html
-<div class="timeline-container">
-    <div class="timeline-block left">
-        <div class="timeline-content">
-            <h3>1995</h3>
-            <h4>Group Founded</h4>
-            <p>Description...</p>
-            <div class="info-popup">Additional info...</div>
-        </div>
-    </div>
-    <div class="timeline-block right">
-        <!-- Next event -->
-    </div>
-</div>
-```
-
-**Modification Guide:**
-- To add milestone: Add new `timeline-block` div with `left` or `right` class (alternate)
-- To change colors: Modify border colors in `timeline-block::after` CSS
-- To add images: Include `<img>` tags within timeline-content
-- To adjust spacing: Modify padding in timeline-block CSS
-- To enhance: Add photo gallery, member testimonials, or video memories
-
-### Search Functionality
-
-**Location:** Global feature, search modal lines ~1048-1064, searchData array lines ~2945-2959
-
-**Features:**
-- Modal overlay interface with backdrop
-- Real-time search as you type
-- Comprehensive keyword-based search system
-- Case-insensitive matching
-- Results show:
-  - Page/section name
-  - Click to navigate directly
-  - Organized by relevance
-- Keyboard shortcuts:
-  - Escape to close modal
-  - Click backdrop to close
-  - Enter on result to navigate
-- Mobile-optimized interface
-
-**Searchable Content Coverage:**
-
-The search system includes **500+ keywords** across all pages:
-
-**Home Page Keywords:**
-- Core content: serenity prayer, preamble, responsibility declaration
-- Meeting info: today's meetings, hybrid, virtual, zoom
-- Location: garland texas, rowlett texas, 362 oaks trail
-
-**What is A.A.? Keywords:**
-- Newcomer terms: first meeting, beginner, first timer, is aa for me
-- Meeting types: open, closed, speaker, discussion
-- Common questions: am i an alcoholic, do i need aa, what to expect
-
-**Schedule Keywords:**
-- Days: monday through sunday, weekday, weekend
-- Times: specific times (7:30 pm, 12:00 pm, 9:00 am, 10:30 am, 11:00 am)
-- Meeting types: big book study, 12 & 12 study, discussion, foundations, men's, women's
-- Locations: casa view baptist church, 362 oaks trail 162
-
-**Events Keywords (COMPREHENSIVE):**
-- Specific events: 30th anniversary, birthday celebration, ladies who lunch, thanksgiving
-- Speakers: myers r, stuart r, greg l, esther h, lisa r
-- Groups: ingram, simply aa, chicago group, bellwood group, terrell group, wylie group
-- Event types: potluck, speaker event, crashed meeting, area events
-- Locations: lover's lane umc, casa view, inwood road, terrell, wylie, st paul
-- Dates: july 26, november 15, november 27, third monday, last saturday
-- Features: recurring events, monthly events, filter events, countdown, past events
-
-**Resources Keywords:**
-- Tools: sobriety calculator, halt check, meditation timer, gratitude journal
-- Tracking: days sober, clean time, milestone, chip, medallion, sobriety date
-- Family: al-anon, alateen, nar-anon, family members, loved ones, helping alcoholic
-
-**Get Involved Keywords:**
-- Service positions: sponsor, greeter, treasurer, secretary, gsr
-- Opportunities: magdalen house, rockwall jail, h&i, treatment facilities
-- Activities: 12th step call, hospital visit, prison meeting
-- Phone numbers: 214-324-9261, 972-204-7108
-
-**Literature Keywords:**
-- Books: big book, 12 steps and 12 traditions
-- Chapters: doctor's opinion, bill's story, we agnostics, into action, to wives
-- Steps: step one through step twelve
-- Features: asl videos, american sign language, deaf, hard of hearing
-- Formats: pdf, download, read online, watch, video literature
-
-**Our Group Keywords:**
-- History: founded 1995, 25 years, 30 years, timeline
-- Eras: leap of faith, explosive growth, test of unity, pandemic adaptation
-- People: annika k, searcy w
-- Locations: sunrise square, casa view baptist
-
-**Study Guide Keywords:**
-- Features: 1930s dictionary, word lookup, annotation, color coding
-- Techniques: highlighting, margin notes, study system
-- Content: archaic words, definitions, etymology, vintage terms
-
-**Contact Keywords:**
-- Contact info: 972-925-0096, rowlettaa@gmail.com
-- Location: 362 oaks trail #162, garland tx 75043
-- Actions: call us, email us, directions, map location, contact form
-
-**Contribute Keywords:**
-- Methods: zelle, check, qr code, cash donation, online giving
-- Tradition: 7th tradition, self supporting, voluntary contributions
-- Details: no dues, no fees, group expenses, basket
-
-**Search Implementation:**
-```javascript
-searchData: {
-    pages: [
-        { title: "Page Name", hash: "#page", keywords: ["keyword1", "keyword2", ...] }
-    ]
-}
-
-// Search matches against all keywords
-// Results link directly to page/section
-// Click result to navigate instantly
-
-    app.displaySearchResults(results);
-};
-```
-
-**Modification Guide:**
-- To improve search: Add fuzzy matching library or implement weighted scoring
-- To add filters: Include category checkboxes to limit search scope
-- To enhance results: Show more context, add snippets, or include images
-- To add features: Implement search history, popular searches, or autocomplete
-
-### Meditation Timer
-
-**Location:** Study Guide section
-
-**Features:**
-- Preset durations: 1, 3, 5, 10, 15 minutes
-- Custom duration input (in minutes)
-- Start/Pause/Reset controls
-- Visual countdown display (MM:SS format)
-- Progress indicator
-- Audio notification on completion
-- State persistence during session
-
-**Timer Logic:**
-```javascript
-app.meditationTimer = {
-    duration: 0,
-    remaining: 0,
-    interval: null,
-
-    start: function(minutes) {
-        this.duration = minutes * 60;
-        this.remaining = this.duration;
-        this.running = true;
-
-        this.interval = setInterval(() => {
-            this.remaining--;
-            this.updateDisplay();
-
-            if (this.remaining <= 0) {
-                this.complete();
-            }
-        }, 1000);
-    },
-
-    pause: function() {
-        clearInterval(this.interval);
-        this.running = false;
-    },
-
-    reset: function() {
-        clearInterval(this.interval);
-        this.remaining = this.duration;
-        this.running = false;
-        this.updateDisplay();
-    },
-
-    complete: function() {
-        clearInterval(this.interval);
-        this.playSound();
-        app.showNotification('Meditation complete!', 'success');
-    },
-
-    updateDisplay: function() {
-        const minutes = Math.floor(this.remaining / 60);
-        const seconds = this.remaining % 60;
-        document.getElementById('timer-display').textContent =
-            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-};
-```
-
-**Modification Guide:**
-- To add presets: Add new buttons with data-duration attributes
-- To add sounds: Include multiple sound options or peaceful music
-- To enhance: Add guided meditation audio tracks
-- To improve: Add background animations, breathing guides, or nature sounds
-
-### Gratitude List
-
-**Location:** Study Guide section
-
-**Features:**
-- Add gratitude entries
-- Date-stamped entries
-- Persistent storage (localStorage)
-- Display all entries with newest first
-- Delete individual entries
-- Clear all entries option
-- Encouraging prompts
-
-**Implementation:**
-```javascript
-app.gratitudeList = {
-    entries: [],
-
-    init: function() {
-        // Load from localStorage
-        const saved = localStorage.getItem('gratitude-list');
-        if (saved) {
-            this.entries = JSON.parse(saved);
-        }
-        this.render();
-    },
-
-    add: function(text) {
-        const entry = {
-            id: Date.now(),
-            text: text,
-            date: new Date().toLocaleDateString()
-        };
-        this.entries.unshift(entry);
-        this.save();
-        this.render();
-    },
-
-    remove: function(id) {
-        this.entries = this.entries.filter(e => e.id !== id);
-        this.save();
-        this.render();
-    },
-
-    clear: function() {
-        if (confirm('Clear all gratitude entries?')) {
-            this.entries = [];
-            this.save();
-            this.render();
-        }
-    },
-
-    save: function() {
-        localStorage.setItem('gratitude-list', JSON.stringify(this.entries));
-    },
-
-    render: function() {
-        // Display all entries in DOM
-    }
-};
-```
-
-**Modification Guide:**
-- To add categories: Include dropdown for gratitude types (people, sobriety, health, etc.)
-- To enhance: Add export feature (PDF/email), sharing capability, or daily reminders
-- To improve: Add search within gratitudes, tag system, or inspirational quotes
-- To expand: Include mood tracking or reflection prompts
+1. Events defined in `eventsData` array (line 3226)
+2. Processed on page load with date calculations
+3. Cached for instant category filtering
+4. Rendered with appropriate styling and interactive elements
+5. Updated in real-time as dates pass
+
+**Content Location:**
+- Events data: Line 3226-3450
+- Processing logic: Line 4200-4300
+- Rendering: Line 4050-4150
 
 ---
 
-## JavaScript Functionality
+### 3. Meeting Schedule
+**Purpose:** Complete weekly meeting schedule with current meeting highlighting
 
-### Main Application Object
+**Features:**
+- **15 weekly meetings** across all 7 days
+- **Real-time highlighting** - Current meeting highlighted automatically
+- **Open/Closed indicators** - Clear designation of meeting types
+- **Meeting type labels** - Discussion, Big Book Study, Step Study, etc.
+- **Special notes** - First Monday speaker meetings, etc.
+- **Next Group Conscience display** - Automatically calculates third Monday
+- **Today's meetings** - Quick view of current day's schedule
+- **Responsive layout** - Mobile-optimized schedule display
 
-The entire application is wrapped in a single `app` object to avoid global namespace pollution:
+**Meeting Types:**
+- **Open meetings** - Anyone welcome (alcoholics and non-alcoholics)
+- **Closed meetings** - AA members only
 
-```javascript
-const app = {
-    currentPage: 'home',
+**Meeting Formats:**
+- Discussion meetings
+- Big Book Study
+- Step Study
+- Traditions Study
+- Foundations meetings
+- Speaker meetings (1st Monday)
 
-    // Initialization
-    init: function() {
-        this.initNavigation();
-        this.initPages();
-        this.initModals();
-        this.initQuickActions();
-        this.initSearch();
-        this.initPWA();
-        this.loadUserData();
-        this.showTodaysMeetings();
-    },
+**How It Works:**
+1. Schedule defined in `meetingSchedule` array (line 4014)
+2. Current time calculated to highlight active meetings
+3. Today's meetings filtered and displayed
+4. Group Conscience date calculated using `getRecurringDate()` function
+5. Special meeting notes displayed conditionally
 
-    // ... all methods
-};
+**Content Location:**
+- Schedule data: Line 4014-4080
+- Initialization: Line 3990-4090
+- Group Conscience calculation: Line 3998-4010
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    app.init();
-});
+---
+
+### 4. About Us
+**Purpose:** Share group history, mission, and information
+
+**Features:**
+- Group history and founding (1995)
+- Mission statement aligned with AA traditions
+- Group description and atmosphere
+- Location information with map link
+- Parking and accessibility information
+- Group size and demographics
+- Special characteristics and focus areas
+- Links to other AA resources
+
+**Content Highlights:**
+- 30 years of service to the community
+- Home group model explanation
+- Newcomer-friendly environment
+- Service-oriented community
+
+**Content Location:** Lines ~2100-2300
+
+---
+
+### 5. Contact Information
+**Purpose:** Provide all contact methods and location details
+
+**Features:**
+- Physical address with map link
+- Phone number (clickable on mobile)
+- Email address (clickable mailto link)
+- Google Maps integration
+- Directions and landmarks
+- Parking information
+- Accessibility details
+- Best times to call
+- Email response time expectations
+
+**Contact Details:**
+- **Address:** 362 Oaks Trail #162, Garland, TX 75043
+- **Phone:** (972) 925-0096
+- **Email:** rowlettaa@gmail.com
+
+**Content Location:** Lines ~2850-2950
+
+---
+
+### 6. Sobriety Calculator
+**Purpose:** Calculate time sober and display recovery milestones
+
+**Features:**
+- **Date-based calculation** - Enter sobriety date, get exact time sober
+- **Multiple time units** - Shows years, months, days, hours, minutes
+- **Milestone tracking** - Highlights significant sobriety dates (30 days, 90 days, 1 year, etc.)
+- **Next milestone countdown** - Shows days until next milestone
+- **Encouragement messages** - Positive reinforcement based on time
+- **Shareable results** - Copy/paste formatted output
+- **Mobile-optimized input** - Date picker on mobile devices
+- **Validation** - Prevents future dates, handles leap years
+
+**Milestones Tracked:**
+- 24 hours, 30 days, 60 days, 90 days
+- 6 months, 9 months, 1 year
+- Multi-year anniversaries
+
+**How It Works:**
+1. User enters sobriety date
+2. JavaScript calculates difference from today
+3. Displays in human-readable format
+4. Checks against milestone array
+5. Shows congratulations and next milestone
+
+**Content Location:**
+- UI: Lines ~2400-2500
+- Logic: Lines ~4500-4650
+
+---
+
+### 7. Literature Library
+**Purpose:** Provide access to AA literature, readings, and resources
+
+**Features:**
+- **Big Book chapters** - Direct PDF links to each chapter
+- **12 Steps and 12 Traditions** - Complete text with commentary
+- **Daily reflections** - Today's reading automatically highlighted
+- **Pamphlet library** - Common AA pamphlets
+- **Video resources** - Speakers, educational content
+- **Audio resources** - Big Book audiobook chapters
+- **PDF previews** - Page numbers and descriptions
+- **External links** - Official AA.org resources
+- **Mobile-friendly viewing** - Responsive PDF links
+
+**Literature Included:**
+- Big Book (all chapters)
+- 12 & 12
+- Living Sober
+- Daily Reflections
+- Common pamphlets (Newcomer, Sponsorship, etc.)
+
+**Content Location:**
+- Chapter links: Lines ~5010-5090
+- Daily reflections: Lines ~5100-5150
+- Resource library: Lines ~5160-5250
+
+---
+
+### 8. Step Study Guide
+**Purpose:** Interactive tool for working the 12 Steps
+
+**Features:**
+- **All 12 Steps** with full text
+- **Reflection questions** for each step
+- **Journal prompts** - Guided writing exercises
+- **Progress tracking** - Mark steps as completed
+- **Personal notes** - localStorage saves notes for each step
+- **Printable worksheets** - Generate PDF-ready formats
+- **Big Book page references** - Direct links to relevant chapters
+- **Sponsor guide integration** - Questions for sponsor discussion
+- **Mobile note-taking** - Optimized for phone journaling
+
+**Step-by-Step Features:**
+- Step text from AA literature
+- 5-10 reflection questions per step
+- Related Big Book chapters
+- Common challenges and solutions
+- Sponsor discussion topics
+
+**How It Works:**
+1. Select step from dropdown or navigation
+2. View step text and questions
+3. Write notes in text area
+4. Notes auto-save to localStorage
+5. Progress tracked across sessions
+
+**Content Location:**
+- Step content: Lines ~4650-4800
+- Note saving: Lines ~4820-4870
+- Progress tracking: Lines ~4880-4920
+
+---
+
+### 9. Newcomer Resources
+**Purpose:** Essential information for people new to AA
+
+**Features:**
+- **What is AA?** - Clear explanation of program
+- **What to expect** - First meeting guide
+- **Common questions** - FAQ for newcomers
+- **Sobriety basics** - Early recovery tips
+- **Sponsorship explained** - How to find and work with sponsor
+- **Meeting etiquette** - Do's and don'ts
+- **Getting started** - First 90 days guide
+- **Crisis resources** - Hotlines and emergency contacts
+- **Glossary** - Common AA terms and phrases
+- **Myths debunked** - Addressing misconceptions
+
+**Newcomer FAQ Topics:**
+- Do I have to speak?
+- What is anonymity?
+- Do I need to be religious?
+- How do I find a sponsor?
+- What are the Steps?
+- How long does recovery take?
+
+**Content Location:** Lines ~2500-2700
+
+---
+
+### 10. Service Opportunities
+**Purpose:** Connect members with service work and volunteer opportunities
+
+**Features:**
+- **Meeting service positions** - Chair, secretary, treasurer, etc.
+- **Group service roles** - GSR, literature coordinator, etc.
+- **Area service** - District and area committees
+- **12-Step calls** - Helping other alcoholics
+- **Facility service** - Setup, cleanup, maintenance
+- **Treatment facilities** - Carrying message to hospitals and institutions
+- **Special events** - Help with speaker meetings, celebrations
+- **Service organization contacts** - Dallas Area, GSO, etc.
+- **Current openings** - Positions needing volunteers
+- **Service descriptions** - What each role entails
+
+**Service Categories:**
+- **Group Level** - Home group commitments
+- **District Level** - Dallas Area service
+- **Area Level** - Regional service structure
+- **Treatment Facilities** - Magdalen House, Homeward Bound, etc.
+- **Correctional Facilities** - Carrying message to prisons
+- **Special Events** - Organizing and supporting events
+
+**Organizations Listed:**
+- Magdalen House (women's recovery)
+- Homeward Bound (men's recovery)
+- Dallas Area 66 service
+- North Texas treatment centers
+
+**Content Location:** Lines ~4870-4940
+
+---
+
+### 11. Group History Timeline
+**Purpose:** Share the Rowlett Group journey from 1995 to present
+
+**Features:**
+- **Interactive timeline** - Visual chronological display
+- **Decade markers** - Major eras in group history
+- **Key milestones** - Founding, growth, challenges, achievements
+- **Member stories** - Testimonials from different periods
+- **Photo integration** - Historical images (if available)
+- **Expansion events** - When group grew or changed
+- **Anniversary celebrations** - Significant dates
+- **Community impact** - How group has served area
+
+**Timeline Periods:**
+- **1995-2000** - Founding and early years
+- **2000-2010** - Growth and establishment
+- **2010-2020** - Community expansion
+- **2020-Present** - Modern era and challenges
+
+**How It Works:**
+1. Timeline data in array format (line 5321)
+2. JavaScript generates visual timeline
+3. Each period has icon, title, description, highlights
+4. Responsive design adjusts for mobile/desktop
+
+**Content Location:** Lines ~5321-5400
+
+---
+
+### 12. Resources and Links
+**Purpose:** External AA resources and helpful links
+
+**Features:**
+- **AA.org** - Official AA website
+- **Dallas Area 66** - Local AA service
+- **Meeting finders** - National and local meeting directories
+- **Literature sources** - Where to buy AA books
+- **Online meetings** - Virtual AA meetings
+- **AA history** - Archives and historical resources
+- **Service resources** - GSO, conference information
+- **Recovery apps** - Mobile apps for recovery
+- **Treatment resources** - Professional help options
+- **Crisis hotlines** - Emergency support numbers
+
+**Resource Categories:**
+- Official AA Resources
+- Local Dallas Area Resources
+- Online/Virtual Meetings
+- Literature and Books
+- Service Structure
+- Treatment and Professional Help
+- Crisis Support
+
+**Content Location:** Lines ~5400-5500
+
+---
+
+## Architecture and Technical Design
+
+### Single-Page Application (SPA) Architecture
+
+**What is an SPA?**
+
+A single-page application loads all HTML, CSS, and JavaScript once, then dynamically updates the page content without refreshing. This provides:
+
+- **Instant navigation** - No page reloads between sections
+- **Better performance** - Content loads once, reused throughout session
+- **App-like experience** - Smooth transitions and interactions
+- **Offline capability** - PWA features enable offline use
+- **State preservation** - User's place and data persist during navigation
+
+**How This SPA Works:**
+
+```
+User visits rowlettaa.org
+        ↓
+Browser loads index.html (358KB)
+        ↓
+All 12 pages loaded into memory
+        ↓
+User clicks navigation
+        ↓
+JavaScript hides current page, shows target page
+        ↓
+No server request needed - instant transition
 ```
 
-### Key Functions
+### File Structure
 
-#### Navigation System
+Everything is contained in a single `index.html` file organized into sections:
+
+```
+index.html (358KB)
+├── Lines 1-100: Document Head
+│   ├── Meta tags (SEO, social sharing, PWA)
+│   ├── Structured data (JSON-LD for search engines)
+│   ├── External resources (Tailwind CSS, Font Awesome, Google Fonts)
+│   └── PWA manifest and configuration
+│
+├── Lines 100-1500: Inline Styles
+│   ├── Custom CSS overrides
+│   ├── Animation definitions
+│   ├── Print styles
+│   └── Responsive breakpoint adjustments
+│
+├── Lines 1500-3000: HTML Content
+│   ├── Navigation header
+│   ├── 12 page sections (all in DOM, hidden/shown with classes)
+│   ├── Footer
+│   └── Modals and overlays
+│
+└── Lines 3000-6000+: JavaScript Code
+    ├── Global functions (dates, utilities)
+    ├── Event data and processing
+    ├── Page initialization functions
+    ├── Interactive features (calculator, notes, etc.)
+    └── Event handlers and navigation
+```
+
+### Navigation System
+
+**How Pages Switch:**
+
+The SPA uses CSS classes to show/hide pages:
+
 ```javascript
-app.navigateTo = function(page) {
+function showPage(pageId) {
     // Hide all pages
-    document.querySelectorAll('.page-content').forEach(p => {
-        p.classList.add('hidden');
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.add('hidden');
     });
 
-    // Show selected page
-    const targetPage = page.replace('#', '');
-    document.getElementById(targetPage + '-page').classList.remove('hidden');
+    // Show target page
+    document.getElementById(pageId).classList.remove('hidden');
 
-    // Update URL hash
-    window.location.hash = page;
+    // Update navigation highlighting
+    updateNavigation(pageId);
 
-    // Update navigation active state
-    this.updateNavigation(page);
-
-    // Store current page
-    this.currentPage = targetPage;
-
-    // Close mobile menu if open
-    document.getElementById('mobile-menu').classList.add('hidden');
-
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-```
-
-#### Page Initialization
-```javascript
-app.initPages = function() {
-    // Initialize all interactive components
-    this.initAccordions();
-    this.initTabs();
-    this.initForms();
-    this.initCalculators();
-    this.initVideoPlayers();
-    this.initTools();
-
-    // Set up event listeners for page-specific features
-    // ...
-};
-```
-
-#### Modal Management
-```javascript
-app.openModal = function(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-
-    // Prevent body scroll
-    document.body.style.overflow = 'hidden';
-};
-
-app.closeModal = function(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-
-    // Restore body scroll
-    document.body.style.overflow = '';
-};
-```
-
-#### Local Storage Management
-```javascript
-app.saveData = function(key, value) {
-    try {
-        localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-        console.error('Failed to save data:', e);
-        app.showNotification('Failed to save data', 'error');
-    }
-};
-
-app.loadData = function(key) {
-    try {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
-    } catch (e) {
-        console.error('Failed to load data:', e);
-        return null;
-    }
-};
-```
-
-#### Notification System
-```javascript
-app.showNotification = function(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `fixed top-20 right-4 p-4 rounded-lg shadow-lg z-50 animate-slide-down ${
-        type === 'success' ? 'bg-green-500' :
-        type === 'error' ? 'bg-red-500' :
-        type === 'warning' ? 'bg-yellow-500' :
-        'bg-blue-500'
-    } text-white`;
-    notification.textContent = message;
-
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
-};
-```
-
-#### Utility Functions
-```javascript
-// Time formatting
-app.formatTime = function(time24) {
-    const [hours, minutes] = time24.split(':');
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const hour12 = hour % 12 || 12;
-    return `${hour12}:${minutes} ${ampm}`;
-};
-
-// Date calculations
-app.daysBetween = function(date1, date2) {
-    const oneDay = 24 * 60 * 60 * 1000;
-    return Math.round(Math.abs((date1 - date2) / oneDay));
-};
-
-// Get current day of week
-app.getCurrentDay = function() {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days[new Date().getDay()];
-};
-```
-
-### Event Handling
-
-All event listeners are centralized and initialized in the `init()` method:
-
-```javascript
-// Navigation clicks
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        app.navigateTo(this.getAttribute('href'));
-    });
-});
-
-// Mobile menu toggle
-document.getElementById('menu-btn').addEventListener('click', function() {
-    document.getElementById('mobile-menu').classList.toggle('hidden');
-});
-
-// Modal close buttons
-document.querySelectorAll('[data-close-modal]').forEach(btn => {
-    btn.addEventListener('click', function() {
-        app.closeModal(this.dataset.closeModal);
-    });
-});
-
-// Quick action buttons
-document.getElementById('crisis-btn').addEventListener('click', () => {
-    app.openModal('crisis-modal');
-});
-
-document.getElementById('search-btn').addEventListener('click', () => {
-    app.openModal('search-modal');
-    document.getElementById('search-input').focus();
-});
-
-document.getElementById('todays-meetings-btn').addEventListener('click', () => {
-    app.navigateTo('#schedule');
-});
-
-// Form submissions
-document.querySelectorAll('form').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Handle form submission
-    });
-});
-```
-
----
-
-## CSS and Styling
-
-### CSS Custom Properties (Variables)
-
-Defined in `:root` for consistent theming:
-
-```css
-:root {
-    --primary-blue: #1e40af;
-    --light-blue: #3b82f6;
-    --pale-blue: #eff6ff;
-    --text-dark: #1f2937;
-    --text-light: #4b5563;
-    --background-light: #f9fafb;
-    --border-color: #e5e7eb;
-    --font-primary: 'Inter', sans-serif;
-    --font-serif: 'Lora', serif;
+    // Run page-specific initialization
+    if (pageId === 'events') initEventsPage();
+    if (pageId === 'schedule') initSchedulePage();
 }
 ```
 
-**Usage:** Referenced throughout CSS with `var(--primary-blue)` syntax.
-
-**To modify colors site-wide:** Change these variable values.
-
-### Typography
-
-- **Primary Font:** Inter - Clean, modern sans-serif for UI and body text
-- **Secondary Font:** Lora - Elegant serif for quotes, book pages, and emphasis
-- **Responsive Font Sizing:** Uses `clamp()` for fluid typography
-  ```css
-  html {
-      font-size: clamp(14px, 0.5vw+12px, 18px);
-  }
-  ```
-
-### Animations
-
-#### Fade In (Page transitions)
-```css
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-.page-content {
-    animation: fadeIn 0.5s ease-in-out;
-}
-```
-
-#### Slide Down (Banners and notifications)
-```css
-@keyframes slide-down {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-.animate-slide-down {
-    animation: slide-down 0.3s ease-out;
-}
-```
-
-#### Pulse (Attention drawing)
-```css
-@keyframes pulse-subtle {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.95;
-    }
-}
-.animate-pulse-subtle {
-    animation: pulse-subtle 2s ease-in-out infinite;
-}
-```
-
-### Interactive States
-
-#### Hover Effects
-- **Navigation Links:** Underline animation from center
-- **Buttons:** Slight lift with shadow increase
-- **Cards:** Elevated shadow and subtle scale
-- **Timeline Blocks:** Lift and dot color change
-
-```css
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--light-blue);
-    transition: width 0.3s ease;
-}
-.nav-link:hover::after {
-    width: 100%;
-}
-```
-
-#### Focus States (Accessibility)
-All interactive elements have visible focus indicators:
-```css
-button:focus,
-a:focus,
-input:focus {
-    outline: 2px solid var(--light-blue);
-    outline-offset: 2px;
-}
-```
-
-### Responsive Design
-
-**Breakpoints:**
-- Mobile: < 768px
-- Tablet: 768px - 1024px
-- Desktop: > 1024px
-
-**Key Responsive Patterns:**
-
-1. **Navigation:**
-   - Desktop: Horizontal menu
-   - Mobile: Hamburger with drawer
-
-2. **Grid Layouts:**
-   - Desktop: 3 columns
-   - Tablet: 2 columns
-   - Mobile: 1 column
-
-3. **Timeline:**
-   - Desktop: Alternating left/right with center line
-   - Mobile: Single column with left-aligned line
-
-4. **Typography:**
-   - Scales down on smaller screens using Tailwind responsive classes
-   - `text-2xl sm:text-3xl lg:text-4xl`
-
-### Accessibility Features
-
-1. **Screen Reader Only Class:**
-```css
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-```
-
-2. **Focus Management:**
-   - Skip to main content link
-   - Visible focus indicators
-   - Logical tab order
-
-3. **ARIA Labels:**
-   - All interactive elements have labels
-   - Icons have `aria-hidden="true"` with text alternatives
-   - Modals have proper roles and relationships
-
-4. **Color Contrast:**
-   - All text meets WCAG AA standards (4.5:1 minimum)
-   - Important actions have higher contrast
-
-5. **Semantic HTML:**
-   - Proper heading hierarchy
-   - Landmark regions (header, nav, main, section)
-   - Lists for navigation and content
-
----
-
-## SEO and Accessibility
-
-### Meta Tags
-
-#### Basic SEO
-```html
-<title>Rowlett Group of AA | Alcoholics Anonymous Meetings in Garland, TX</title>
-<meta name="description" content="Find free AA meetings in Garland, TX...">
-<meta name="keywords" content="AA, Alcoholics Anonymous, Rowlett Group...">
-<link rel="canonical" href="https://www.rowlettaa.org/">
-```
-
-#### Open Graph (Social Media)
-```html
-<meta property="og:type" content="website">
-<meta property="og:title" content="Rowlett Group of AA...">
-<meta property="og:description" content="...">
-<meta property="og:image" content="[Image URL]">
-<meta property="og:url" content="https://www.rowlettaa.org/">
-```
-
-#### Twitter Cards
-```html
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="...">
-<meta name="twitter:description" content="...">
-<meta name="twitter:image" content="...">
-```
-
-#### Geolocation
-```html
-<meta name="geo.region" content="US-TX">
-<meta name="geo.placename" content="Garland">
-<meta name="geo.position" content="32.912624;-96.638883">
-```
-
-### Structured Data (Schema.org)
-
-#### Organization Schema
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Rowlett Group of Alcoholics Anonymous",
-  "url": "https://www.rowlettaa.org/",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+1-972-925-0096",
-    "email": "rowlettaa@gmail.com"
-  }
-}
-```
-
-#### Local Business Schema
-Includes address, hours, geo coordinates, and more.
-
-#### FAQ Schema
-All FAQ questions and answers structured for rich snippets.
-
-#### Event Schema
-Meeting schedule and 30th anniversary event.
-
-### Accessibility Compliance (WCAG 2.1 Level AA)
-
-**Achieved Standards:**
-- ✅ Perceivable: Images have alt text, sufficient color contrast
-- ✅ Operable: Keyboard navigation, no time limits on content
-- ✅ Understandable: Clear language, consistent navigation
-- ✅ Robust: Semantic HTML, ARIA attributes, screen reader compatible
-
-**Testing Recommendations:**
-- Use WAVE browser extension
-- Test with screen readers (NVDA, JAWS, VoiceOver)
-- Validate HTML and ARIA
-- Check color contrast with tools
-
----
-
-## Content Management Guide
-
-This section provides step-by-step instructions for updating meetings, events, and other content on the website.
-
-### Quick Reference - Common Tasks
-
-| Task | Line Numbers | What to Update |
-|------|--------------|----------------|
-| **Add/Edit Meeting** | ~3235-3243 (Home)<br>~3283-3290 (Schedule) | Both `schedule` object AND `meetingSchedule` array |
-| **Add/Edit Event** | ~2587-2926 | `eventsData` array |
-| **Update Contact Info** | Search for phone/email | Multiple locations (header, contact page, schema) |
-| **Add Literature Video** | ~1700s range | Literature section video arrays |
-| **Update Group Info** | ~1800s range | Our Group timeline section |
-| **Modify Service Opportunities** | ~1500s range | Get Involved section |
-| **Change Zelle QR Code** | ~1600s range | Contribute section |
-
-### File Structure Overview
-
-The website is a **single-file application** (`index.html`) with approximately **4,200 lines** containing:
-- Lines 1-970: HTML head (meta tags, styles, schemas)
-- Lines 971-2500: HTML body (all page sections)
-- Lines 2501-2926: eventsData array (Events & Happenings)
-- Lines 2927-4200: JavaScript (app logic, initialization)
-
-### How to Update Meeting Schedule
-
-The meeting schedule appears in **TWO locations** in the code and both must be updated to keep the site consistent.
-
-#### Location 1: Home Page "Today's Meetings" Banner (Lines ~3235-3243)
-
-**Purpose:** Powers the dynamic "Today's Meetings" banner on the home page.
-
-**Structure:**
-```javascript
-const schedule = {
-    0: [{ time: "11:00 AM", type: "Open", name: "Discussion Meeting" }],  // Sunday
-    1: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Closed", name: "Big Book Study" }],  // Monday
-    2: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Open", name: "Foundations Meeting" }],  // Tuesday
-    3: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Closed", name: "12 & 12 Study" }],  // Wednesday
-    4: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Closed", name: "Discussion Meeting" }],  // Thursday
-    5: [{ time: "12:00 PM", type: "Closed", name: "Discussion Meeting" }, { time: "7:30 PM", type: "Open", name: "Discussion Meeting" }],  // Friday
-    6: [{ time: "9:00 AM", type: "Closed", name: "Men's Discussion Meeting" }, { time: "10:30 AM", type: "Closed", name: "Women's Discussion Meeting" }]  // Saturday
-};
-```
-
-**Key Details:**
-- Days are numbered 0-6 (0=Sunday, 6=Saturday)
-- Time format: "12:00 PM" or "7:30 PM" (12-hour format with AM/PM)
-- Type: "Open" or "Closed" (controls badge color)
-- Name: Meeting name/type
-
-#### Location 2: Schedule Page Full Schedule (Lines ~3283-3290)
-
-**Purpose:** Powers the full schedule page with detailed meeting information.
-
-**Structure:**
-```javascript
-const meetingSchedule = [
-    { day: "Sunday", dayIndex: 0, meetings: [
-        { time: "11:00 AM", type: "open", name: "Discussion Meeting" }
-    ]},
-    { day: "Monday", dayIndex: 1, meetings: [
-        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
-        { time: "7:30 PM", type: "closed", name: "Big Book Study", note: "1st Monday Open Speaker Meeting" }
-    ]},
-    { day: "Tuesday", dayIndex: 2, meetings: [
-        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
-        { time: "7:30 PM", type: "open", name: "Foundations Meeting", note: "Guest Speaker" }
-    ]},
-    { day: "Wednesday", dayIndex: 3, meetings: [
-        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
-        { time: "7:30 PM", type: "closed", name: "12 & 12 Study" }
-    ]},
-    { day: "Thursday", dayIndex: 4, meetings: [
-        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
-        { time: "7:30 PM", type: "closed", name: "Discussion Meeting" }
-    ]},
-    { day: "Friday", dayIndex: 5, meetings: [
-        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
-        { time: "7:30 PM", type: "open", name: "Discussion Meeting" }
-    ]},
-    { day: "Saturday", dayIndex: 6, meetings: [
-        { time: "9:00 AM", type: "closed", name: "Men's Discussion Meeting" },
-        { time: "10:30 AM", type: "closed", name: "Women's Discussion Meeting" }
-    ]}
-];
-```
-
-**Key Details:**
-- day: Full day name as string
-- dayIndex: 0-6 (must match day of week)
-- meetings: Array of meeting objects
-- type: "open" or "closed" (lowercase in schedule page)
-- note: Optional field for special instructions
-- If meeting name includes "study", it will automatically link to Study Guide page
-
-**Example: Adding a New Meeting**
-
-To add a Wednesday 2:00 PM Beginner's Meeting (Open):
-
-**Step 1 - Update Home Page Banner** (find line ~3239):
-```javascript
-3: [
-    { time: "12:00 PM", type: "Closed", name: "Discussion Meeting" },
-    { time: "2:00 PM", type: "Open", name: "Beginner's Meeting" },  // ADD THIS
-    { time: "7:30 PM", type: "Closed", name: "12 & 12 Study" }
-],
-```
-
-**Step 2 - Update Schedule Page** (find line ~3287):
-```javascript
-{ day: "Wednesday", dayIndex: 3, meetings: [
-    { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
-    { time: "2:00 PM", type: "open", name: "Beginner's Meeting" },  // ADD THIS
-    { time: "7:30 PM", type: "closed", name: "12 & 12 Study" }
-]},
-```
-
-**Example: Changing Meeting Time**
-
-To change Thursday 7:30 PM meeting from 7:30 PM to 8:00 PM:
-
-**Location 1** (line ~3240):
-```javascript
-4: [
-    { time: "12:00 PM", type: "Closed", name: "Discussion Meeting" },
-    { time: "8:00 PM", type: "Closed", name: "Discussion Meeting" }  // CHANGED
-],
-```
-
-**Location 2** (line ~3288):
-```javascript
-{ day: "Thursday", dayIndex: 4, meetings: [
-    { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
-    { time: "8:00 PM", type: "closed", name: "Discussion Meeting" }  // CHANGED
-]},
-```
-
-**Important Notes:**
-- ⚠️ Always update BOTH locations to keep the site consistent
-- Use "Open"/"Closed" (capitalized) in home page banner
-- Use "open"/"closed" (lowercase) in schedule page
-- Time format: "12:00 PM" with space before AM/PM
-- Test the site after changes to ensure both pages show correctly
-
-### How to Update Contact Information
-
-**Locations to update:**
-1. Contact section HTML
-2. Crisis modal
-3. Schema.org structured data
-4. Meta tags in head
-
-**Search for and replace:**
-- Phone: `972-925-0096` or `+1-972-925-0096`
-- Email: `rowlettaa@gmail.com`
-- Address: `362 Oaks Trail #162, Garland, TX 75043`
-
-### How to Add Literature Videos
-
-**Location:** Literature section JavaScript
-
-**Steps:**
-1. Get YouTube video ID from URL
-   - Example: `https://youtube.com/watch?v=ABC123` → ID is `ABC123`
-2. Find the appropriate category array (bigbook, twelve, steps, speakers)
-3. Add new video object
-
-**Example:**
-```javascript
-const videos = {
-    bigbook: [
-        // Existing videos...
-        {
-            id: 'YOUR_YOUTUBE_ID',
-            title: 'Chapter Title',
-            description: 'Brief description of content'
-        }
-    ]
-};
-```
-
-**Categories:**
-- `bigbook` - Big Book chapters
-- `twelve` - 12 Steps and 12 Traditions
-- `steps` - Step study videos
-- `speakers` - Speaker talks
-
-### How to Update Events & Happenings
-
-**Location:** eventsData array (Lines ~2587-2926)
-
-The Events page uses a comprehensive data array that powers automatic event display, filtering, and countdown timers. Events are automatically hidden after they pass, and recurring events calculate their next occurrence automatically.
-
-#### Understanding the eventsData Array
-
-The array is located near the top of the JavaScript section and includes 200+ lines of documentation. Find the section that starts with:
+**Key Functions:**
+- `showPage(pageId)` - Main navigation function
+- `initEventsPage()` - Initializes events calendar (line ~4200)
+- `initSchedulePage()` - Initializes meeting schedule (line ~3990)
+- Page-specific initialization functions for each section
+
+### Data Management
+
+**Events Data Structure:**
 
 ```javascript
 const eventsData = [
-    // Events go here
+    {
+        date: '2025-12-25',              // Date string or recurring pattern
+        title: 'Event Name',             // Event title
+        time: '7:30 PM',                 // Time string
+        location: 'Venue Name',          // Location name
+        address: 'Full Address',         // Street address
+        category: 'rowlett',             // Event category
+        description: 'Event details',    // Full description
+        speaker: { name, homeGroup },    // Optional speaker info
+        requirements: 'Open to all',     // Access requirements
+        guestsWelcome: true,             // Boolean
+        mapLink: 'Google Maps URL',      // Map link
+        bgColor: 'bg-blue-50',          // Tailwind background
+        borderColor: 'border-blue-400',  // Tailwind border
+        textColor: 'text-blue-900'       // Tailwind text
+    }
 ];
 ```
 
-#### Event Object Structure
-
-Each event is a JavaScript object with the following fields:
-
-**REQUIRED FIELDS:**
-- `date`: Either `'YYYY-MM-DD'` or `'recurring-*'` pattern
-- `title`: Event name
-- `time`: Time as string (e.g., "7:00 PM") or `timeParts` object for multiple times
-- `location`: Venue name
-- `address`: Full street address
-- `category`: One of: `'rowlett'`, `'speaker'`, `'area'`, `'service'`, `'crashed'`
-- `bgColor`: Background color class (e.g., `'bg-blue-50'`)
-- `borderColor`: Border color class (e.g., `'border-blue-400'`)
-- `textColor`: Text color class (e.g., `'text-blue-900'`)
-
-**OPTIONAL FIELDS:**
-- `description`: Detailed event description
-- `speaker`: Speaker object with `name`, `homeGroup`, `sobrietyDate`, `bio`
-- `timeParts`: Object for events with multiple times (e.g., `{ '5:30 PM': 'Potluck', '7:00 PM': 'Meeting' }`)
-- `mapLink`: Google Maps URL
-- `requirements`: Access requirements (e.g., "Open to all", "Closed")
-- `potluck`: Boolean, shows potluck icon if true
-- `guestsWelcome`: Boolean, shows family welcome message
-- `cost`: Cost information (e.g., "Free", "$10")
-- `contactPerson`: Contact with phone
-- `hostGroup`: Hosting group name (for area events)
-- `groupInvolvement`: How Rowlett Group participates
-- `details`: Additional notes
-- `note`: Short note displayed with event
-
-#### Recurring Event Patterns (35 options)
-
-For recurring events, use these date patterns:
-
-**Format:** `'recurring-[occurrence]-[day]'`
-
-**Occurrences:** first, second, third, fourth, last
-**Days:** monday, tuesday, wednesday, thursday, friday, saturday, sunday
-
-**Examples:**
-- `'recurring-first-monday'` - First Monday of each month
-- `'recurring-third-monday'` - Third Monday of each month
-- `'recurring-last-saturday'` - Last Saturday of each month
-- `'recurring-second-saturday'` - Second Saturday of each month
-- `'recurring-fourth-tuesday'` - Fourth Tuesday of each month
-
-#### Color Schemes by Category
-
-Choose colors that match the event type:
+**Meeting Schedule Structure:**
 
 ```javascript
-// Rowlett Events
-bgColor: 'bg-blue-50',
-borderColor: 'border-blue-400',
-textColor: 'text-blue-900'
-
-// Anniversaries/Special Events
-bgColor: 'bg-yellow-50',
-borderColor: 'border-yellow-400',
-textColor: 'text-yellow-900'
-
-// Speaker Events
-bgColor: 'bg-purple-50',
-borderColor: 'border-purple-400',
-textColor: 'text-purple-900'
-
-// Social/Fellowship
-bgColor: 'bg-pink-50',
-borderColor: 'border-pink-400',
-textColor: 'text-pink-900'
-
-// Service Events
-bgColor: 'bg-green-50',
-borderColor: 'border-green-400',
-textColor: 'text-green-900'
-
-// Area/Dallas Events
-bgColor: 'bg-indigo-50',
-borderColor: 'border-indigo-400',
-textColor: 'text-indigo-900'
+const meetingSchedule = [
+    {
+        day: "Monday",
+        dayIndex: 1,
+        meetings: [
+            {
+                time: "12:00 PM",
+                type: "closed",
+                name: "Discussion Meeting",
+                note: "Optional special note"
+            }
+        ]
+    }
+];
 ```
 
-#### Example: Adding a Recurring Event
+### Recurring Date Patterns
 
-**Scenario:** Add a new monthly speaker meeting on the 2nd Friday at 7:30 PM
+The application supports three types of recurring events:
+
+**1. Monthly Recurring (Standard Pattern)**
+```javascript
+date: 'recurring-third-monday'
+```
+
+Supported patterns:
+- `recurring-first-[day]` through `recurring-fourth-[day]`
+- `recurring-last-[day]`
+- Days: monday, tuesday, wednesday, thursday, friday, saturday, sunday
+
+**2. All Days in Month (Series Pattern)**
+```javascript
+date: 'recurring-all-tuesday:2025-12'
+```
+
+Generates ALL occurrences of a weekday in a specific month:
+- `recurring-all-tuesday:2025-12` = All Tuesdays in December 2025
+- `recurring-all-wednesday:2026-01` = All Wednesdays in January 2026
+
+**How Recurring Dates Work:**
 
 ```javascript
-{
-    date: 'recurring-second-friday',
-    title: 'Monthly Speaker Meeting',
-    time: '7:30 PM',
-    location: 'Rowlett Group',
-    address: '362 Oaks Trail #162, Garland, TX 75043',
-    category: 'speaker',
-    description: 'Join us for our monthly speaker meeting featuring recovery stories from around the Dallas area.',
-    requirements: 'Open to all',
-    guestsWelcome: true,
-    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
-    bgColor: 'bg-purple-50',
-    borderColor: 'border-purple-400',
-    textColor: 'text-purple-900'
-},
+// Core date calculation function (line ~3069)
+function getRecurringDate(recurringType, year, month) {
+    // Parse pattern: 'recurring-third-monday' → occurrence='third', day='monday'
+    const parts = recurringType.replace('recurring-', '').split('-');
+    const occurrence = parts[0];  // first, second, third, fourth, last
+    const dayName = parts[1];     // monday, tuesday, etc.
+
+    // Find target day of week (0=Sunday, 6=Saturday)
+    const targetDay = dayNames.indexOf(dayName);
+
+    // Calculate date based on occurrence
+    // Returns Date object for the specific occurrence
+}
+
+// Series date calculation (line ~3095)
+function getAllWeekdayDatesInMonth(dayName, year, month) {
+    // Generates array of ALL dates for a weekday in a month
+    // Example: All Tuesdays in December 2025 = [Dec 2, Dec 9, Dec 16, Dec 23, Dec 30]
+    const dates = [];
+
+    // Loop through month, collect matching weekdays
+    while (currentDate <= lastDay) {
+        if (currentDate.getDay() === targetDay) {
+            dates.push(new Date(currentDate));
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;  // Array of Date objects
+}
 ```
 
-#### Example: Adding a One-Time Event
+### Event Processing and Caching
 
-**Scenario:** Add a special holiday event on December 25, 2025
+**Performance Optimization:**
+
+Events are processed once on page load and cached for instant filtering:
+
+```javascript
+// Line ~4200
+function initEventsPage() {
+    if (processedEvents) {
+        // Use cached events for instant filtering
+        displayEvents(processedEvents);
+        return;
+    }
+
+    // Process events once
+    processedEvents = processEventsData(eventsData);
+
+    // Cache for future use
+    displayEvents(processedEvents);
+}
+```
+
+**Event Processing Steps:**
+
+1. **Parse date patterns** - Convert recurring patterns to actual dates
+2. **Calculate series** - Generate all dates for series patterns
+3. **Filter by date** - Separate future, current, and past events
+4. **Sort chronologically** - Order by date/time
+5. **Apply 6-month rule** - Hide events older than 6 months
+6. **Cache results** - Store for instant category filtering
+
+**Category Filtering:**
+
+```javascript
+// Line ~4280
+function filterEventsByCategory(category) {
+    if (category === 'all') {
+        displayEvents(processedEvents);
+    } else {
+        const filtered = processedEvents.filter(e => e.event.category === category);
+        displayEvents(filtered);
+    }
+    // No reprocessing - uses cached data
+}
+```
+
+### Progressive Web App (PWA) Features
+
+**What is PWA?**
+
+Progressive Web Apps work like native mobile apps:
+- Install to home screen
+- Work offline
+- Fast loading
+- App-like interface
+
+**PWA Implementation:**
+
+**Manifest File** (line ~50-80):
+```html
+<link rel="manifest" href="data:application/json;base64,...">
+```
+
+Defines:
+- App name and short name
+- Icons (192x192, 512x512)
+- Theme colors
+- Display mode (standalone)
+- Start URL
+
+**Service Worker** (if implemented):
+- Caches index.html for offline use
+- Provides offline fallback
+- Updates cache on new version
+
+**Offline Capability:**
+- All content in single file
+- External resources (Tailwind, Font Awesome) cached by browser
+- LocalStorage for user data (notes, preferences)
+
+### State Management
+
+**LocalStorage Usage:**
+
+The application uses browser localStorage to persist user data:
+
+```javascript
+// Save step study notes
+localStorage.setItem('step-notes-1', noteContent);
+
+// Retrieve notes
+const savedNotes = localStorage.getItem('step-notes-1');
+
+// Clear data
+localStorage.removeItem('step-notes-1');
+```
+
+**Data Stored:**
+- Step study notes (12 items, one per step)
+- User preferences (future implementation)
+- Calculator history (future implementation)
+
+**Benefits:**
+- Data persists across sessions
+- No server required
+- Instant access
+- Privacy (stays on user's device)
+
+---
+
+## How to Update Events
+
+Events are the most frequently updated content. This section provides complete templates and instructions.
+
+### Events Data Location
+
+All events are defined in the `eventsData` array starting at **line 3226** in `index.html`.
+
+```javascript
+const eventsData = [
+    {
+        // Event object here
+    },
+    {
+        // Another event
+    }
+    // ... more events
+];
+```
+
+### Quick Start: Adding a New Event
+
+**Step-by-step:**
+
+1. Open `index.html` in your code editor
+2. Search for `const eventsData = [` (line 3226)
+3. Scroll to the end of the array (before the closing `];`)
+4. Copy one of the templates below
+5. Paste before the closing `];`
+6. Modify the fields for your event
+7. Ensure there's a comma after the previous event
+8. Save the file
+9. Test locally by opening in browser
+10. Upload to server
+
+### Event Templates
+
+Copy and paste these templates, then customize:
+
+#### One-Time Event
 
 ```javascript
 {
@@ -1992,92 +776,8 @@ textColor: 'text-indigo-900'
     location: 'Rowlett Group',
     address: '362 Oaks Trail #162, Garland, TX 75043',
     category: 'rowlett',
-    description: 'Open all day for fellowship and support. Drop by anytime!',
+    description: 'Open all day for fellowship and support. Join us for coffee, conversation, and community.',
     requirements: 'Open to all',
-    potluck: true,
-    guestsWelcome: true,
-    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
-    details: 'Bring a dish to share if you like. We\'ll have coffee and cookies available all day.',
-    bgColor: 'bg-yellow-50',
-    borderColor: 'border-yellow-400',
-    textColor: 'text-yellow-900'
-},
-```
-
-#### Example: Adding an Event with Speaker
-
-**Scenario:** Add a speaker event with detailed speaker information
-
-```javascript
-{
-    date: '2025-06-15',
-    title: 'Special Speaker - John D.',
-    time: '7:30 PM',
-    location: 'Rowlett Group',
-    address: '362 Oaks Trail #162, Garland, TX 75043',
-    category: 'speaker',
-    speaker: {
-        name: 'John D.',
-        homeGroup: 'Downtown Dallas Group',
-        sobrietyDate: '2000-03-15',
-        bio: '25 years of sobriety, powerful story of recovery from homelessness to helping others'
-    },
-    description: 'Join us for an inspiring evening with John D., who will share his journey from the streets to a life of service.',
-    requirements: 'Open to all',
-    guestsWelcome: true,
-    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
-    bgColor: 'bg-purple-50',
-    borderColor: 'border-purple-400',
-    textColor: 'text-purple-900'
-},
-```
-
-#### Example: Adding a Crashed Meeting
-
-**Scenario:** Rowlett member speaking at another group
-
-```javascript
-{
-    date: '2025-08-20',
-    title: 'Meeting Crash - Sarah M. at Plano Group',
-    time: '7:00 PM',
-    location: 'Plano Group',
-    address: '1234 Main St, Plano, TX 75024',
-    category: 'crashed',
-    speaker: {
-        name: 'Sarah M.',
-        homeGroup: 'Rowlett Group'
-    },
-    description: 'Support our own Sarah M. as she shares her story at Plano Group!',
-    requirements: 'Open to all',
-    mapLink: 'https://maps.google.com/?q=1234+Main+St+Plano+TX+75024',
-    groupInvolvement: 'Come support Sarah M. and show Rowlett Group spirit!',
-    details: 'Great opportunity to crash a meeting and support one of our own members.',
-    bgColor: 'bg-pink-50',
-    borderColor: 'border-pink-400',
-    textColor: 'text-pink-900'
-},
-```
-
-#### Example: Multi-Time Event (Potluck + Meeting)
-
-**Scenario:** Event with multiple time slots
-
-```javascript
-{
-    date: '2025-09-10',
-    title: 'Fall Fellowship',
-    timeParts: {
-        '5:00 PM': 'Potluck Dinner',
-        '6:30 PM': 'Speaker Meeting',
-        '7:30 PM': 'Fellowship & Coffee'
-    },
-    location: 'Rowlett Group',
-    address: '362 Oaks Trail #162, Garland, TX 75043',
-    category: 'rowlett',
-    description: 'Annual fall fellowship with food, speakers, and community.',
-    requirements: 'Open to all',
-    potluck: true,
     guestsWelcome: true,
     mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
     bgColor: 'bg-blue-50',
@@ -2086,1121 +786,2128 @@ textColor: 'text-indigo-900'
 },
 ```
 
-#### Steps to Add a New Event
+**When to use:** Single-occurrence events like holidays, anniversaries, special celebrations.
 
-1. **Open index.html** and find the `eventsData` array (around line 2587)
-2. **Choose the location** in the array where you want to add the event:
-   - Rowlett Group events at the top
-   - Speaker events in the middle
-   - Area events, service events, and crashed meetings follow
-3. **Copy the template** from the documentation comment at the top of the array
-4. **Fill in all required fields** and any optional fields you need
-5. **Add a comma** after the previous event's closing `}`
-6. **Paste your new event** before the closing `];`
-7. **Save the file** and test on the website
+---
 
-#### Steps to Edit an Existing Event
+#### Monthly Recurring Event
 
-1. **Find the event** in the eventsData array by searching for its title
-2. **Modify the fields** you want to change
-3. **Keep the structure intact** (commas, quotes, brackets)
-4. **Save and test**
+```javascript
+{
+    date: 'recurring-third-monday',
+    title: 'Group Conscience Meeting',
+    time: '6:00 PM',
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'rowlett',
+    description: 'Monthly business meeting for home group members. Discuss group matters, finances, and service positions.',
+    requirements: 'Closed - Rowlett Group members only',
+    guestsWelcome: false,
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-400',
+    textColor: 'text-blue-900'
+},
+```
 
-#### Steps to Remove an Event
+**When to use:** Events that repeat monthly on a specific occurrence (first Monday, third Saturday, etc.).
 
-1. **Find the event** in the eventsData array
-2. **Delete the entire event object** from the opening `{` to closing `},`
-3. **Check commas** - make sure there's a comma between events, but not after the last event
-4. **Save and test**
+**Available patterns:**
+- `recurring-first-monday` through `recurring-first-sunday`
+- `recurring-second-monday` through `recurring-second-sunday`
+- `recurring-third-monday` through `recurring-third-sunday`
+- `recurring-fourth-monday` through `recurring-fourth-sunday`
+- `recurring-last-monday` through `recurring-last-sunday`
 
-#### Important Notes
+---
 
-- ⚠️ Events automatically disappear after their date passes (no manual cleanup needed)
-- ✅ Recurring events automatically calculate the next occurrence
-- 🎨 Always use matching color schemes (bgColor, borderColor, textColor)
-- 🔗 Google Maps links are optional but recommended
-- 📅 Recurring events show countdown timers up to 14 days before
-- 📌 One-time events show countdown timers up to 30 days before
-- 🗂️ Past events are automatically archived for 6 months
-- 🔄 Category filters work automatically based on the `category` field
+#### Speaker Series (All Days in Month)
 
-### How to Update Service Opportunities
+```javascript
+{
+    date: 'recurring-all-tuesday:2025-12',
+    title: 'December Speaker Series',
+    time: '7:30 PM',
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'speaker',
+    speaker: {
+        name: 'Various Speakers',
+        homeGroup: 'Rowlett Group'
+    },
+    requirements: 'Open to all',
+    guestsWelcome: true,
+    description: 'Different Rowlett Group members speaking each Tuesday in December. Come hear diverse perspectives on recovery.',
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    details: 'Weekly speaker series throughout the month.',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-400',
+    textColor: 'text-purple-900'
+},
+```
 
-**Location:** Get Involved section
+**When to use:** Events happening on ALL occurrences of a weekday in a specific month.
 
-**Steps:**
-1. Find the service opportunities list
-2. Each opportunity is in a card/div structure
-3. Add/edit opportunities with title, description, and optional requirements
+**How it works:**
+- Pattern: `recurring-all-[day]:[YYYY-MM]`
+- Example: `recurring-all-tuesday:2025-12` generates Dec 2, 9, 16, 23, 30 (all Tuesdays)
+- Displays as ONE event card showing all dates
+- Past dates automatically struck through
+- Perfect for monthly speaker series, themed weeks, etc.
 
-**Example:**
+---
+
+#### Speaker Event with Full Details
+
+```javascript
+{
+    date: '2025-12-01',
+    title: 'Matt C. - A Blast from the Past!',
+    time: '7:30 PM',
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'speaker',
+    speaker: {
+        name: 'Matt C.',
+        homeGroup: 'Rowlett Group',
+        bio: '15 years sober, founding member',
+        sobrietyDate: '2010-01-15'
+    },
+    requirements: 'Open to all',
+    guestsWelcome: true,
+    description: 'Join us as Matt C. shares his experience, strength, and hope. Matt has been a cornerstone of our group for over a decade.',
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    details: 'Welcome back, Matt! Long-time Rowlett Group member returns to share his journey.',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-400',
+    textColor: 'text-purple-900'
+},
+```
+
+**When to use:** Individual speaker events with detailed speaker information.
+
+**Optional speaker fields:**
+- `name` - Speaker's first name and last initial
+- `homeGroup` - Their home group
+- `bio` - Brief biography
+- `sobrietyDate` - Date they got sober (automatically calculates time)
+
+---
+
+#### Workshop/Service Event
+
+```javascript
+{
+    date: '2025-12-06',
+    title: 'How to Chair a Meeting Workshop',
+    time: '2:00 PM - 4:00 PM',
+    location: 'McKinney Fellowship Group',
+    address: '802 E University Dr, McKinney, TX 75069',
+    category: 'service',
+    description: 'Learn the basics of chairing an AA meeting! This workshop covers meeting formats, traditions in action, and practical tips for leading effective meetings.',
+    requirements: 'Closed - AA members only',
+    guestsWelcome: false,
+    mapLink: 'https://maps.google.com/?q=802+E+University+Dr+McKinney+TX+75069',
+    details: 'Perfect for newcomers to service and those wanting to improve their chairing skills.',
+    hostGroup: 'McKinney Fellowship Group',
+    groupInvolvement: 'All Rowlett Group members encouraged to join and strengthen their service skills!',
+    bgColor: 'bg-green-50',
+    borderColor: 'border-green-400',
+    textColor: 'text-green-900'
+},
+```
+
+**When to use:** Workshops, GSR orientations, service training, learning opportunities.
+
+**Service event specifics:**
+- Always use `category: 'service'` and green colors
+- Include `hostGroup` if not at Rowlett
+- Add `groupInvolvement` to encourage participation
+- Specify `requirements` and `guestsWelcome: false` for AA-only events
+
+---
+
+#### Area/Dallas Event
+
+```javascript
+{
+    date: '2026-01-25',
+    title: 'Dallas Area 66 Assembly',
+    time: '9:00 AM - 3:00 PM',
+    location: 'Lover\'s Lane United Methodist Church',
+    address: '9200 Inwood Rd, Dallas, TX 75220',
+    category: 'area',
+    description: 'Quarterly Dallas Area assembly. All AA members welcome to participate in area service.',
+    requirements: 'Open to all AA members',
+    guestsWelcome: false,
+    mapLink: 'https://maps.google.com/?q=9200+Inwood+Rd+Dallas+TX+75220',
+    hostGroup: 'Dallas Area 66',
+    groupInvolvement: 'GSRs and interested members encouraged to attend.',
+    details: 'Lunch provided. Bring district reports if you are a GSR.',
+    bgColor: 'bg-indigo-50',
+    borderColor: 'border-indigo-400',
+    textColor: 'text-indigo-900'
+},
+```
+
+**When to use:** Dallas Area events, district meetings, assemblies, conferences.
+
+---
+
+#### Anniversary Celebration
+
+```javascript
+{
+    date: '2026-03-15',
+    title: 'Rowlett Group 30th Anniversary Celebration',
+    time: '5:30 PM - 9:00 PM',
+    location: 'Rowlett Group',
+    address: '362 Oaks Trail #162, Garland, TX 75043',
+    category: 'rowlett',
+    description: 'Celebrating 30 years of carrying the message! Join us for fellowship, food, speakers, and celebration.',
+    requirements: 'Open to all',
+    guestsWelcome: true,
+    potluck: true,
+    timeParts: {
+        '5:30 PM': 'Potluck Dinner',
+        '7:00 PM': 'Speaker Meeting',
+        '8:30 PM': 'Cake & Fellowship'
+    },
+    mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043',
+    details: 'Bring a dish to share! Speaker TBA.',
+    bgColor: 'bg-yellow-50',
+    borderColor: 'border-yellow-400',
+    textColor: 'text-yellow-900'
+},
+```
+
+**When to use:** Anniversaries, birthdays, milestone celebrations.
+
+**Special fields:**
+- `potluck: true` - Shows potluck icon and notice
+- `timeParts` - Object defining multiple time segments
+- Use yellow colors for celebrations
+
+---
+
+### Event Field Reference
+
+**Required Fields (every event must have):**
+
+| Field | Type | Example | Description |
+|-------|------|---------|-------------|
+| `date` | String | `'2025-12-25'` or `'recurring-third-monday'` | Date or recurring pattern |
+| `title` | String | `'Christmas Open House'` | Event name |
+| `time` | String | `'7:30 PM'` or `'2:00 PM - 4:00 PM'` | Time of event |
+| `location` | String | `'Rowlett Group'` | Venue name |
+| `address` | String | `'362 Oaks Trail #162, Garland, TX 75043'` | Full street address |
+| `category` | String | `'rowlett'`, `'speaker'`, `'area'`, `'service'`, `'crashed'` | Event category |
+| `bgColor` | String | `'bg-blue-50'` | Tailwind background color class |
+| `borderColor` | String | `'border-blue-400'` | Tailwind border color class |
+| `textColor` | String | `'text-blue-900'` | Tailwind text color class |
+
+**Optional Fields:**
+
+| Field | Type | Example | Description |
+|-------|------|---------|-------------|
+| `description` | String | `'Join us for fellowship...'` | Detailed event description |
+| `requirements` | String | `'Open to all'` or `'Closed - AA members only'` | Access requirements |
+| `guestsWelcome` | Boolean | `true` or `false` | Whether non-AA guests welcome |
+| `speaker` | Object | `{ name: 'John D.', homeGroup: 'Rowlett' }` | Speaker information |
+| `timeParts` | Object | `{ '5:30 PM': 'Dinner', '7:00 PM': 'Meeting' }` | Multi-segment events |
+| `potluck` | Boolean | `true` | Whether event includes potluck |
+| `mapLink` | String | `'https://maps.google.com/...'` | Google Maps link |
+| `hostGroup` | String | `'McKinney Fellowship Group'` | Hosting organization |
+| `groupInvolvement` | String | `'All members encouraged...'` | How Rowlett participates |
+| `details` | String | `'Bring a dish to share'` | Additional notes |
+
+**Speaker Object Fields:**
+
+```javascript
+speaker: {
+    name: 'John D.',                    // Required
+    homeGroup: 'Rowlett Group',         // Optional
+    bio: '10 years sober',              // Optional
+    sobrietyDate: '2015-06-01'         // Optional (auto-calculates time)
+}
+```
+
+### Recurring Event Patterns
+
+**Monthly Patterns:** `'recurring-[occurrence]-[day]'`
+
+**Format:** `recurring-[first|second|third|fourth|last]-[weekday]`
+
+**Examples:**
+```javascript
+'recurring-first-monday'      // 1st Monday each month
+'recurring-second-tuesday'    // 2nd Tuesday each month
+'recurring-third-monday'      // 3rd Monday each month (Group Conscience)
+'recurring-fourth-saturday'   // 4th Saturday each month
+'recurring-last-sunday'       // Last Sunday each month
+```
+
+**Valid weekdays:** monday, tuesday, wednesday, thursday, friday, saturday, sunday
+
+**How it works:**
+- Automatically calculates next occurrence
+- Shows in future events until date passes
+- Then calculates next month's occurrence
+- Continues indefinitely
+
+---
+
+**All Days in Month Pattern:** `'recurring-all-[day]:[YYYY-MM]'`
+
+**Format:** `recurring-all-[weekday]:[year-month]`
+
+**Examples:**
+```javascript
+'recurring-all-tuesday:2025-12'    // All Tuesdays in December 2025
+'recurring-all-wednesday:2026-01'  // All Wednesdays in January 2026
+'recurring-all-thursday:2025-11'   // All Thursdays in November 2025
+```
+
+**How it works:**
+- Generates ALL dates for that weekday in the specified month
+- Example: `recurring-all-tuesday:2025-12` creates:
+  - December 2, 2025
+  - December 9, 2025
+  - December 16, 2025
+  - December 23, 2025
+  - December 30, 2025
+- Displays as ONE event card showing all dates
+- Past dates automatically struck through
+- Event hides when all dates have passed
+
+**Perfect for:**
+- Monthly speaker series
+- Themed meeting weeks
+- Special programming for a specific month
+- Guest speaker visiting multiple times
+
+---
+
+### Event Color Guide
+
+Use these color combinations for visual consistency:
+
+```javascript
+// Rowlett Group Events (Blue)
+bgColor: 'bg-blue-50'
+borderColor: 'border-blue-400'
+textColor: 'text-blue-900'
+// Use for: Group events, business meetings, group-specific activities
+
+// Speaker Events (Purple)
+bgColor: 'bg-purple-50'
+borderColor: 'border-purple-400'
+textColor: 'text-purple-900'
+// Use for: Speaker meetings, shares, testimonials
+
+// Workshops/Service Events (Green)
+bgColor: 'bg-green-50'
+borderColor: 'border-green-400'
+textColor: 'text-green-900'
+// Use for: Workshops, training, GSR orientations, service events
+
+// Anniversary/Special Events (Yellow)
+bgColor: 'bg-yellow-50'
+borderColor: 'border-yellow-400'
+textColor: 'text-yellow-900'
+// Use for: Anniversaries, birthdays, celebrations, milestones
+
+// Area/Dallas Events (Indigo)
+bgColor: 'bg-indigo-50'
+borderColor: 'border-indigo-400'
+textColor: 'text-indigo-900'
+// Use for: Area assemblies, district meetings, Dallas Area events
+
+// Fellowship/Social (Pink)
+bgColor: 'bg-pink-50'
+borderColor: 'border-pink-400'
+textColor: 'text-pink-900'
+// Use for: Potlucks, social events, informal gatherings
+
+// Crashed Meetings (Orange)
+bgColor: 'bg-orange-50'
+borderColor: 'border-orange-400'
+textColor: 'text-orange-900'
+// Use for: When group members crash other groups' events
+```
+
+### Editing Existing Events
+
+**To modify an event:**
+
+1. Search for the event title in `index.html`
+2. Find the event object (starts with `{`, ends with `},`)
+3. Modify the desired fields
+4. Maintain proper JSON syntax (quotes, commas)
+5. Save and test
+
+**Example edit:**
+
+```javascript
+// Before
+{
+    date: '2025-12-01',
+    title: 'Speaker Meeting',
+    time: '7:00 PM',
+    // ... rest of event
+}
+
+// After (changed date and time)
+{
+    date: '2025-12-08',
+    title: 'Speaker Meeting',
+    time: '7:30 PM',
+    // ... rest of event
+}
+```
+
+### Removing Events
+
+**Permanent removal:**
+
+1. Find the event object
+2. Delete from opening `{` to closing `},`
+3. Ensure commas are correct between remaining events
+4. Save
+
+**Temporary removal (commenting out):**
+
+```javascript
+// Use block comments to hide event temporarily
+/*  {
+    date: '2025-12-25',
+    title: 'Event to Hide',
+    time: '10:00 AM',
+    location: 'Rowlett Group',
+    // ... rest of event
+},  */
+```
+
+**Note:** Commented events can be uncommented later by removing `/*` and `*/`.
+
+### Common Event Mistakes
+
+**Missing comma:**
+```javascript
+{
+    date: '2025-12-01',
+    title: 'Event 1'
+}  // ❌ Missing comma here!
+{
+    date: '2025-12-02',
+    title: 'Event 2'
+}
+```
+
+**Fixed:**
+```javascript
+{
+    date: '2025-12-01',
+    title: 'Event 1'
+},  // ✅ Comma added
+{
+    date: '2025-12-02',
+    title: 'Event 2'
+}
+```
+
+**Missing quotes:**
+```javascript
+{
+    date: 2025-12-01,  // ❌ Should be '2025-12-01'
+    title: Event,      // ❌ Should be 'Event'
+}
+```
+
+**Incorrect category:**
+```javascript
+{
+    category: 'meeting',  // ❌ Invalid category
+}
+```
+
+**Valid categories:** `'rowlett'`, `'speaker'`, `'area'`, `'service'`, `'crashed'`
+
+---
+
+## How to Update Meeting Schedule
+
+The weekly meeting schedule defines all regular meetings. This is separate from events.
+
+### Schedule Data Location
+
+Meeting schedule is in the `initSchedulePage` function at **line 3990** in `index.html`.
+
+Find the `meetingSchedule` array around **line 4014**:
+
+```javascript
+const meetingSchedule = [
+    { day: "Sunday", dayIndex: 0, meetings: [ /* meetings */ ]},
+    { day: "Monday", dayIndex: 1, meetings: [ /* meetings */ ]},
+    // ... all 7 days
+];
+```
+
+### Current Schedule
+
+**Complete weekly schedule:**
+
+```javascript
+const meetingSchedule = [
+    { day: "Sunday", dayIndex: 0, meetings: [
+        { time: "11:00 AM", type: "open", name: "Discussion Meeting" }
+    ]},
+
+    { day: "Monday", dayIndex: 1, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Big Book Study", note: "1st Monday Open Speaker Meeting" }
+    ]},
+
+    { day: "Tuesday", dayIndex: 2, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Foundations Meeting" }
+    ]},
+
+    { day: "Wednesday", dayIndex: 3, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Step Study" }
+    ]},
+
+    { day: "Thursday", dayIndex: 4, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Traditions Study" }
+    ]},
+
+    { day: "Friday", dayIndex: 5, meetings: [
+        { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Living Sober" }
+    ]},
+
+    { day: "Saturday", dayIndex: 6, meetings: [
+        { time: "11:00 AM", type: "open", name: "Discussion Meeting" },
+        { time: "7:30 PM", type: "closed", name: "Big Book Study" }
+    ]}
+];
+```
+
+### Meeting Object Structure
+
+Each meeting has these fields:
+
+```javascript
+{
+    time: "7:30 PM",           // Required: Meeting time
+    type: "open",              // Required: "open" or "closed"
+    name: "Discussion Meeting", // Required: Meeting format/name
+    note: "Special note"       // Optional: Additional information
+}
+```
+
+**Field descriptions:**
+
+| Field | Required | Values | Description |
+|-------|----------|--------|-------------|
+| `time` | Yes | `"7:30 PM"`, `"12:00 PM"` | Meeting start time |
+| `type` | Yes | `"open"` or `"closed"` | Meeting type |
+| `name` | Yes | Any string | Meeting format/name |
+| `note` | No | Any string | Special notes or exceptions |
+
+### Meeting Types and Formats
+
+**Types:**
+- `"open"` - Anyone welcome (alcoholics and non-alcoholics)
+- `"closed"` - AA members only (or those with drinking problem)
+
+**Common formats:**
+- `"Discussion Meeting"` - Group discussion format
+- `"Big Book Study"` - Study Alcoholics Anonymous text
+- `"Step Study"` - Focus on one of the 12 Steps
+- `"Traditions Study"` - Study the 12 Traditions
+- `"Foundations Meeting"` - Core AA principles
+- `"Living Sober"` - Study Living Sober book
+- `"Speaker Meeting"` - Speaker shares story
+
+### Adding a New Meeting
+
+**Example: Add a 6:00 PM Newcomer meeting on Wednesday**
+
+1. Find Wednesday in the schedule array
+2. Add to the meetings array:
+
+```javascript
+{ day: "Wednesday", dayIndex: 3, meetings: [
+    { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+    { time: "6:00 PM", type: "open", name: "Newcomer Meeting" },  // ← New meeting added
+    { time: "7:30 PM", type: "closed", name: "Step Study" }
+]},
+```
+
+**Important:** Meetings in the array don't need to be in time order, but it's good practice.
+
+### Removing a Meeting
+
+Find the meeting object and delete it:
+
+```javascript
+// Before
+{ day: "Friday", dayIndex: 5, meetings: [
+    { time: "12:00 PM", type: "closed", name: "Discussion Meeting" },
+    { time: "7:30 PM", type: "closed", name: "Living Sober" }
+]},
+
+// After (removed 12:00 PM meeting)
+{ day: "Friday", dayIndex: 5, meetings: [
+    { time: "7:30 PM", type: "closed", name: "Living Sober" }
+]},
+```
+
+### Changing Meeting Type or Time
+
+**Example: Change Tuesday 7:30 PM from closed to open**
+
+```javascript
+// Before
+{ time: "7:30 PM", type: "closed", name: "Foundations Meeting" }
+
+// After
+{ time: "7:30 PM", type: "open", name: "Foundations Meeting" }
+```
+
+**Example: Change meeting time from 7:30 PM to 7:00 PM**
+
+```javascript
+// Before
+{ time: "7:30 PM", type: "closed", name: "Step Study" }
+
+// After
+{ time: "7:00 PM", type: "closed", name: "Step Study" }
+```
+
+### Updating Group Conscience Date
+
+Group Conscience is calculated automatically using the recurring date function.
+
+**Location:** Line ~3998
+
+```javascript
+let thirdMonday = getRecurringDate('recurring-third-monday', conscienceYear, conscienceMonth);
+```
+
+**To change from 3rd Monday to different day:**
+
+```javascript
+// Change to first Monday
+let conscienceDate = getRecurringDate('recurring-first-monday', conscienceYear, conscienceMonth);
+
+// Change to last Saturday
+let conscienceDate = getRecurringDate('recurring-last-saturday', conscienceYear, conscienceMonth);
+
+// Change to second Tuesday
+let conscienceDate = getRecurringDate('recurring-second-tuesday', conscienceYear, conscienceMonth);
+```
+
+**Available patterns:**
+- `'recurring-first-[day]'`
+- `'recurring-second-[day]'`
+- `'recurring-third-[day]'`
+- `'recurring-fourth-[day]'`
+- `'recurring-last-[day]'`
+
+Days: monday, tuesday, wednesday, thursday, friday, saturday, sunday
+
+### Special Meeting Notes
+
+Use the `note` field for special information:
+
+```javascript
+{
+    time: "7:30 PM",
+    type: "closed",
+    name: "Big Book Study",
+    note: "1st Monday Open Speaker Meeting"
+}
+```
+
+This note will display on the meeting card to indicate the exception.
+
+---
+
+## How to Update Content
+
+Beyond events and schedule, here's how to update other website content.
+
+### Contact Information
+
+**Main Contact Section** (around line 2850):
+
 ```html
-<div class="bg-white p-6 rounded-lg shadow-md">
-    <h3 class="text-xl font-semibold text-blue-800 mb-3">
-        <i class="fas fa-icon-name text-blue-600 mr-2"></i>
-        Position Title
-    </h3>
-    <p class="text-gray-600 mb-3">
-        Description of the service position and responsibilities...
-    </p>
-    <p class="text-sm text-gray-500">
-        Requirements: List any requirements or time commitments
-    </p>
+<div class="contact-info">
+    <p><strong>Phone:</strong> <a href="tel:+19729250096">(972) 925-0096</a></p>
+    <p><strong>Email:</strong> <a href="mailto:rowlettaa@gmail.com">rowlettaa@gmail.com</a></p>
+    <p><strong>Address:</strong> 362 Oaks Trail #162, Garland, TX 75043</p>
 </div>
 ```
 
-### How to Update Zelle Information
+**To update phone number:**
+1. Change the number in `tel:+19729250096` (use format: +1 then 10 digits, no spaces)
+2. Change the displayed number `(972) 925-0096`
 
-**Location:** Contribute section
+**To update email:**
+1. Change `mailto:rowlettaa@gmail.com` to new email
+2. Change displayed text
 
-**To update Zelle QR code:**
-1. Generate new QR code from Zelle app or bank
-2. Upload image to hosting service (or use direct link)
-3. Replace `src` attribute in img tag
+**To update address:**
+1. Change the address text
+2. Update Google Maps links throughout site (search for `maps.google.com`)
 
-**To update Zelle payment link:**
-1. Find the Zelle enrollment URL in the contribute section
-2. Update the data parameter with new phone number or email
-3. Update both the link `href` and QR code `src` attributes
+---
 
-### How to Add New Pages/Sections
+**Footer** (around line 3050):
 
-**Steps:**
-1. **Create HTML section:**
 ```html
-<section id="new-page-page" class="page-content hidden">
-    <div class="container mx-auto px-6 py-12">
-        <h1 class="text-4xl font-bold text-blue-800 mb-6">New Page Title</h1>
-        <!-- Your content here -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center">
+        <p>&copy; <span id="copyright-year"></span> Rowlett Group of AA. All Rights Reserved.</p>
+        <p class="text-sm mt-2">Rowlett Group of Alcoholics Anonymous</p>
     </div>
-</section>
+</footer>
 ```
 
-2. **Add navigation link:**
-```html
-<!-- In desktop nav -->
-<a href="#new-page" class="nav-link text-gray-600 hover:text-blue-800 text-sm">New Page</a>
+The year updates automatically via JavaScript (`copyright-year` element).
 
-<!-- In mobile nav -->
-<a href="#new-page" class="nav-link block py-3 px-4 text-base hover:bg-gray-100">New Page</a>
-```
+### Group History Timeline
 
-3. **Add to search functionality:**
+**Location:** Line ~5321 in `generateTimelineHTML` function
+
+**Timeline structure:**
+
 ```javascript
-// In app.search function, add:
-{ section: 'New Page', content: document.getElementById('new-page-page').innerText }
+const timelineData = [
+    {
+        year: "1995",
+        title: "The Beginning",
+        description: "Rowlett Group founded by dedicated AA members",
+        icon: "fas fa-star",
+        highlights: [
+            "First meeting held in small room",
+            "Core founding members establish traditions",
+            "Weekly meetings begin"
+        ]
+    },
+    {
+        year: "2000",
+        title: "Growing Community",
+        description: "Group expands and strengthens",
+        icon: "fas fa-users",
+        highlights: [
+            "Membership grows to 50+ regular attendees",
+            "Additional weekly meetings added",
+            "Service structure established"
+        ]
+    }
+    // ... more periods
+];
 ```
 
-4. **Initialize page features:**
+**To add a new period:**
+
+1. Find the timeline array
+2. Add new object with year, title, description, icon, highlights
+3. Use Font Awesome icon names (fas fa-star, fas fa-users, etc.)
+
+**Font Awesome icons available:**
+- `fas fa-star` - Star (beginnings, important)
+- `fas fa-users` - People (community, growth)
+- `fas fa-home` - House (establishment, location)
+- `fas fa-heart` - Heart (love, fellowship)
+- `fas fa-trophy` - Trophy (achievements)
+- `fas fa-calendar` - Calendar (events, time)
+- See more at https://fontawesome.com/icons
+
+### Literature Links
+
+**Big Book Chapters** (around line 5010-5040):
+
 ```javascript
-// In app.initPages function, add any specific initialization
+const bigBookChapters = [
+    {
+        title: "Chapter 1: Bill's Story",
+        pdfUrl: "https://www.aa.org/sites/default/files/literature/...",
+        pages: "1-16",
+        description: "Bill W. tells his story"
+    },
+    {
+        title: "Chapter 2: There is a Solution",
+        pdfUrl: "https://www.aa.org/sites/default/files/literature/...",
+        pages: "17-29",
+        description: "The solution to alcoholism"
+    }
+    // ... more chapters
+];
 ```
 
-### How to Modify Colors/Branding
+**To update a PDF link:**
+1. Find the chapter
+2. Replace `pdfUrl` with new URL
+3. Update `pages` if different
+4. Update `description` if needed
 
-**Primary method:** Modify CSS variables in `:root`
+**To add a new resource:**
 
-```css
-:root {
-    --primary-blue: #1e40af;     /* Change to your primary color */
-    --light-blue: #3b82f6;       /* Change to lighter variant */
-    --pale-blue: #eff6ff;        /* Change to background variant */
-    /* ... etc */
+```javascript
+{
+    title: "New Pamphlet Name",
+    pdfUrl: "https://www.aa.org/path/to/pamphlet.pdf",
+    pages: "1-10",
+    description: "Description of pamphlet"
 }
 ```
 
-**Secondary method:** Find and replace Tailwind classes
-- `bg-blue-600` → `bg-[yourcolor]-600`
-- `text-blue-800` → `text-[yourcolor]-800`
-- Use consistent color scales (50, 100, 200...900)
+### Service Opportunities
 
-**Logo:** Replace SVG code in header (line 841-845) or substitute with image file
+**Location:** Line ~4870-4940
 
----
+**Structure:**
 
-## Troubleshooting Common Issues
+```javascript
+const serviceOpportunities = [
+    {
+        title: "Magdalen House",
+        description: "Women's recovery home providing support and structure",
+        contact: "(214) 324-9261",
+        website: "www.magdalenhouse.org",
+        type: "Treatment Facility"
+    }
+    // ... more opportunities
+];
+```
 
-### Meetings Not Showing
+**To add new service opportunity:**
 
-**Problem:** Meetings don't appear on home page or schedule page
+```javascript
+{
+    title: "New Organization",
+    description: "What they do",
+    contact: "(XXX) XXX-XXXX",
+    website: "www.example.org",
+    type: "Category"
+}
+```
 
-**Solutions:**
-1. Check that you updated BOTH locations (home page banner AND schedule page)
-2. Verify the day index matches (0=Sunday through 6=Saturday)
-3. Check for JavaScript syntax errors (missing commas, quotes, brackets)
-4. Open browser console (F12) and look for error messages
-5. Verify `type` is "Open"/"Closed" in home banner, "open"/"closed" in schedule
+**Common types:**
+- Treatment Facility
+- Correctional Facility
+- Service Committee
+- Area Service
+- Special Needs
 
-### Events Not Displaying
+### Updating Meta Tags (SEO)
 
-**Problem:** Events don't show up on Events page
+**Location:** Lines 1-100
 
-**Solutions:**
-1. Check that the event is in the `eventsData` array (lines 2587-2926)
-2. Verify all required fields are present: date, title, time, location, address, category, bgColor, borderColor, textColor
-3. Check for syntax errors: missing commas between events, mismatched brackets/quotes
-4. If event date has passed, it won't show (this is intentional - past events auto-hide)
-5. For recurring events, verify the pattern is correct: `'recurring-[occurrence]-[day]'`
-6. Open browser console and look for JavaScript errors
+**Key meta tags:**
 
-### Recurring Events Showing Wrong Date
+```html
+<title>Rowlett Group of AA | Garland, TX</title>
+<meta name="description" content="Rowlett Group of Alcoholics Anonymous...">
+<meta name="keywords" content="AA, Alcoholics Anonymous, Rowlett, Garland, TX, meetings, recovery">
 
-**Problem:** Recurring event calculates incorrect date
+<!-- Open Graph (Facebook) -->
+<meta property="og:title" content="Rowlett Group of AA">
+<meta property="og:description" content="...">
+<meta property="og:url" content="https://rowlettaa.org/">
 
-**Solutions:**
-1. Verify recurring pattern format: `'recurring-third-monday'` (all lowercase, hyphen-separated)
-2. Check spelling of day name (monday, tuesday, wednesday, thursday, friday, saturday, sunday)
-3. Check occurrence (first, second, third, fourth, last)
-4. The system calculates the NEXT occurrence automatically - if today is the event day, it will show next month's date
+<!-- Twitter -->
+<meta name="twitter:title" content="Rowlett Group of AA">
+<meta name="twitter:description" content="...">
+```
 
-### Event Filter Not Working
-
-**Problem:** Clicking filter buttons doesn't filter events
-
-**Solutions:**
-1. Check that `category` field matches one of: 'rowlett', 'speaker', 'area', 'service', 'crashed'
-2. Verify category is lowercase
-3. Check JavaScript console for errors
-4. Ensure filter buttons have correct `data-event-filter` attributes
-
-### Schedule Page Shows No Meetings
-
-**Problem:** Full schedule is blank
-
-**Solutions:**
-1. Check `meetingSchedule` array (lines ~3283-3290) is properly formatted
-2. Verify each day has `day`, `dayIndex`, and `meetings` array
-3. Check for syntax errors in the array
-4. Ensure `scheduleGrid` element exists in HTML
-
-### Navigation Not Working
-
-**Problem:** Clicking menu items doesn't change pages
-
-**Solutions:**
-1. Verify all page sections have matching IDs (`id="page-name-page"`)
-2. Check that navigation links use correct hash format (`href="#page-name"`)
-3. Ensure JavaScript is loaded and not blocked
-4. Check browser console for errors
-5. Verify `initNavigation` function is called on page load
-
-### PWA Install Banner Won't Appear
-
-**Problem:** Install app banner doesn't show
-
-**Solutions:**
-1. PWA banner only shows on HTTPS sites (not localhost or http)
-2. User must not have dismissed it previously (check localStorage)
-3. Browser must support PWA (Chrome, Edge, Safari on iOS)
-4. Clear `localStorage.getItem('pwa-dismissed')` to reset
-
-### Search Not Finding Results
-
-**Problem:** Search returns no results for known content
-
-**Solutions:**
-1. Verify search data array includes all pages (around line 2949)
-2. Check that page content is in DOM when search runs
-3. Search is case-insensitive but requires exact word matches
-4. Check browser console for JavaScript errors
-
-### Accordion Sections Won't Open
-
-**Problem:** Clicking accordion headers doesn't expand content
-
-**Solutions:**
-1. Verify elements have correct classes: `.main-accordion-header` and `.main-accordion-content`
-2. Check that JavaScript event listeners are attached
-3. Ensure accordion content has proper structure
-4. Check browser console for errors
-
-### Mobile Menu Not Opening
-
-**Problem:** Hamburger menu doesn't work on mobile
-
-**Solutions:**
-1. Verify `menu-btn` and `mobile-menu` IDs exist
-2. Check that click event listener is attached to menu button
-3. Test on actual mobile device (not just resized browser)
-4. Verify Tailwind breakpoint classes are correct (`lg:hidden`, etc.)
-
-### Colors/Styling Look Wrong
-
-**Problem:** Site colors or styles don't match expected
-
-**Solutions:**
-1. Check that Tailwind CSS CDN is loading (view page source, check CDN link)
-2. Verify custom CSS in `<style>` tag is not being overridden
-3. Check for browser caching - do hard refresh (Ctrl+Shift+R)
-4. Verify color classes are valid Tailwind classes
-5. Check that Font Awesome CDN is loading for icons
-
-### Syntax Error After Making Changes
-
-**Problem:** Site breaks after editing code
-
-**Solutions:**
-1. Check for common syntax errors:
-   - Missing commas between object properties or array items
-   - Mismatched quotes (must use matching single or double quotes)
-   - Mismatched brackets: `{ }`, `[ ]`, `( )`
-   - Missing semicolons at end of statements
-2. Use a code validator or linter
-3. Undo recent changes and apply them one at a time
-4. Check browser console for specific error messages and line numbers
-
-### Best Practices to Avoid Issues
-
-✅ **Always backup before making changes**
-✅ **Test changes locally before deploying**
-✅ **Check browser console for errors after changes**
-✅ **Update both meeting locations when changing schedule**
-✅ **Use consistent formatting (indentation, spacing)**
-✅ **Keep commas, quotes, and brackets balanced**
-✅ **Test on multiple devices (desktop, tablet, mobile)**
-✅ **Validate HTML and JavaScript syntax**
-✅ **Clear browser cache when testing changes**
+**To update:**
+1. Change title tags for browser tab and social sharing
+2. Update descriptions for search engines
+3. Ensure consistency across all meta tags
 
 ---
 
-## Testing Guidelines
+## Deployment
 
-### Visual Testing Checklist
+### Prerequisites
 
-**Desktop (1920x1080):**
-- [ ] Navigation displays horizontally without wrapping
-- [ ] Hero image loads and displays properly
-- [ ] All sections have appropriate spacing
-- [ ] Grid layouts show 3 columns where intended
-- [ ] Modal windows are centered and properly sized
-- [ ] Video thumbnails display in proper grid
-- [ ] Timeline shows alternating left/right layout
-- [ ] Footer (if present) spans full width
+You need ONE of the following:
 
-**Tablet (768x1024):**
-- [ ] Navigation may wrap or show hamburger menu
-- [ ] Grid layouts reduce to 2 columns
-- [ ] Cards stack appropriately
-- [ ] Text remains readable
-- [ ] Touch targets are at least 44x44px
-- [ ] Modals adjust to screen width
+- FTP/SFTP access credentials (username, password, server address)
+- Web hosting control panel access (cPanel, Plesk, etc.)
+- Git repository access (if using version control deployment)
 
-**Mobile (375x667):**
-- [ ] Hamburger menu appears and functions
-- [ ] All content stacks to single column
-- [ ] Timeline converts to single column
-- [ ] Text is readable without zooming
-- [ ] Buttons are easily tappable
-- [ ] Forms are easy to fill out
-- [ ] Quick action buttons don't overlap content
+### Local Testing (CRITICAL)
 
-### Functional Testing Checklist
+**Always test locally before deploying:**
 
-**Navigation:**
-- [ ] All nav links navigate to correct sections
-- [ ] Mobile menu opens and closes properly
-- [ ] Active page is highlighted correctly
-- [ ] Smooth scrolling works
-- [ ] Hash updates in URL
-- [ ] Browser back/forward buttons work
+1. Open `index.html` directly in web browser (double-click or File > Open)
+2. Check all pages/sections:
+   - Click through all navigation links
+   - View Events page, test category filtering
+   - Check Schedule page
+   - Test Sobriety Calculator
+   - Verify Literature links
+   - Check all external links
+3. Open browser console (F12) and check for JavaScript errors
+4. Test on mobile (resize browser window or use device emulator)
+5. Verify all changes display correctly
 
-**Meeting Schedule:**
-- [ ] All 7 days display
-- [ ] Meeting times show in 12-hour format
-- [ ] Format badges (Open/Closed) display
-- [ ] Today's meetings banner shows correct day
-- [ ] Special meetings (Sunday, Saturday) display properly
+**Pre-deployment checklist:**
 
-**Sobriety Calculator:**
-- [ ] Date input accepts dates
-- [ ] Future dates show error
-- [ ] Calculations are accurate
-- [ ] All time units display (years, months, days, hours, minutes)
-- [ ] Milestone badge appears
-- [ ] Encouragement message shows
-- [ ] Results persist on page navigation
+- [ ] All events display correctly
+- [ ] Event dates are accurate
+- [ ] No JavaScript errors in console (F12)
+- [ ] All links work
+- [ ] Mobile view looks good
+- [ ] Changes saved to file
+- [ ] Backup of previous version made
 
-**Literature Videos:**
-- [ ] All tabs switch correctly
-- [ ] Videos load and play in modal
-- [ ] Modal closes properly
-- [ ] Video stops when modal closes
-- [ ] Thumbnails load from YouTube
-- [ ] Grid scrolls smoothly
+### Deployment Methods
 
-**Study Guide Tools:**
-- [ ] **Meditation Timer:**
-  - [ ] Preset buttons work
-  - [ ] Custom input accepts numbers
-  - [ ] Timer counts down accurately
-  - [ ] Pause/Resume functions
-  - [ ] Reset returns to initial state
-  - [ ] Notification shows on completion
-- [ ] **HALT Check:**
-  - [ ] Options select/deselect on click
-  - [ ] Visual feedback on selection
-  - [ ] Recommendations appear for all combinations
-  - [ ] Clear selections works
-- [ ] **Gratitude List:**
-  - [ ] Can add entries
-  - [ ] Entries display with dates
-  - [ ] Can delete individual entries
-  - [ ] Clear all works with confirmation
-  - [ ] Data persists after refresh
-- [ ] **Personal Notes:**
-  - [ ] Can add notes
-  - [ ] Notes save and display
-  - [ ] Can edit and delete notes
-  - [ ] Data persists
+#### Method 1: FTP/SFTP Upload
 
-**Search:**
-- [ ] Modal opens from quick action button
-- [ ] Search input accepts text
-- [ ] Results appear in real-time
-- [ ] Results are relevant
-- [ ] Clicking result navigates to section
-- [ ] Modal closes properly
-- [ ] Escape key closes modal
-
-**Modals:**
-- [ ] All modals open when triggered
-- [ ] Close button works
-- [ ] Clicking outside closes modal
-- [ ] Escape key closes modal
-- [ ] Body scroll is prevented when open
-- [ ] Multiple modals don't conflict
-
-**PWA Installation:**
-- [ ] Install banner appears on eligible devices
-- [ ] Install button triggers prompt
-- [ ] Dismiss button hides banner
-- [ ] Dismissal is remembered
-- [ ] App installs correctly
-- [ ] Installed app opens standalone
-
-**Quick Action Buttons:**
-- [ ] All three buttons visible
-- [ ] Buttons don't overlap content
-- [ ] Hover effects work
-- [ ] Crisis button opens crisis modal
-- [ ] Today's meetings navigates to schedule
-- [ ] Search button opens search modal
-
-**Forms:**
-- [ ] All inputs accept appropriate data
-- [ ] Required fields are validated
-- [ ] Error messages display clearly
-- [ ] Success messages show
-- [ ] Form resets after submission
-
-### Accessibility Testing
-
-**Keyboard Navigation:**
-- [ ] Can tab through all interactive elements
-- [ ] Focus indicators are visible
-- [ ] Skip to main content link works
-- [ ] No keyboard traps
-- [ ] Logical tab order
-- [ ] Enter/Space activate buttons
-- [ ] Escape closes modals
-
-**Screen Reader:**
-- [ ] All images have alt text
-- [ ] Links have descriptive text
-- [ ] Buttons have labels
-- [ ] Form inputs have labels
-- [ ] ARIA attributes are correct
-- [ ] Page structure is logical
-- [ ] Headings form proper hierarchy
-
-**Color Contrast:**
-- [ ] All text meets 4.5:1 contrast ratio
-- [ ] Interactive elements meet 3:1 ratio
-- [ ] Error states are not color-only
-- [ ] Focus indicators are visible
-
-### Performance Testing
-
-**Load Time:**
-- [ ] Page loads in under 3 seconds on 3G
-- [ ] First Contentful Paint < 1.8s
-- [ ] Time to Interactive < 3.8s
-- [ ] Cumulative Layout Shift < 0.1
-
-**Resource Loading:**
-- [ ] Images are optimized
-- [ ] CSS and JS are minified (for production)
-- [ ] Fonts load efficiently
-- [ ] YouTube embeds don't slow initial load
-- [ ] No render-blocking resources
-
-**Responsiveness:**
-- [ ] Page responds to user input immediately
-- [ ] Animations are smooth (60fps)
-- [ ] No janky scrolling
-- [ ] Video playback is smooth
-
-### Cross-Browser Testing
-
-Test in:
-- [ ] Chrome (latest)
-- [ ] Firefox (latest)
-- [ ] Safari (latest)
-- [ ] Edge (latest)
-- [ ] Mobile Safari (iOS)
-- [ ] Chrome Mobile (Android)
-
-**Specific checks:**
-- [ ] CSS Grid/Flexbox layouts work
-- [ ] localStorage functions properly
-- [ ] Date inputs work (or have fallback)
-- [ ] Custom fonts load
-- [ ] Animations perform well
-
-### SEO Testing
-
-**Technical SEO:**
-- [ ] Title tag is present and descriptive
-- [ ] Meta description is compelling
-- [ ] Canonical URL is set
-- [ ] Open Graph tags are complete
-- [ ] Structured data is valid (test with Google Rich Results Test)
-- [ ] Sitemap is accessible
-- [ ] Robots meta tag allows indexing
-
-**Content SEO:**
-- [ ] H1 tag is present on each main section
-- [ ] Heading hierarchy is logical
-- [ ] Internal links work
-- [ ] External links open in new tabs
-- [ ] Images have descriptive alt text
-- [ ] URLs are clean (hash navigation)
-
-**Local SEO:**
-- [ ] NAP (Name, Address, Phone) is consistent
-- [ ] Local business schema is complete
-- [ ] Geo meta tags are accurate
-- [ ] Google Maps embed works
-
-### Security Testing
-
-- [ ] No sensitive data in client-side code
-- [ ] External links have `rel="noopener noreferrer"`
-- [ ] No inline JavaScript in production
-- [ ] Content Security Policy considered
-- [ ] HTTPS enforced
-- [ ] No mixed content warnings
-
----
-
-## Deployment Instructions
-
-### Option 1: Static Hosting (Recommended)
-
-**Platforms:** Netlify, Vercel, GitHub Pages, Cloudflare Pages
-
-**Steps for Netlify:**
-1. Create account at netlify.com
-2. Click "Add new site" → "Deploy manually"
-3. Drag and drop your `index.html` file
-4. Site is live immediately
-5. Optional: Configure custom domain
-
-**Steps for GitHub Pages:**
-1. Create GitHub repository
-2. Push `index.html` to repository
-3. Go to Settings → Pages
-4. Select branch and root folder
-5. Save - site will be live at `username.github.io/repo-name`
-
-**Steps for Vercel:**
-1. Create account at vercel.com
-2. Import project or drag/drop file
-3. Deploy - site is live immediately
-4. Optional: Add custom domain
-
-### Option 2: Traditional Web Hosting
-
-**Platforms:** Bluehost, HostGator, SiteGround, GoDaddy
+**Tools needed:**
+- FTP client (FileZilla, Cyberduck, WinSCP)
+- FTP credentials from hosting provider
 
 **Steps:**
-1. Purchase hosting plan
-2. Access cPanel or file manager
-3. Navigate to `public_html` or `www` folder
-4. Upload `index.html` file
-5. Ensure file is named `index.html` (lowercase)
-6. Access via your domain
+1. Open FTP client
+2. Connect to server using credentials
+3. Navigate to web root directory (usually `public_html` or `www`)
+4. Upload `index.html`
+5. Overwrite existing file when prompted
+6. Wait for upload to complete
+7. Verify at https://rowlettaa.org/
 
-### Option 3: Content Delivery Network (CDN)
-
-**Platforms:** Cloudflare, AWS CloudFront
-
-**Benefits:**
-- Global distribution
-- Faster load times
-- DDoS protection
-- Automatic caching
-
-### Custom Domain Setup
-
-**If you have a custom domain:**
-1. Purchase domain from registrar (Namecheap, Google Domains, etc.)
-2. In hosting platform, add custom domain
-3. Update DNS records:
-   - A record pointing to hosting IP
-   - OR CNAME record pointing to hosting URL
-4. Wait for DNS propagation (up to 48 hours)
-5. Enable HTTPS/SSL certificate (usually automatic)
-
-### Pre-Deployment Checklist
-
-- [ ] Update all contact information
-- [ ] Verify all links work
-- [ ] Test on multiple devices
-- [ ] Optimize images (compress without quality loss)
-- [ ] Minify HTML/CSS/JS (optional, improves load time)
-- [ ] Set up analytics (Google Analytics, Plausible, etc.)
-- [ ] Configure error pages (404)
-- [ ] Test PWA installation
-- [ ] Verify structured data with Google tools
-- [ ] Submit sitemap to Google Search Console
-
-### Post-Deployment
-
-**Monitor:**
-- Google Search Console - indexing status, errors
-- Google Analytics - traffic, user behavior
-- PageSpeed Insights - performance metrics
-- Uptime monitor - availability
-
-**Maintain:**
-- Update meeting schedules regularly
-- Add new literature videos as available
-- Respond to contact form submissions (if added)
-- Backup site files regularly
-- Check for broken links monthly
-- Update dependencies (Tailwind, Font Awesome) annually
+**Common FTP settings:**
+- Host: `ftp.yourdomain.com` or `sftp.yourdomain.com`
+- Port: 21 (FTP) or 22 (SFTP)
+- Protocol: FTP or SFTP (SFTP is more secure)
 
 ---
 
-## Browser Compatibility
+#### Method 2: cPanel File Manager
 
-### Supported Browsers
+**Steps:**
+1. Log into cPanel
+2. Click "File Manager"
+3. Navigate to `public_html`
+4. Click "Upload"
+5. Select `index.html` from your computer
+6. Overwrite when prompted
+7. Verify at https://rowlettaa.org/
 
-**Desktop:**
-- Chrome 90+ ✅
-- Firefox 88+ ✅
-- Safari 14+ ✅
-- Edge 90+ ✅
+**Advantages:**
+- No additional software needed
+- Works in any browser
+- Simple interface
 
-**Mobile:**
-- iOS Safari 14+ ✅
-- Chrome Mobile 90+ ✅
-- Firefox Mobile 88+ ✅
-- Samsung Internet 14+ ✅
+---
 
-### Known Issues
+#### Method 3: Git Deployment
 
-**Safari (Desktop & Mobile):**
-- Date input may render differently - consider custom datepicker for consistency
-- Some CSS grid features may need prefixes
-- Service worker caching may behave differently
+**If using Git/GitHub:**
 
-**Internet Explorer 11:**
-- ❌ Not supported (EOL June 2022)
-- CSS Grid not supported
-- Many ES6 features unavailable
-- Consider showing upgrade message for IE users
+```bash
+# Make changes to index.html
+# Commit changes
+git add index.html
+git commit -m "Update events for December 2025"
 
-**Older Android Browsers:**
-- Android 5.0 and below may have CSS issues
-- Recommend Chrome or Firefox for best experience
+# Push to repository
+git push origin main
 
-### Feature Detection & Fallbacks
+# If using automated deployment, changes go live automatically
+# Otherwise, pull on server or use deployment trigger
+```
 
-**localStorage:**
+**Advantages:**
+- Version control
+- Change history
+- Easy rollback
+- Team collaboration
+
+---
+
+### Post-Deployment Verification
+
+**After uploading, verify:**
+
+1. Visit https://rowlettaa.org/
+2. Hard refresh (Ctrl+F5 or Cmd+Shift+R) to clear cache
+3. Check all pages
+4. Verify changes appear correctly
+5. Test on mobile device
+6. Check browser console for errors
+
+**If changes don't appear:**
+- Hard refresh browser (Ctrl+F5)
+- Clear browser cache
+- Check file uploaded to correct location
+- Verify file replaced old version
+- Wait a few minutes for CDN/cache to update
+
+### Backup Strategy
+
+**Before every deployment:**
+
+1. Download current `index.html` from server
+2. Rename with date: `index-backup-2025-11-18.html`
+3. Store in backups folder
+4. Keep at least 5 most recent backups
+
+**Quick rollback:**
+If something breaks, upload the most recent backup file.
+
+---
+
+## JavaScript Functions Reference
+
+The application uses 59 JavaScript functions, all actively used. Here's a reference for major functions.
+
+### Global Utility Functions
+
+#### Date and Time Functions
+
+**`getRecurringDate(recurringType, year, month)`** - Line ~3069
+- **Purpose:** Calculate date for recurring patterns (third Monday, last Saturday, etc.)
+- **Parameters:**
+  - `recurringType` - String like `'recurring-third-monday'`
+  - `year` - 4-digit year
+  - `month` - Month (0-11, JavaScript format)
+- **Returns:** Date object for the calculated date
+- **Used by:** Events page, schedule page, group conscience calculation
+
 ```javascript
-if (typeof(Storage) !== "undefined") {
-    // Use localStorage
-} else {
-    // Fallback to cookies or disable feature
-    console.warn("localStorage not supported");
+// Example
+const thirdMonday = getRecurringDate('recurring-third-monday', 2025, 11); // Dec 2025
+```
+
+---
+
+**`getAllWeekdayDatesInMonth(dayName, year, month)`** - Line ~3095
+- **Purpose:** Generate array of ALL occurrences of a weekday in a month
+- **Parameters:**
+  - `dayName` - String like `'tuesday'`
+  - `year` - 4-digit year
+  - `month` - Month (0-11)
+- **Returns:** Array of Date objects
+- **Used by:** Events page for series patterns
+
+```javascript
+// Example
+const allTuesdays = getAllWeekdayDatesInMonth('tuesday', 2025, 11);
+// Returns [Dec 2, Dec 9, Dec 16, Dec 23, Dec 30]
+```
+
+---
+
+**`getDaysUntil(targetDate)`** - Line ~3150
+- **Purpose:** Calculate days between today and target date
+- **Parameters:** `targetDate` - Date object
+- **Returns:** Number of days (can be negative for past dates)
+- **Used by:** Event countdown timers
+
+---
+
+**`getCountdownText(days)`** - Line ~3165
+- **Purpose:** Convert days number to human-readable countdown
+- **Parameters:** `days` - Number of days
+- **Returns:** String like "In 5 days" or "Tomorrow"
+- **Used by:** Event cards
+
+---
+
+#### String and Formatting Functions
+
+**`formatDate(date, format)`** - Line ~3180
+- **Purpose:** Format Date object as string
+- **Parameters:**
+  - `date` - Date object
+  - `format` - Format string (`'long'`, `'short'`, `'time'`)
+- **Returns:** Formatted string
+- **Examples:**
+  - `'long'` → "Monday, December 25, 2025"
+  - `'short'` → "12/25/2025"
+  - `'time'` → "7:30 PM"
+
+---
+
+**`sanitizeHTML(str)`** - Line ~3210
+- **Purpose:** Escape HTML to prevent XSS
+- **Parameters:** `str` - String potentially containing HTML
+- **Returns:** Sanitized string
+- **Used by:** All content rendering functions
+
+---
+
+### Navigation Functions
+
+**`showPage(pageId)`** - Line ~3300
+- **Purpose:** Switch between pages in SPA
+- **Parameters:** `pageId` - String ID of target page
+- **Process:**
+  1. Hides all pages
+  2. Shows target page
+  3. Updates navigation highlighting
+  4. Runs page-specific initialization
+  5. Scrolls to top
+  6. Updates URL hash
+
+```javascript
+// Example
+showPage('events');  // Shows events page
+showPage('schedule'); // Shows schedule page
+```
+
+---
+
+**`updateNavigation(pageId)`** - Line ~3350
+- **Purpose:** Update navigation menu highlighting
+- **Parameters:** `pageId` - Current page ID
+- **Process:** Adds `active` class to current page link
+
+---
+
+**`handleNavClick(event)`** - Line ~3370
+- **Purpose:** Handle navigation link clicks
+- **Process:**
+  1. Prevents default link behavior
+  2. Extracts page ID from link
+  3. Calls `showPage()`
+
+---
+
+### Events Page Functions
+
+**`initEventsPage()`** - Line ~4200
+- **Purpose:** Initialize events calendar page
+- **Process:**
+  1. Check if events already processed (cache)
+  2. If not, process all events
+  3. Render events
+  4. Set up category filtering
+  5. Initialize toggle buttons
+
+---
+
+**`processEventsData(eventsData)`** - Line ~4230
+- **Purpose:** Process raw events into displayable format
+- **Parameters:** `eventsData` - Array of event objects
+- **Returns:** Object with `futureEvents` and `pastEvents` arrays
+- **Process:**
+  1. Loop through each event
+  2. Parse date patterns
+  3. Generate series dates if needed
+  4. Calculate if future or past
+  5. Filter events older than 6 months
+  6. Sort chronologically
+
+**Handles three date types:**
+- Simple dates: `'2025-12-25'`
+- Monthly recurring: `'recurring-third-monday'`
+- Series patterns: `'recurring-all-tuesday:2025-12'`
+
+---
+
+**`renderEvent(eventData, isPast)`** - Line ~4050
+- **Purpose:** Render single event card HTML
+- **Parameters:**
+  - `eventData` - Event object with date
+  - `isPast` - Boolean, true if showing past event
+- **Returns:** HTML string
+- **Features:**
+  - Color-coded by category
+  - Shows multiple dates if series
+  - Strikes through past dates
+  - Displays speaker info if present
+  - Shows countdown if upcoming
+  - Map links
+  - Potluck icons
+
+---
+
+**`filterEventsByCategory(category)`** - Line ~4280
+- **Purpose:** Filter events by category
+- **Parameters:** `category` - String (`'all'`, `'rowlett'`, `'speaker'`, etc.)
+- **Process:**
+  1. Uses cached processed events
+  2. Filters by category
+  3. Re-renders filtered list
+  4. Updates active filter button
+
+---
+
+**`togglePastEvents()`** - Line ~4320
+- **Purpose:** Show/hide past events section
+- **Process:** Toggles visibility of past events container
+
+---
+
+### Schedule Page Functions
+
+**`initSchedulePage()`** - Line ~3990
+- **Purpose:** Initialize meeting schedule page
+- **Process:**
+  1. Calculate today's day of week
+  2. Calculate current time
+  3. Calculate next Group Conscience date
+  4. Render schedule with highlighting
+  5. Display today's meetings
+  6. Show Group Conscience info
+
+---
+
+**`renderSchedule(scheduleData, currentDay, currentTime)`** - Line ~4100
+- **Purpose:** Render weekly schedule HTML
+- **Parameters:**
+  - `scheduleData` - Meeting schedule array
+  - `currentDay` - Today's day index (0-6)
+  - `currentTime` - Current time for highlighting
+- **Returns:** HTML string
+- **Features:**
+  - Highlights current day
+  - Highlights current meeting
+  - Shows open/closed badges
+  - Displays meeting notes
+  - Responsive layout
+
+---
+
+**`getTodaysMeetings(scheduleData, dayIndex)`** - Line ~4170
+- **Purpose:** Get meetings for specific day
+- **Parameters:**
+  - `scheduleData` - Schedule array
+  - `dayIndex` - Day index (0-6)
+- **Returns:** Array of today's meetings
+- **Used by:** "Today's Meetings" quick view
+
+---
+
+### Sobriety Calculator Functions
+
+**`calculateSobriety(sobrietyDate)`** - Line ~4500
+- **Purpose:** Calculate time sober from date
+- **Parameters:** `sobrietyDate` - Date object of sobriety date
+- **Returns:** Object with years, months, days, hours, minutes
+- **Features:**
+  - Handles leap years
+  - Calculates exact time
+  - Identifies next milestone
+
+```javascript
+// Example
+const result = calculateSobriety(new Date('2020-01-15'));
+// Returns: { years: 5, months: 10, days: 3, hours: 12, minutes: 30, nextMilestone: '6 years' }
+```
+
+---
+
+**`getMilestone(days)`** - Line ~4550
+- **Purpose:** Identify sobriety milestone based on days
+- **Parameters:** `days` - Total days sober
+- **Returns:** String describing milestone or null
+- **Milestones:**
+  - 1 day (24 hours)
+  - 30 days
+  - 60 days
+  - 90 days
+  - 6 months (180 days)
+  - 9 months (270 days)
+  - 1 year (365 days)
+  - Multi-year anniversaries
+
+---
+
+**`displaySobrietyResult(result)`** - Line ~4590
+- **Purpose:** Render sobriety calculation results
+- **Parameters:** `result` - Object from `calculateSobriety()`
+- **Process:** Creates formatted HTML with congratulations, time breakdown, milestone badges
+
+---
+
+### Literature Functions
+
+**`initLiteraturePage()`** - Line ~5000
+- **Purpose:** Initialize literature page
+- **Process:**
+  1. Load Big Book chapter links
+  2. Display daily reflection
+  3. Organize by category
+  4. Set up PDF links
+
+---
+
+**`renderChapterLinks(chapters)`** - Line ~5050
+- **Purpose:** Render Big Book chapter list
+- **Parameters:** `chapters` - Array of chapter objects
+- **Returns:** HTML string with links
+
+---
+
+**`getDailyReflection()`** - Line ~5100
+- **Purpose:** Get today's daily reflection
+- **Process:**
+  1. Calculate day of year
+  2. Fetch corresponding reflection
+  3. Display with date
+
+---
+
+### Step Study Functions
+
+**`initStepStudyPage()`** - Line ~4650
+- **Purpose:** Initialize step study page
+- **Process:**
+  1. Load all 12 steps
+  2. Set up step selector
+  3. Load saved notes from localStorage
+  4. Set up auto-save
+
+---
+
+**`loadStep(stepNumber)`** - Line ~4700
+- **Purpose:** Load specific step content
+- **Parameters:** `stepNumber` - Number 1-12
+- **Process:**
+  1. Display step text
+  2. Show reflection questions
+  3. Load saved notes
+  4. Update progress indicator
+
+---
+
+**`saveStepNotes(stepNumber, notes)`** - Line ~4820
+- **Purpose:** Save step notes to localStorage
+- **Parameters:**
+  - `stepNumber` - Number 1-12
+  - `notes` - String content
+- **Storage:** `localStorage.setItem('step-notes-' + stepNumber, notes)`
+
+---
+
+**`loadStepNotes(stepNumber)`** - Line ~4850
+- **Purpose:** Load saved notes for step
+- **Parameters:** `stepNumber` - Number 1-12
+- **Returns:** Saved notes string or empty string
+
+---
+
+### Service Functions
+
+**`initServicePage()`** - Line ~4870
+- **Purpose:** Initialize service opportunities page
+- **Process:**
+  1. Load service opportunities data
+  2. Categorize by type
+  3. Render with contact info
+  4. Set up external links
+
+---
+
+**`renderServiceOpportunities(opportunities)`** - Line ~4920
+- **Purpose:** Render service opportunities list
+- **Parameters:** `opportunities` - Array of service objects
+- **Returns:** HTML string with cards
+
+---
+
+### History Functions
+
+**`generateTimelineHTML(timelineData)`** - Line ~5321
+- **Purpose:** Generate group history timeline
+- **Parameters:** `timelineData` - Array of timeline period objects
+- **Returns:** HTML string with visual timeline
+- **Features:**
+  - Chronological layout
+  - Icons for each period
+  - Expandable details
+  - Highlights list
+
+---
+
+### Utility Functions
+
+**`debounce(func, wait)`** - Line ~3250
+- **Purpose:** Limit function call frequency
+- **Parameters:**
+  - `func` - Function to debounce
+  - `wait` - Milliseconds to wait
+- **Returns:** Debounced function
+- **Used by:** Search, scroll handlers
+
+---
+
+**`isMobile()`** - Line ~3280
+- **Purpose:** Detect if user on mobile device
+- **Returns:** Boolean
+- **Used by:** Responsive features
+
+---
+
+**`copyToClipboard(text)`** - Line ~5450
+- **Purpose:** Copy text to clipboard
+- **Parameters:** `text` - String to copy
+- **Used by:** Sobriety calculator, share features
+
+---
+
+## Styling and Design System
+
+### Tailwind CSS
+
+The website uses **Tailwind CSS**, a utility-first CSS framework loaded via CDN.
+
+**CDN Link** (line ~85):
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+**What is Tailwind?**
+
+Instead of writing custom CSS, Tailwind provides utility classes:
+
+```html
+<!-- Traditional CSS -->
+<div class="card">...</div>
+<style>.card { padding: 1rem; margin: 1rem; background: white; }</style>
+
+<!-- Tailwind CSS -->
+<div class="p-4 m-4 bg-white">...</div>
+```
+
+### Common Tailwind Classes Used
+
+**Spacing:**
+- `p-4` - Padding: 1rem (16px)
+- `m-4` - Margin: 1rem
+- `px-6` - Padding left and right: 1.5rem
+- `py-3` - Padding top and bottom: 0.75rem
+- `mt-8` - Margin top: 2rem
+- `space-y-4` - Vertical space between children: 1rem
+
+**Colors:**
+- `bg-blue-50` - Light blue background
+- `text-blue-900` - Dark blue text
+- `border-blue-400` - Medium blue border
+- Numbers: 50 (lightest) to 900 (darkest)
+
+**Layout:**
+- `flex` - Flexbox container
+- `grid` - Grid container
+- `container` - Centered container with max-width
+- `mx-auto` - Margin auto (centers)
+
+**Responsive:**
+- `sm:` - Small screens (640px+)
+- `md:` - Medium screens (768px+)
+- `lg:` - Large screens (1024px+)
+- `xl:` - Extra large (1280px+)
+
+**Example responsive:**
+```html
+<div class="text-sm md:text-base lg:text-lg">
+  <!-- Small text on mobile, medium on tablet, large on desktop -->
+</div>
+```
+
+### Color Palette
+
+**Event Categories:**
+
+| Category | Background | Border | Text |
+|----------|-----------|--------|------|
+| Rowlett | `bg-blue-50` | `border-blue-400` | `text-blue-900` |
+| Speaker | `bg-purple-50` | `border-purple-400` | `text-purple-900` |
+| Service | `bg-green-50` | `border-green-400` | `text-green-900` |
+| Anniversary | `bg-yellow-50` | `border-yellow-400` | `text-yellow-900` |
+| Area | `bg-indigo-50` | `border-indigo-400` | `text-indigo-900` |
+| Fellowship | `bg-pink-50` | `border-pink-400` | `text-pink-900` |
+
+**UI Colors:**
+- Primary: Blue (`blue-600`, `blue-700`)
+- Success: Green (`green-600`)
+- Warning: Yellow (`yellow-500`)
+- Danger: Red (`red-600`)
+- Neutral: Gray (`gray-100` to `gray-900`)
+
+### Typography
+
+**Font Family:**
+
+```css
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+```
+
+Loaded from Google Fonts CDN.
+
+**Text Sizes:**
+- `text-xs` - 0.75rem (12px)
+- `text-sm` - 0.875rem (14px)
+- `text-base` - 1rem (16px) - Default
+- `text-lg` - 1.125rem (18px)
+- `text-xl` - 1.25rem (20px)
+- `text-2xl` - 1.5rem (24px)
+- `text-3xl` - 1.875rem (30px)
+- `text-4xl` - 2.25rem (36px)
+
+**Font Weights:**
+- `font-normal` - 400
+- `font-medium` - 500
+- `font-semibold` - 600
+- `font-bold` - 700
+
+### Responsive Design
+
+**Breakpoints:**
+
+```
+sm:  640px  (Tablet)
+md:  768px  (Tablet landscape)
+lg:  1024px (Desktop)
+xl:  1280px (Large desktop)
+```
+
+**Mobile-First Approach:**
+
+Classes without prefix apply to all sizes. Prefixed classes apply at breakpoint and above.
+
+```html
+<div class="text-sm md:text-base lg:text-lg">
+  <!-- Mobile: small, Tablet: base, Desktop: large -->
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  <!-- Mobile: 1 column, Tablet: 2 columns, Desktop: 3 columns -->
+</div>
+```
+
+### Custom CSS
+
+**Location:** Lines 100-1500
+
+**Custom Animations:**
+
+```css
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
 }
 ```
 
-**CSS Grid:**
+**Print Styles:**
+
 ```css
-.grid-container {
-    display: flex; /* Fallback */
-    flex-wrap: wrap;
-}
-@supports (display: grid) {
-    .grid-container {
-        display: grid;
+@media print {
+    nav, footer, .no-print {
+        display: none;
+    }
+    .page {
+        display: block !important;
     }
 }
 ```
 
-**IntersectionObserver (for lazy loading):**
-```javascript
-if ('IntersectionObserver' in window) {
-    // Use IntersectionObserver
-} else {
-    // Load all images immediately
-}
+Ensures website prints nicely.
+
+### Icons
+
+**Font Awesome** loaded via CDN:
+
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 ```
 
-### Progressive Enhancement Strategy
+**Usage:**
+```html
+<i class="fas fa-calendar"></i>  <!-- Calendar icon -->
+<i class="fas fa-map-marker-alt"></i>  <!-- Location pin -->
+<i class="fas fa-users"></i>  <!-- People/group -->
+```
 
-The site is built with progressive enhancement:
-1. **Base:** Works without JavaScript (static content visible)
-2. **Enhanced:** JavaScript adds navigation, calculators, interactions
-3. **Modern:** PWA features, advanced animations, service worker
+**Common icons:**
+- `fa-calendar` - Calendar
+- `fa-clock` - Time
+- `fa-map-marker-alt` - Location
+- `fa-phone` - Phone
+- `fa-envelope` - Email
+- `fa-users` - Group/people
+- `fa-book` - Book/literature
+- `fa-home` - Home
+- `fa-star` - Star/favorite
 
 ---
 
-## Developer Guide
+## Performance and Optimization
 
-### Architecture Overview
+### File Size Optimization
 
-**Pattern:** Single-page application (SPA) with vanilla JavaScript
+**Current size:** 358KB
 
-**Key Principles:**
-- **Separation of Concerns:** HTML structure, CSS presentation, JS behavior
-- **Component-Based:** Each major feature is self-contained
-- **Progressive Enhancement:** Core content works without JS
-- **Accessibility First:** WCAG 2.1 AA compliance
-- **Performance Optimized:** Minimal dependencies, lazy loading
+**Optimization techniques:**
 
-### Code Organization
+1. **Single file** - Only one HTTP request
+2. **Minification opportunity** - Could minify HTML/CSS/JS (not currently done for maintainability)
+3. **CDN resources** - External resources cached by browser
+4. **Inline critical CSS** - No external stylesheets to load
+5. **No images** - All icons from Font Awesome
 
-**HTML Structure:**
-```
-<head>
-├── Meta tags & SEO
-├── External resources (CDN links)
-├── Structured data (JSON-LD)
-└── Styles (<style> block)
+**Load time:**
+- First visit: ~1-2 seconds (358KB + CDN resources)
+- Subsequent visits: Instant (cached)
 
-<body>
-├── Accessibility (skip link)
-├── Header (navigation)
-├── Global components (PWA banner, quick actions)
-├── Modals (search, crisis)
-├── Main content (all pages/sections)
-└── Scripts (<script> block)
-```
+### Event Caching
 
-**JavaScript Structure:**
-```
-const app = {
-    // State
-    currentPage: 'home',
-    userData: {},
+**Problem:** Processing 50+ events on every category filter is slow.
 
-    // Initialization
-    init() {...},
-
-    // Navigation
-    navigateTo() {...},
-    updateNavigation() {...},
-
-    // Page management
-    initPages() {...},
-    showPage() {...},
-    hidePage() {...},
-
-    // Features
-    calculateSobriety() {...},
-    openVideoModal() {...},
-    search() {...},
-    // etc.
-
-    // Utilities
-    formatTime() {...},
-    saveData() {...},
-    loadData() {...},
-    showNotification() {...}
-};
-```
-
-### Adding New Features
-
-**1. Add a new page:**
+**Solution:** Process once, cache results.
 
 ```javascript
-// In HTML:
-<section id="new-feature-page" class="page-content hidden">
-    <div class="container mx-auto px-6 py-12">
-        <h1>New Feature</h1>
-        <!-- Content -->
-    </div>
-</section>
+let processedEvents = null;
 
-// In JavaScript:
-app.initNewFeature = function() {
-    // Set up event listeners
-    // Load data
-    // Initialize components
-};
-
-// Call in app.init():
-app.init = function() {
-    // ... existing code
-    this.initNewFeature();
-};
-```
-
-**2. Add a modal:**
-
-```html
-<div id="new-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-lg shadow-2xl max-w-2xl w-full">
-        <div class="p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h2>Modal Title</h2>
-                <button type="button" onclick="app.closeModal('new-modal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <!-- Content -->
-        </div>
-    </div>
-</div>
-```
-
-**3. Add a localStorage feature:**
-
-```javascript
-app.saveUserPreference = function(key, value) {
-    const prefs = this.loadData('userPreferences') || {};
-    prefs[key] = value;
-    this.saveData('userPreferences', prefs);
-};
-
-app.loadUserPreference = function(key) {
-    const prefs = this.loadData('userPreferences') || {};
-    return prefs[key];
-};
-```
-
-**4. Add a calculator/tool:**
-
-```javascript
-app.newCalculator = function() {
-    // Get input values
-    const input = document.getElementById('calc-input').value;
-
-    // Validate
-    if (!input) {
-        this.showNotification('Please enter a value', 'warning');
+function initEventsPage() {
+    if (processedEvents) {
+        // Use cached data - instant
+        displayEvents(processedEvents);
         return;
     }
 
-    // Calculate
-    const result = /* your calculation */;
-
-    // Display result
-    document.getElementById('calc-result').innerHTML = result;
-
-    // Optional: Save for later
-    this.saveData('lastCalculation', result);
-};
+    // Process once
+    processedEvents = processEventsData(eventsData);
+    displayEvents(processedEvents);
+}
 ```
 
-### Best Practices
+**Result:** Category filtering is instant after initial load.
 
-**JavaScript:**
-- Use `const` and `let` instead of `var`
-- Add all functions to `app` object to avoid global pollution
-- Use arrow functions for callbacks
-- Validate all user inputs
-- Handle errors gracefully with try/catch
-- Use meaningful variable names
-- Comment complex logic
+### Code Optimization
 
-**CSS:**
-- Use Tailwind utility classes when possible
-- Add custom CSS for animations and complex layouts
-- Use CSS variables for colors and common values
-- Maintain consistent spacing scale
-- Test responsive breakpoints
-- Consider dark mode (future enhancement)
+**Consolidated functions** (Version 1.1):
 
-**HTML:**
-- Use semantic elements (`<header>`, `<nav>`, `<main>`, `<section>`)
-- Add ARIA labels to interactive elements
-- Include alt text for all images
-- Use proper heading hierarchy
-- Validate HTML regularly
+Eliminated duplicate date calculation functions:
+- Before: `getThirdMonday()`, `getFirstSaturday()`, `getLastSaturday()`, `getRecurringDate()`
+- After: Single `getRecurringDate()` function used everywhere
 
-**Accessibility:**
-- Always include keyboard navigation
-- Test with screen readers
-- Maintain focus indicators
-- Use sufficient color contrast
-- Provide text alternatives for non-text content
+**Benefits:**
+- Smaller file size
+- Single source of truth
+- Easier maintenance
+- No duplicate logic
 
-### Debugging Tips
+### Browser Caching
 
-**Console Logging:**
+**Service Worker** (if implemented):
+
 ```javascript
-// Debug navigation
-console.log('Navigating to:', page);
-
-// Debug calculations
-console.log('Input:', input, 'Result:', result);
-
-// Debug storage
-console.log('Saved data:', localStorage.getItem('key'));
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open('rowlett-aa-v1').then((cache) => {
+            return cache.addAll([
+                '/',
+                '/index.html'
+            ]);
+        })
+    );
+});
 ```
 
-**Browser DevTools:**
-- **Elements tab:** Inspect HTML/CSS, modify live
-- **Console tab:** View errors, test JavaScript
-- **Network tab:** Check resource loading
-- **Application tab:** Inspect localStorage, Service Workers
-- **Lighthouse tab:** Performance, accessibility, SEO audits
+Allows offline access to entire website.
 
-**Common Issues:**
+### PWA Optimization
 
-1. **Page not showing:**
-   - Check if section has `hidden` class
-   - Verify ID matches navigation hash
-   - Check JavaScript console for errors
+**Manifest configuration:**
 
-2. **Data not persisting:**
-   - Verify localStorage is available
-   - Check for quota exceeded errors
-   - Ensure JSON.stringify/parse are working
-
-3. **Modals not closing:**
-   - Check event listeners are attached
-   - Verify close button IDs match
-   - Look for JavaScript errors preventing execution
-
-4. **Styles not applying:**
-   - Check Tailwind classes are correct
-   - Verify custom CSS syntax
-   - Look for specificity issues
-   - Check for typos in class names
-
-### Performance Optimization
-
-**Current optimizations:**
-- Lazy loading images
-- CDN for external resources
-- Minified external libraries
-- Resource hints (preconnect, dns-prefetch)
-- Single file architecture
-
-**Future optimizations:**
-- Minify HTML/CSS/JS for production
-- Compress images (WebP format)
-- Implement service worker for full offline support
-- Add resource caching headers
-- Consider code splitting for very large sites
-
-### Version Control
-
-**Recommended workflow:**
-1. Initialize git repository
-2. Create `.gitignore` file
-3. Commit initial version
-4. Create branches for new features
-5. Merge to main when tested
-6. Tag releases (v1.0, v1.1, etc.)
-
-**Example `.gitignore`:**
-```
-.DS_Store
-Thumbs.db
-*.log
-node_modules/
-.env
+```json
+{
+    "name": "Rowlett Group of AA",
+    "short_name": "Rowlett AA",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2563eb",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
 ```
 
-### Documentation
-
-**Keep this README updated:**
-- Document all new features
-- Update testing checklist
-- Note breaking changes
-- Update deployment instructions as needed
-- Document any workarounds or known issues
+Enables:
+- Install to home screen
+- App-like experience
+- Splash screen
+- Theme color in browser
 
 ---
 
-## Additional Resources
+## Troubleshooting
 
-### AA Resources
-- **AA World Services:** https://www.aa.org/
-- **Dallas AA:** https://www.aadallas.org/
-- **Northeast Texas Area 65:** https://neta65.org/
+### Events Not Displaying
 
-### Development Resources
-- **Tailwind CSS Docs:** https://tailwindcss.com/docs
-- **Font Awesome Icons:** https://fontawesome.com/icons
-- **MDN Web Docs:** https://developer.mozilla.org/
-- **Schema.org:** https://schema.org/
+**Symptom:** Events page is blank or shows no events.
 
-### Tools
-- **Accessibility Testing:** WAVE, aXe DevTools
-- **SEO Testing:** Google Search Console, Lighthouse
-- **Performance:** PageSpeed Insights, WebPageTest
-- **Validation:** W3C HTML Validator, CSS Validator
+**Possible causes:**
+
+1. **JavaScript error** - Check browser console (F12)
+   - Look for red error messages
+   - Common: Syntax error in `eventsData` array
+
+2. **Missing comma** in events array
+   ```javascript
+   // ❌ Wrong - missing comma
+   {
+       date: '2025-12-01',
+       title: 'Event 1'
+   }
+   {
+       date: '2025-12-02',
+       title: 'Event 2'
+   }
+
+   // ✅ Correct - comma after first event
+   {
+       date: '2025-12-01',
+       title: 'Event 1'
+   },
+   {
+       date: '2025-12-02',
+       title: 'Event 2'
+   }
+   ```
+
+3. **All events are past** - Events older than 6 months automatically hide
+   - Check "Show Past Events" toggle
+   - Verify event dates are in future
+
+4. **Invalid date format**
+   ```javascript
+   // ❌ Wrong formats
+   date: '12/25/2025'
+   date: 'December 25, 2025'
+
+   // ✅ Correct format
+   date: '2025-12-25'  // YYYY-MM-DD
+   ```
+
+**Solutions:**
+1. Open browser console (F12)
+2. Look for error messages
+3. Fix syntax errors
+4. Validate JSON syntax at https://jsonlint.com/
+5. Clear browser cache (Ctrl+F5)
+
+---
+
+### Schedule Not Showing
+
+**Symptom:** Meeting schedule is blank.
+
+**Possible causes:**
+
+1. **JavaScript error** in `meetingSchedule` array
+2. **Missing dayIndex** field
+3. **Invalid meeting type** (must be `"open"` or `"closed"`)
+
+**Check:**
+```javascript
+// Ensure each day has dayIndex
+{ day: "Monday", dayIndex: 1, meetings: [...] }
+// dayIndex: 0=Sunday, 1=Monday, ... 6=Saturday
+```
+
+**Solution:**
+1. Check console for errors
+2. Verify all days 0-6 are present
+3. Ensure `meetings` is an array
+
+---
+
+### Past Events Still Showing
+
+**Symptom:** Old events still appear in "Upcoming Events".
+
+**Explanation:** This is expected behavior for:
+- Recurring events (continue showing until next occurrence passes)
+- Events less than 6 months old
+
+**Intentional behavior:**
+- Events automatically hide after all dates pass
+- 6-month cutoff for past events
+- Recurring events show next occurrence
+
+**To manually hide an event:**
+Comment it out:
+```javascript
+/*  {
+    date: '2025-01-01',
+    title: 'Old Event',
+    // ... rest
+},  */
+```
+
+---
+
+### Broken Layout/Styling
+
+**Symptom:** Page looks broken, unstyled, or misaligned.
+
+**Possible causes:**
+
+1. **Tailwind CSS not loading** - Check internet connection
+2. **Unclosed HTML tag** - Missing closing `</div>`, `</p>`, etc.
+3. **Invalid Tailwind class** - Typo in class name
+
+**Solutions:**
+
+1. **Check Tailwind CDN:**
+   - Open browser console Network tab
+   - Look for failed requests to cdn.tailwindcss.com
+   - If failed, check internet connection
+
+2. **Validate HTML:**
+   - Use https://validator.w3.org/
+   - Upload or paste your HTML
+   - Fix any errors reported
+
+3. **Check for unclosed tags:**
+   ```html
+   <!-- ❌ Wrong - missing closing div -->
+   <div class="container">
+       <p>Content</p>
+
+   <!-- ✅ Correct -->
+   <div class="container">
+       <p>Content</p>
+   </div>
+   ```
+
+---
+
+### JavaScript Errors
+
+**Symptom:** Features not working, console shows errors.
+
+**How to check:**
+1. Press F12 to open browser DevTools
+2. Click "Console" tab
+3. Look for red error messages
+
+**Common errors:**
+
+**1. Uncaught SyntaxError: Unexpected token**
+- Cause: Missing comma, quote, or bracket
+- Solution: Check line number in error, fix syntax
+
+**2. Uncaught ReferenceError: X is not defined**
+- Cause: Function or variable doesn't exist
+- Solution: Check spelling, ensure function is defined
+
+**3. Uncaught TypeError: Cannot read property 'X' of null**
+- Cause: Trying to access element that doesn't exist
+- Solution: Check element IDs, ensure HTML is correct
+
+---
+
+### Changes Not Appearing After Upload
+
+**Symptom:** Updated file, but website still shows old content.
+
+**Cause:** Browser cache or CDN cache.
+
+**Solutions:**
+
+1. **Hard refresh:**
+   - Windows/Linux: Ctrl + F5
+   - Mac: Cmd + Shift + R
+
+2. **Clear browser cache:**
+   - Chrome: Settings > Privacy > Clear browsing data
+   - Firefox: Options > Privacy > Clear Data
+   - Safari: Safari > Clear History
+
+3. **Check file uploaded correctly:**
+   - Download file from server
+   - Compare to local file
+   - Verify file size matches
+
+4. **Bypass cache with query string:**
+   - Add `?v=2` to URL: `https://rowlettaa.org/?v=2`
+   - Changes number each update
+
+5. **Wait for CDN:**
+   - Some hosts cache files
+   - May take 5-15 minutes to update
+   - Check again later
+
+---
+
+### Mobile Display Issues
+
+**Symptom:** Website looks wrong on mobile.
+
+**Possible causes:**
+
+1. **Missing viewport meta tag** - Should be present (line ~20)
+   ```html
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   ```
+
+2. **Fixed widths** - Avoid `width: 600px;` in custom CSS
+   - Use percentage or max-width instead
+
+3. **Text too small** - Ensure minimum font size
+   - Use `text-sm` or larger on mobile
+
+**Testing on desktop:**
+1. Open browser DevTools (F12)
+2. Click device icon (toggle device toolbar)
+3. Select mobile device (iPhone, Pixel, etc.)
+4. Test responsiveness
+
+---
+
+### Google Maps Links Not Working
+
+**Symptom:** Map links don't open or go to wrong location.
+
+**Solution:**
+
+Ensure proper URL format:
+```javascript
+// ✅ Correct format
+mapLink: 'https://maps.google.com/?q=362+Oaks+Trail+162+Garland+TX+75043'
+
+// Replace spaces with +
+// Full address including ZIP
+```
+
+**To generate map link:**
+1. Go to Google Maps
+2. Search for address
+3. Click "Share"
+4. Copy link
+5. Use in `mapLink` field
+
+---
+
+## Support
+
+### Getting Help
+
+**For content updates:**
+- **Email:** rowlettaa@gmail.com
+- **Phone:** (972) 925-0096
+- **Best times:** Weekdays 9 AM - 5 PM
+
+**For technical issues:**
+1. Check this README troubleshooting section
+2. Check browser console (F12) for errors
+3. Validate HTML at https://validator.w3.org/
+4. Test in different browsers
+5. Contact technical support
+
+---
+
+### Helpful Tools
+
+**Validation:**
+- **HTML Validator:** https://validator.w3.org/
+- **JSON Validator:** https://jsonlint.com/
+- **CSS Validator:** https://jigsaw.w3.org/css-validator/
+
+**Testing:**
+- **Browser DevTools:** Press F12 in any browser
+- **Mobile Emulator:** In DevTools, click device icon
+- **PageSpeed Insights:** https://pagespeed.web.dev/
+
+**Editing:**
+- **VS Code:** https://code.visualstudio.com/ (recommended)
+- **Sublime Text:** https://www.sublimetext.com/
+- **Notepad++:** https://notepad-plus-plus.org/
+
+**FTP Clients:**
+- **FileZilla:** https://filezilla-project.org/ (free, cross-platform)
+- **Cyberduck:** https://cyberduck.io/ (Mac/Windows)
+- **WinSCP:** https://winscp.net/ (Windows)
+
+---
+
+### Quick Tips
+
+1. **Always backup** `index.html` before making changes
+   - Download from server
+   - Rename with date: `index-backup-2025-11-18.html`
+
+2. **Test locally** before uploading
+   - Open file in browser
+   - Check all changes
+   - Verify no errors
+
+3. **Use a code editor** with syntax highlighting
+   - VS Code recommended
+   - Highlights syntax errors
+   - Auto-completes code
+
+4. **Validate dates** - Use YYYY-MM-DD format
+   - ✅ `'2025-12-25'`
+   - ❌ `'12/25/2025'`
+
+5. **Check commas** - Each event needs comma after it (except last)
+   ```javascript
+   { event: 1 },  // ✅ Comma
+   { event: 2 },  // ✅ Comma
+   { event: 3 }   // ✅ No comma (last item)
+   ```
+
+6. **Use browser console** - Press F12 to see errors
+   - Red messages = errors to fix
+   - Yellow warnings = optional improvements
+
+7. **Hard refresh after changes** - Ctrl+F5 (Windows) or Cmd+Shift+R (Mac)
+   - Clears cache
+   - Shows latest changes
+
+8. **Keep it simple** - Don't overcomplicate
+   - Copy existing examples
+   - Change only what's needed
+   - Test after each change
 
 ---
 
 ## Changelog
 
+### Version 1.1 (November 2025)
+
+**New Features:**
+- **Event series pattern:** `recurring-all-[day]:[YYYY-MM]` for month-wide event series
+  - Example: `recurring-all-tuesday:2025-12` generates all Tuesdays in December
+  - Displays as single card with all dates
+  - Past dates automatically struck through
+- **Event caching:** Events processed once, cached for instant category filtering
+- **Comprehensive README:** Complete application documentation and update guide
+
+**Code Improvements:**
+- Consolidated date calculation functions (eliminated duplicates)
+- Removed unused functions (`getThirdMonday`, `getLastSaturday`, `getFirstSaturday`)
+- Global `getRecurringDate()` function used by both events and schedule pages
+- Single source of truth for recurring date logic
+- 100% function utilization (59 functions, all used)
+
+**Events Added:**
+- Matt C. speaker event (December 1, 2025)
+- December Tuesday speaker series (Rowlett Group members)
+- How to Chair a Meeting workshop (December 6, 2025)
+- GSR Orientation workshop (January 18, 2026)
+
+**Performance:**
+- File size: 358KB (optimized)
+- Event processing: Cached for instant filtering
+- No dead code: All functions actively used
+
+**Documentation:**
+- Complete README.md rewrite
+- Practical update templates
+- Comprehensive function reference
+- Troubleshooting guide
+- Deployment instructions
+
+---
+
 ### Version 1.0 (October 2025)
-- **12 main pages/sections** with complete content
-- **Meeting schedule** with 15 weekly meetings across 7 days (all HYBRID in-person + Zoom)
-- **Events & Happenings page:**
-  - Dynamic event population from easily updateable eventsData array (200+ lines of documentation)
-  - Category filtering: Rowlett Events, Speaker Events, Dallas Area, Service, Crashed Meetings
-  - Recurring event calculations supporting 35+ patterns (first/second/third/fourth/last day-of-week)
-  - Auto-hide past events (no manual cleanup required)
-  - Event features: speaker details, location with Google Maps, countdown timers, color-coded cards
-  - Past events archive (6-month history)
-  - Current events (November 2025): Group Conscience, Birthday Celebration, Ladies Who Lunch, 30th Anniversary, CityWide Dallas AA, Stuart R., Greg L. (all Tuesdays), Esther H., Lisa R., Thanksgiving Meal
-  - Contact webmaster to add/update events
-- **Special events tracking:**
-  - 30th Anniversary Celebration (July 26, 2025, speaker Myers R. from Ingram, TX)
-  - Monthly Birthday/Anniversary Celebrations (Last Saturday at 4:00 PM)
-  - Group Conscience Meeting (3rd Monday at 6:00 PM, auto-calculation)
-- **Advanced sobriety calculator:**
-  - 20+ milestone levels (24 hours to 30+ years)
-  - Animated gradient progress bars showing progress to next milestone
-  - Countdown to next milestone with days/hours remaining
-  - Persistent localStorage tracking
-  - Reset functionality with confirmation
-- **Literature library:**
-  - 60+ Big Book PDFs linked to AA.org (all chapters, personal stories, appendices)
-  - 30+ Big Book ASL videos
-  - 19 Twelve and Twelve PDFs (all steps and traditions individually)
-  - 15+ Twelve and Twelve ASL videos
-  - Total: 45+ ASL videos for accessibility
-  - Dual-tab system (Read/Watch)
-  - Accordion-style organization with color-coded categories
-- **Study guide tools:**
-  - 1930s Dictionary with live API lookups (dictionaryapi.dev)
-  - Features: phonetics, etymology, definitions, usage examples
-  - Personal study notes system with:
-    - Auto-generated timestamps (created/edited)
-    - Edit functionality (inline)
-    - Delete with confirmation
-    - Search/filter across all notes
-    - Persistent localStorage
-  - Color-coded annotation guide (5 highlight colors)
-  - Study method instructions with visual examples
-- **Recovery resources:**
-  - Meditation timer (5/10/15 minute presets with audio notification)
-  - HALT support tool with toggle selection and personalized advice:
-    - Hungry: Nutritious meal recommendation
-    - Angry: Breathing/sponsor suggestion
-    - Lonely: Connection reminder
-    - Tired: Rest recommendation
-  - Gratitude journal with automatic timestamps and entry count
-  - Service opportunities:
-    - Magdalen House (214-324-9261, www.magdalenhouse.org)
-    - Rockwall Jail (972-204-7108)
-    - Green Oaks treatment facility
-    - Salvation Army (214-821-1116)
-    - Speaker events
-  - Minimum 6 months sobriety required for service
-- **Interactive 25+ year timeline** (1995-Present) with 12 major eras:
-  - Detailed historical narrative from founding to present
-  - Color-coded alternating left/right design
-  - Hover-activated information popups
-  - Key milestones: founding, growth, moves, Zoom integration (April 1, 2020)
-- **PWA (Progressive Web App):**
-  - Installable on mobile/desktop devices
-  - Service worker (rowlett-aa-cache-v2) with cache-first strategy
-  - 100% offline support for cached content
-  - App manifest with 192x192 and 512x512 icons
-  - Standalone app mode (no browser UI)
-  - Theme color: #1e40af
-- **Global search functionality:**
-  - Modal-based interface
-  - Real-time search as you type
-  - Searches all pages, meetings, literature, resources
-  - Keyboard accessible (Escape to close)
-- **Crisis resources modal** with emergency contacts:
-  - National Suicide Prevention: 988
-  - Crisis Text Line: TEXT HELLO to 741741
-  - Dallas AA Central: (214) 887-6699
-  - Rowlett Group: (972) 925-0096
-  - Call 911 guidance
-- **3 Floating Action Buttons (FAB)** for quick access:
-  - Crisis Resources (red, phone icon)
-  - Today's Meetings (blue, calendar icon)
-  - Search (green, magnifying glass icon)
-- Fully responsive mobile design
-- SEO optimized with structured data (Schema.org)
-- WCAG 2.1 AA accessibility compliant
-- No frameworks - Vanilla JavaScript
-- Single-file architecture (259KB)
 
-### Future Enhancements (Planned)
-- Enhanced offline capability with expanded caching
-- Step work journaling system
-- Daily reflections/meditations
-- Expanded meeting finder with interactive maps
-- Multilingual support (Spanish translation)
-- Dark mode theme option
-- Email newsletter signup integration
-- Blog/articles section for recovery content
-- Event RSVP system
-- Prayer/meditation audio library
-- Downloadable sobriety tracker PDF reports
+**Initial Release:**
+
+**Pages/Sections (12):**
+- Home page with navigation
+- Events calendar with filtering
+- Meeting schedule with highlighting
+- About us / Group information
+- Contact information
+- Sobriety calculator
+- Literature library
+- Step study guide with notes
+- Newcomer resources
+- Service opportunities
+- Group history timeline
+- Resources and links
+
+**Features:**
+- Dynamic events system with recurring patterns
+- 15 weekly meetings
+- Real-time schedule highlighting
+- Sobriety calculator with milestones
+- Interactive step study with localStorage notes
+- Responsive mobile design
+- PWA support (offline capable)
+- SEO optimized
+- Single-file architecture (275KB)
+
+**Technologies:**
+- Vanilla JavaScript (no frameworks)
+- Tailwind CSS via CDN
+- Font Awesome icons
+- Google Fonts (Inter)
+- LocalStorage for persistence
 
 ---
 
-## Support & Contact
-
-**For technical issues with the website:**
-- Create an issue in the repository
-- Contact the web administrator
-- Email: rowlettaa@gmail.com
-
-**For AA support and meeting information:**
-- **Phone:** (972) 925-0096
-- **Email:** rowlettaa@gmail.com
-- **Address:** 362 Oaks Trail #162, Garland, TX 75043
-
-**Emergency Resources:**
-- **National Suicide Prevention:** 988
-- **Crisis Text Line:** Text HELLO to 741741
-- **Dallas AA Hotline:** (214) 887-6699
-
----
-
-## License
-
-This website is created for the Rowlett Group of Alcoholics Anonymous. The 12 Steps and 12 Traditions are reprinted and adapted with permission of Alcoholics Anonymous World Services, Inc. (AAWS).
-
-**AA Preamble** and related content are copyright © by AA Grapevine, Inc.
-
----
-
-## Acknowledgments
-
-Special thanks to:
-- All members of the Rowlett Group for their service and support
-- Alcoholics Anonymous World Services for providing recovery resources
-- The open-source community for development tools
-- All those in recovery who continue to carry the message
-
----
+## Project Information
 
 **Last Updated:** November 2025
+**Maintained by:** Rowlett Group of AA
+**Website:** https://rowlettaa.org/
+**Contact:** rowlettaa@gmail.com | (972) 925-0096
+**Location:** 362 Oaks Trail #162, Garland, TX 75043
 
-**README Version:** 1.1
-
-**Website Version:** 1.0
+**Version:** 1.1
+**License:** Use restricted to Rowlett Group of AA
+**Platform:** Single-file HTML/CSS/JavaScript application
 
 ---
 
-*Remember: The only requirement for A.A. membership is a desire to stop drinking.*
+## Quick Reference Card
+
+**Most Common Tasks:**
+
+| Task | Location | Action |
+|------|----------|--------|
+| Add event | Line 3226 | Copy template, paste before `];`, edit fields |
+| Remove event | Line 3226 | Find event, delete or comment out |
+| Add meeting | Line 4014 | Find day, add meeting object to array |
+| Change Group Conscience | Line 3998 | Update recurring pattern |
+| Update contact info | Line 2850 | Edit phone, email, address |
+| Change copyright | Line 3050 | Edit footer (year auto-updates) |
+| Test changes | N/A | Open index.html in browser, press F12 |
+| Deploy | N/A | Upload via FTP, cPanel, or Git |
+| Fix errors | N/A | Press F12, check Console tab |
+| Backup | N/A | Download current file, rename with date |
+
+**Emergency Rollback:**
+1. Find most recent backup file
+2. Upload via FTP or cPanel
+3. Overwrites broken version
+4. Hard refresh browser (Ctrl+F5)
+
+---
+
+**End of README**

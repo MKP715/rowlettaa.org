@@ -3066,25 +3066,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 </div>
 <script>
-    function getThirdMonday(year, month) {
-        const d = new Date(year, month, 1);
-        const day = d.getDay();
-        let firstMonday = 1 + (1 - day + 7) % 7;
-        const thirdMondayDate = firstMonday + 14;
-        return new Date(year, month, thirdMondayDate);
+    // Helper function to get all dates for a specific weekday in a month
+    function getAllWeekdayDatesInMonth(dayName, year, month) {
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const targetDay = dayNames.indexOf(dayName.toLowerCase());
+        const dates = [];
+
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+
+        let currentDate = new Date(firstDay);
+        while (currentDate <= lastDay) {
+            if (currentDate.getDay() === targetDay) {
+                dates.push(new Date(currentDate));
+            }
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return dates;
     }
-    function getLastSaturday(year, month) {
-        const d = new Date(year, month + 1, 0);
-        const lastDayOfMonth = d.getDate();
-        const dayOfWeek = d.getDay();
-        const diff = (dayOfWeek - 6 + 7) % 7;
-        return new Date(year, month, lastDayOfMonth - diff);
-    }
-    function getFirstSaturday(year, month) {
-        const d = new Date(year, month, 1);
-        const day = d.getDay();
-        const firstSaturday = 1 + (6 - day + 7) % 7;
-        return new Date(year, month, firstSaturday);
+
+    // Helper function to calculate recurring dates (first/second/third/fourth/last day of month)
+    function getRecurringDate(recurringType, year, month) {
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const parts = recurringType.replace('recurring-', '').split('-');
+        const occurrence = parts[0]; // first, second, third, fourth, last
+        const dayName = parts[1]; // monday, tuesday, etc.
+        const targetDay = dayNames.indexOf(dayName);
+
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+
+        if (occurrence === 'last') {
+            // Find last occurrence of the day in the month
+            let date = new Date(lastDay);
+            while (date.getDay() !== targetDay) {
+                date.setDate(date.getDate() - 1);
+            }
+            return date;
+        } else {
+            // Find first/second/third/fourth occurrence
+            const occurrenceMap = { first: 1, second: 2, third: 3, fourth: 4 };
+            const targetOccurrence = occurrenceMap[occurrence];
+            let date = new Date(firstDay);
+            let count = 0;
+
+            while (date <= lastDay) {
+                if (date.getDay() === targetDay) {
+                    count++;
+                    if (count === targetOccurrence) {
+                        return date;
+                    }
+                }
+                date.setDate(date.getDate() + 1);
+            }
+        }
+        return null;
     }
     function updateParentAccordionHeight(element) {
         setTimeout(() => {
@@ -3958,14 +3995,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 today.setHours(0, 0, 0, 0);
                 let conscienceYear = today.getFullYear();
                 let conscienceMonth = today.getMonth();
-                let thirdMonday = getThirdMonday(conscienceYear, conscienceMonth);
+                let thirdMonday = getRecurringDate('recurring-third-monday', conscienceYear, conscienceMonth);
                 if (today > thirdMonday) {
                     conscienceMonth++;
                     if (conscienceMonth > 11) {
                         conscienceMonth = 0;
                         conscienceYear++;
                     }
-                    thirdMonday = getThirdMonday(conscienceYear, conscienceMonth);
+                    thirdMonday = getRecurringDate('recurring-third-monday', conscienceYear, conscienceMonth);
                 }
                 const conscienceDateString = thirdMonday.toLocaleDateString('en-US', {
                     weekday: 'long',
@@ -4071,64 +4108,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                 `;
             }
-
-            // Helper function to get all dates for a specific weekday in a month
-            const getAllWeekdayDatesInMonth = (dayName, year, month) => {
-                const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-                const targetDay = dayNames.indexOf(dayName.toLowerCase());
-                const dates = [];
-
-                const firstDay = new Date(year, month, 1);
-                const lastDay = new Date(year, month + 1, 0);
-
-                let currentDate = new Date(firstDay);
-                while (currentDate <= lastDay) {
-                    if (currentDate.getDay() === targetDay) {
-                        dates.push(new Date(currentDate));
-                    }
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
-
-                return dates;
-            };
-
-            // Helper function to calculate recurring dates
-            const getRecurringDate = (recurringType, year, month) => {
-                const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-                const parts = recurringType.replace('recurring-', '').split('-');
-                const occurrence = parts[0]; // first, second, third, fourth, last
-                const dayName = parts[1]; // monday, tuesday, etc.
-                const targetDay = dayNames.indexOf(dayName);
-
-                const firstDay = new Date(year, month, 1);
-                const lastDay = new Date(year, month + 1, 0);
-
-                if (occurrence === 'last') {
-                    // Find last occurrence of the day in the month
-                    let date = new Date(lastDay);
-                    while (date.getDay() !== targetDay) {
-                        date.setDate(date.getDate() - 1);
-                    }
-                    return date;
-                } else {
-                    // Find first/second/third/fourth occurrence
-                    const occurrenceMap = { first: 1, second: 2, third: 3, fourth: 4 };
-                    const targetOccurrence = occurrenceMap[occurrence];
-                    let date = new Date(firstDay);
-                    let count = 0;
-
-                    while (date <= lastDay) {
-                        if (date.getDay() === targetDay) {
-                            count++;
-                            if (count === targetOccurrence) {
-                                return date;
-                            }
-                        }
-                        date.setDate(date.getDate() + 1);
-                    }
-                }
-                return null;
-            };
 
             // Helper function to get days until event
             const getDaysUntil = (eventDate) => {

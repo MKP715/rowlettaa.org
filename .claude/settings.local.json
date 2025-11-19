@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"(Get-Item ''c:\\Users\\MKP715\\rowlettaa.org\\index.html'').Length / 1KB\")",
+      "Bash(powershell -Command \"(Get-Content ''c:\\Users\\MKP715\\rowlettaa.org\\README.md'' | Measure-Object -Line).Lines\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

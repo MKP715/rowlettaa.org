@@ -74,21 +74,21 @@
 
 #### JavaScript/Node.js
 ```javascript
-const dailyReflections = require('./daily-reflections-complete.json');
+const dailyReflections = require('./ALL366DR.json');
 ```
 
 #### Python
 ```python
 import json
 
-with open('daily-reflections-complete.json', 'r', encoding='utf-8') as f:
+with open('ALL366DR.json', 'r', encoding='utf-8') as f:
     daily_reflections = json.load(f)
 ```
 
 #### PHP
 ```php
 $dailyReflections = json_decode(
-    file_get_contents('daily-reflections-complete.json'), 
+    file_get_contents('ALL366DR.json'), 
     true
 );
 ```
@@ -175,7 +175,7 @@ print(todays_reflection['title'])
     
     <script>
         async function loadReflection() {
-            const response = await fetch('daily-reflections-complete.json');
+            const response = await fetch('ALL366DR.json');
             const data = await response.json();
             
             // Get today's reflection
@@ -211,7 +211,7 @@ print(todays_reflection['title'])
 ### React Component
 ```jsx
 import React, { useState, useEffect } from 'react';
-import dailyReflections from './daily-reflections-complete.json';
+import dailyReflections from './ALL366DR.json';
 
 function DailyReflection() {
   const [reflection, setReflection] = useState(null);
@@ -292,7 +292,7 @@ export default DailyReflection;
 </template>
 
 <script>
-import dailyReflections from './daily-reflections-complete.json';
+import dailyReflections from './ALL366DR.json';
 
 export default {
   data() {
@@ -326,7 +326,7 @@ export default {
 ```javascript
 const express = require('express');
 const app = express();
-const dailyReflections = require('./daily-reflections-complete.json');
+const dailyReflections = require('./ALL366DR.json');
 
 // CORS middleware
 app.use((req, res, next) => {
@@ -409,7 +409,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load data
-with open('daily-reflections-complete.json', 'r', encoding='utf-8') as f:
+with open('ALL366DR.json', 'r', encoding='utf-8') as f:
     daily_reflections = json.load(f)
 
 @app.route('/api/reflection/today')
@@ -469,7 +469,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 $dailyReflections = json_decode(
-    file_get_contents('daily-reflections-complete.json'), 
+    file_get_contents('ALL366DR.json'), 
     true
 );
 
@@ -642,7 +642,7 @@ DELIMITER ;
 ```javascript
 // MongoDB import script
 const MongoClient = require('mongodb').MongoClient;
-const dailyReflections = require('./daily-reflections-complete.json');
+const dailyReflections = require('./ALL366DR.json');
 
 async function importToMongoDB() {
   const client = new MongoClient('mongodb://localhost:27017');
@@ -782,6 +782,204 @@ class ReflectionSearch {
 // Usage
 const searcher = new ReflectionSearch(dailyReflections.reflections);
 const results = searcher.searchWithRanking('spiritual awakening');
+```
+
+---
+
+## Paragraph Handling
+
+### Understanding the Paragraph Structure
+
+The JSON uses arrays to store paragraphs, making it easy to display properly formatted text:
+
+```javascript
+{
+  "quote": [
+    "First paragraph of the quote.",
+    "Second paragraph if it exists.",
+    "Third paragraph if needed."
+  ],
+  "reflection": [
+    "First paragraph of the reflection.",
+    "Second paragraph showing a new thought or perspective.",
+    "Additional paragraphs as needed."
+  ]
+}
+```
+
+### Why Arrays for Paragraphs?
+
+1. **Clean Separation** - No need to parse `\n\n` or other escape sequences
+2. **Easy Styling** - Each paragraph can be wrapped in `<p>` tags
+3. **Better Accessibility** - Screen readers handle separate paragraphs better
+4. **Flexible Display** - Easy to add spacing, indentation, or other styling
+
+### Displaying Multi-Paragraph Content
+
+#### HTML Display
+```javascript
+function displayQuote(quoteArray) {
+  return quoteArray.map(paragraph => `<p>${paragraph}</p>`).join('');
+}
+
+// For quotes with multiple paragraphs
+function displayQuoteWithBreaks(quoteArray) {
+  return quoteArray.map((paragraph, index) => `
+    <p class="quote-paragraph ${index === 0 ? 'first' : ''}">
+      ${paragraph}
+    </p>
+  `).join('');
+}
+```
+
+#### CSS for Proper Spacing
+```css
+.quote-paragraph {
+  margin-bottom: 1em;
+}
+
+.quote-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.quote-paragraph.first {
+  /* Optional: Special styling for first paragraph */
+  font-size: 1.1em;
+}
+
+.reflection p {
+  margin-bottom: 1.2em;
+  line-height: 1.6;
+}
+
+.reflection p:last-child {
+  margin-bottom: 0;
+}
+```
+
+#### React Component for Multi-Paragraph Display
+```jsx
+function QuoteDisplay({ quote }) {
+  return (
+    <blockquote className="daily-quote">
+      {quote.map((paragraph, index) => (
+        <p key={index} className="quote-paragraph">
+          {paragraph}
+        </p>
+      ))}
+    </blockquote>
+  );
+}
+
+function ReflectionDisplay({ reflection }) {
+  return (
+    <div className="daily-reflection">
+      {reflection.map((paragraph, index) => (
+        <p key={index} className="reflection-paragraph">
+          {paragraph}
+        </p>
+      ))}
+    </div>
+  );
+}
+```
+
+### Handling Special Cases
+
+#### Single vs Multiple Paragraphs
+```javascript
+function formatForDisplay(paragraphs) {
+  if (paragraphs.length === 1) {
+    // Single paragraph - might want different styling
+    return `<p class="single-paragraph">${paragraphs[0]}</p>`;
+  } else {
+    // Multiple paragraphs - add proper spacing
+    return paragraphs.map((p, i) => 
+      `<p class="paragraph-${i + 1}">${p}</p>`
+    ).join('');
+  }
+}
+```
+
+#### Email Templates with Paragraphs
+```javascript
+function formatEmailQuote(quoteArray) {
+  if (quoteArray.length === 1) {
+    return `<blockquote style="font-style: italic; padding: 15px;">
+      ${quoteArray[0]}
+    </blockquote>`;
+  } else {
+    return `<blockquote style="font-style: italic; padding: 15px;">
+      ${quoteArray.map(p => 
+        `<p style="margin-bottom: 10px;">${p}</p>`
+      ).join('')}
+    </blockquote>`;
+  }
+}
+```
+
+#### Plain Text Output
+```javascript
+function toPlainText(entry) {
+  const quote = entry.quote.join('\n\n');
+  const reflection = entry.reflection.join('\n\n');
+  
+  return `${entry.title}
+  
+QUOTE:
+${quote}
+
+SOURCE: ${entry.source.book}, p. ${entry.source.pages}
+
+REFLECTION:
+${reflection}`;
+}
+```
+
+### Paragraph Statistics
+
+Some entries have multiple paragraphs that represent different thoughts or perspectives:
+
+- **Quotes**: Most have 1 paragraph, some have 2-3 for longer passages
+- **Reflections**: Range from 1-4 paragraphs, typically 1-2
+- **Average**: Reflections tend to have more paragraphs than quotes
+
+### Responsive Design Considerations
+
+```css
+/* Mobile: Reduce paragraph spacing */
+@media (max-width: 768px) {
+  .quote-paragraph,
+  .reflection-paragraph {
+    margin-bottom: 0.8em;
+  }
+}
+
+/* Desktop: Full spacing for readability */
+@media (min-width: 769px) {
+  .quote-paragraph,
+  .reflection-paragraph {
+    margin-bottom: 1.2em;
+    max-width: 65ch; /* Optimal line length */
+  }
+}
+```
+
+### Accessibility with Paragraphs
+
+```html
+<article role="article">
+  <blockquote aria-label="Daily quote">
+    <p>First paragraph of quote.</p>
+    <p>Second paragraph of quote.</p>
+  </blockquote>
+  
+  <div role="region" aria-label="Daily reflection">
+    <p>First paragraph of reflection.</p>
+    <p>Second paragraph of reflection.</p>
+    <p>Third paragraph of reflection.</p>
+  </div>
+</article>
 ```
 
 ---
@@ -944,7 +1142,7 @@ import {
   Share
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import dailyReflections from './daily-reflections-complete.json';
+import dailyReflections from './ALL366DR.json';
 
 const DailyReflectionApp = () => {
   const [reflection, setReflection] = useState(null);
@@ -1173,7 +1371,7 @@ class _DailyReflectionAppState extends State<DailyReflectionApp> {
   }
 
   Future<void> loadReflections() async {
-    final String jsonString = await rootBundle.loadString('assets/daily-reflections-complete.json');
+    final String jsonString = await rootBundle.loadString('assets/ALL366DR.json');
     final Map<String, dynamic> jsonData = json.decode(jsonString);
     
     setState(() {
@@ -1476,7 +1674,7 @@ function getReflectionSafe(month, day) {
 #### Issue: Character encoding
 ```javascript
 // Ensure UTF-8 encoding
-fetch('daily-reflections-complete.json')
+fetch('ALL366DR.json')
   .then(response => response.text())
   .then(text => {
     // Parse with UTF-8

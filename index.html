@@ -1710,6 +1710,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <p class="text-base text-gray-500 mt-4">Copyright © The AA Grapevine, Inc. <br> AA PREAMBLE Reprinted with permission. <br> All rights reserved.</p>
             </div>
         </div>
+        <!-- Daily Reflection Widget -->
+        <div class="pt-8 sm:pt-12 pb-8 sm:pb-12">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+                    <!-- Widget Header -->
+                    <div class="bg-blue-800 text-white px-6 py-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            <h2 class="text-xl sm:text-2xl font-bold">Daily Reflection</h2>
+                        </div>
+                        <span id="dr-date" class="text-blue-200 text-sm sm:text-base font-medium"></span>
+                    </div>
+                    <!-- Widget Content -->
+                    <div class="p-6 sm:p-8">
+                        <!-- Title -->
+                        <h3 id="dr-title" class="text-xl sm:text-2xl font-bold text-blue-800 mb-5 text-center"></h3>
+                        <!-- Quote -->
+                        <blockquote class="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-5 mb-5">
+                            <div id="dr-quote" class="text-gray-700 italic leading-relaxed"></div>
+                            <footer class="mt-3 text-right">
+                                <cite id="dr-source" class="text-sm text-gray-500 not-italic font-medium"></cite>
+                            </footer>
+                        </blockquote>
+                        <!-- Reflection Text -->
+                        <div id="dr-reflection" class="text-gray-700 leading-relaxed space-y-4"></div>
+                        <!-- Footer -->
+                        <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+                            <p class="text-xs text-gray-400">Daily Reflections © 1990 by Alcoholics Anonymous World Services, Inc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Daily Reflection Widget -->
         <div class="pt-8 sm:pt-12 pb-12 sm:pb-16">
             <div class="container mx-auto px-6 text-center max-w-4xl text-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-blue-800 mb-6">The Responsibility Declaration <span role="img" aria-label="folded hands"><span role="img" aria-label="folded hands">🙏</span></span></h2>
@@ -2294,11 +2330,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <p class="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">Read and watch the core literature of Alcoholics Anonymous.</p>
             </div>
             <div class="max-w-6xl mx-auto space-y-8">
-                <div class="text-center">
-                    <a href="https://www.aa.org/daily-reflections" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-xl">
-                        Read Today's Daily Reflection <span role="img" aria-label="sunrise"><span role="img" aria-label="sunrise">🌅</span></span>
-                    </a>
+                <!-- Daily Reflection Widget with Date Picker -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+                        <!-- Widget Header -->
+                        <div class="bg-blue-800 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                                <h2 class="text-xl sm:text-2xl font-bold">Daily Reflection</h2>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <label for="dr-date-picker" class="text-blue-200 text-sm font-medium">Select Date:</label>
+                                <input type="date" id="dr-date-picker" class="bg-blue-700 text-white border border-blue-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer">
+                            </div>
+                        </div>
+                        <!-- Widget Content -->
+                        <div class="p-6 sm:p-8">
+                            <!-- Date Display -->
+                            <p id="dr-lit-date" class="text-center text-blue-600 font-medium mb-2"></p>
+                            <!-- Title -->
+                            <h3 id="dr-lit-title" class="text-xl sm:text-2xl font-bold text-blue-800 mb-5 text-center"></h3>
+                            <!-- Quote -->
+                            <blockquote class="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-5 mb-5">
+                                <div id="dr-lit-quote" class="text-gray-700 italic leading-relaxed"></div>
+                                <footer class="mt-3 text-right">
+                                    <cite id="dr-lit-source" class="text-sm text-gray-500 not-italic font-medium"></cite>
+                                </footer>
+                            </blockquote>
+                            <!-- Reflection Text -->
+                            <div id="dr-lit-reflection" class="text-gray-700 leading-relaxed space-y-4"></div>
+                            <!-- Footer -->
+                            <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+                                <p class="text-xs text-gray-400">Daily Reflections © 1990 by Alcoholics Anonymous World Services, Inc.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!-- End Daily Reflection Widget -->
                 <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
                     <div class="main-accordion-header p-4 sm:p-6 flex justify-between items-center bg-gray-50 hover:bg-blue-50">
                         <h2 class="text-2xl sm:text-3xl font-bold text-blue-800 text-center flex-grow">The Big Book</h2>
@@ -3688,15 +3758,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         initServiceWorker: function() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE_NAME = 'rowlett-aa-cache-v2';
+                    // Daily Reflections Widget - Nov 2025
+                    const CACHE_NAME = 'rowlett-aa-cache-v4';
                     const URLS_TO_CACHE = ['/', '/index.html'];
-                    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(URLS_TO_CACHE))));
-                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+                    const LAZY_CACHE_FILES = ['ALL366DR.json'];
+
+                    self.addEventListener('install', e => {
+                        e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(URLS_TO_CACHE)));
+                        self.skipWaiting();
+                    });
+
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(
+                            caches.match(e.request).then(cached => {
+                                if (cached) return cached;
+                                return fetch(e.request).then(response => {
+                                    if (response && response.status === 200 && response.type === 'basic') {
+                                        const responseToCache = response.clone();
+                                        caches.open(CACHE_NAME).then(cache => {
+                                            cache.put(e.request, responseToCache);
+                                        });
+                                    }
+                                    return response;
+                                });
+                            })
+                        );
+                    });
+
                     self.addEventListener('activate', e => {
                         const cacheWhitelist = [CACHE_NAME];
-                        e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => {
-                            if (cacheWhitelist.indexOf(name) === -1) return caches.delete(name);
-                        }))));
+                        e.waitUntil(
+                            caches.keys().then(names => Promise.all(names.map(name => {
+                                if (cacheWhitelist.indexOf(name) === -1) return caches.delete(name);
+                            }))).then(() => self.clients.claim())
+                        );
+                    });
+
+                    self.addEventListener('message', e => {
+                        if (e.data && e.data.type === 'CACHE_LAZY_URLS') {
+                            caches.open(CACHE_NAME).then(cache => {
+                                LAZY_CACHE_FILES.forEach(filename => {
+                                    const fullUrl = new URL(filename, self.location.origin).href;
+                                    cache.match(fullUrl).then(cached => {
+                                        if (!cached) {
+                                            fetch(fullUrl).then(response => {
+                                                if (response.ok) cache.put(fullUrl, response);
+                                            });
+                                        }
+                                    });
+                                });
+                            });
+                        }
                     });
                 `;
                 window.addEventListener('load', () => {
@@ -3704,7 +3816,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     const swUrl = URL.createObjectURL(blob);
                     navigator.serviceWorker.register(swUrl)
                         .then(reg => {
-                            URL.revokeObjectURL(swUrl);})
+                            URL.revokeObjectURL(swUrl);
+                            if (navigator.serviceWorker.controller) {
+                                navigator.serviceWorker.controller.postMessage({ type: 'CACHE_LAZY_URLS' });
+                            }
+                        })
                         .catch(err => {
                             URL.revokeObjectURL(swUrl);});
                 });
@@ -5754,6 +5870,183 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 setTimeout(() => notification.remove(), 300);
             }, 5000);
         }
+    </script>
+    <!-- Daily Reflection Script - Lazy Loaded for Performance -->
+    <script>
+        (function() {
+            let reflectionsData = null;
+            const CACHE_NAME = 'rowlett-aa-cache-v4';
+            const JSON_FILENAME = 'ALL366DR.json';
+
+            // Helper function to escape HTML
+            function escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            // Function to populate a widget with reflection data
+            function populateWidget(reflection, prefix) {
+                const dateEl = document.getElementById(`${prefix}-date`);
+                const titleEl = document.getElementById(`${prefix}-title`);
+                const quoteEl = document.getElementById(`${prefix}-quote`);
+                const sourceEl = document.getElementById(`${prefix}-source`);
+                const reflectionEl = document.getElementById(`${prefix}-reflection`);
+
+                if (dateEl) dateEl.textContent = `${reflection.month} ${reflection.day}`;
+                if (titleEl) titleEl.textContent = reflection.title;
+
+                // Render quote paragraphs
+                if (quoteEl && reflection.quote) {
+                    quoteEl.innerHTML = reflection.quote
+                        .map(p => `<p class="mb-2 last:mb-0">${escapeHTML(p)}</p>`)
+                        .join('');
+                }
+
+                // Render source
+                if (sourceEl && reflection.source) {
+                    const pages = reflection.source.pages ? `, p. ${reflection.source.pages}` : '';
+                    sourceEl.textContent = `— ${reflection.source.book}${pages}`;
+                }
+
+                // Render reflection paragraphs
+                if (reflectionEl && reflection.reflection) {
+                    reflectionEl.innerHTML = reflection.reflection
+                        .map(p => `<p>${escapeHTML(p)}</p>`)
+                        .join('');
+                }
+            }
+
+            // Function to get reflection by date
+            function getReflectionByDate(date) {
+                if (!reflectionsData) return null;
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const dateKey = `${month}-${day}`;
+                return reflectionsData.reflections.find(r => r.dateKey === dateKey);
+            }
+
+            // Try to load from cache first (for offline support)
+            async function loadFromCache() {
+                if ('caches' in window) {
+                    try {
+                        const cache = await caches.open(CACHE_NAME);
+                        // Try multiple URL variations for cache matching
+                        const urlsToTry = [
+                            JSON_FILENAME,
+                            '/' + JSON_FILENAME,
+                            new URL(JSON_FILENAME, window.location.href).href
+                        ];
+                        for (const url of urlsToTry) {
+                            const cachedResponse = await cache.match(url);
+                            if (cachedResponse) {
+                                return await cachedResponse.json();
+                            }
+                        }
+                    } catch (e) {
+                        // Cache not available, continue to network
+                    }
+                }
+                return null;
+            }
+
+            // Fetch from network and cache the response
+            async function loadFromNetwork() {
+                const response = await fetch(JSON_FILENAME);
+                if (!response.ok) throw new Error('Failed to load reflections');
+                const data = await response.json();
+
+                // Cache the data for offline use with full URL for consistent matching
+                if ('caches' in window) {
+                    try {
+                        const cache = await caches.open(CACHE_NAME);
+                        const fullUrl = new URL(JSON_FILENAME, window.location.href).href;
+                        cache.put(fullUrl, new Response(JSON.stringify(data), {
+                            headers: { 'Content-Type': 'application/json' }
+                        }));
+                    } catch (e) {
+                        // Caching failed, but we still have the data
+                    }
+                }
+                return data;
+            }
+
+            // Initialize widgets with data
+            function initWidgets() {
+                const today = new Date();
+
+                // Populate home page widget (today's reflection)
+                const homeReflection = getReflectionByDate(today);
+                if (homeReflection) {
+                    populateWidget(homeReflection, 'dr');
+                }
+
+                // Populate literature page widget (with date picker)
+                const litReflection = getReflectionByDate(today);
+                if (litReflection) {
+                    populateWidget(litReflection, 'dr-lit');
+                }
+
+                // Set up date picker
+                const datePicker = document.getElementById('dr-date-picker');
+                if (datePicker) {
+                    // Set initial value to today
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const day = String(today.getDate()).padStart(2, '0');
+                    datePicker.value = `${year}-${month}-${day}`;
+
+                    // Listen for date changes
+                    datePicker.addEventListener('change', function() {
+                        const selectedDate = new Date(this.value + 'T00:00:00');
+                        const reflection = getReflectionByDate(selectedDate);
+                        if (reflection) {
+                            populateWidget(reflection, 'dr-lit');
+                        }
+                    });
+                }
+            }
+
+            // Main initialization - lazy loaded after page renders
+            async function initDailyReflections() {
+                try {
+                    // Try cache first for instant load (offline support)
+                    reflectionsData = await loadFromCache();
+
+                    if (reflectionsData) {
+                        // Data from cache - initialize immediately
+                        initWidgets();
+                        // Refresh from network in background (stale-while-revalidate)
+                        loadFromNetwork().then(freshData => {
+                            reflectionsData = freshData;
+                        }).catch(() => {});
+                    } else {
+                        // No cache - load from network
+                        reflectionsData = await loadFromNetwork();
+                        initWidgets();
+                    }
+                } catch (error) {
+                    console.error('Error loading Daily Reflection:', error);
+                }
+            }
+
+            // Lazy load: Wait for page to fully render before loading JSON
+            function lazyInit() {
+                // Use requestIdleCallback if available, otherwise setTimeout
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(() => initDailyReflections(), { timeout: 2000 });
+                } else {
+                    setTimeout(initDailyReflections, 100);
+                }
+            }
+
+            // Start lazy loading after page load
+            if (document.readyState === 'complete') {
+                lazyInit();
+            } else {
+                window.addEventListener('load', lazyInit);
+            }
+        })();
     </script>
 </body>
 </html>

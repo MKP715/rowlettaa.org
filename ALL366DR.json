@@ -3,17 +3,10 @@
     "title": "Daily Reflections - Alcoholics Anonymous",
     "description": "A book of reflections by A.A. members for A.A. members",
     "totalEntries": 366,
-    "generatedDate": "2025-11-20",
-    "version": "19.0 - COMPLETE FINAL WITH TWO-LINE TITLES",
+    "version": "1.9",
     "source": "Daily Reflections: A Book of Reflections by A.A. Members for A.A. Members",
     "copyright": "© 1990 by Alcoholics Anonymous World Services, Inc.",
-    "extractionComplete": true,
-    "lastUpdated": "2025-11-22T18:41:10.039092",
-    "notes": "Final complete version: titles can span two lines (second line all capitals), paragraphs split at line breaks (period at end + capital at start), all italic formatting preserved with comprehensive metadata.",
-    "completionStatus": "100% Complete - All 366 Reflections",
-    "paragraphsFixed": true,
-    "extractionMethod": "Word document with two-line title support, precise paragraph splitting, and complete italic metadata"
-  },
+    "lastUpdated": "2025-11-22T18:41:10.039092"},
   "reflections": [
     {
       "month": "January",

@@ -2399,9 +2399,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </svg>
                             <h2 class="text-xl sm:text-2xl font-bold">Daily Reflection</h2>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <label for="dr-date-picker" class="text-blue-200 text-sm font-medium">Select Date:</label>
+                        <div class="flex items-center gap-2">
+                            <button id="dr-prev-day" class="bg-blue-700 hover:bg-blue-600 text-white border border-blue-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer transition-colors" aria-label="Previous day" title="Previous day">&lt;</button>
                             <input type="date" id="dr-date-picker" class="bg-blue-700 text-white border border-blue-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer">
+                            <button id="dr-next-day" class="bg-blue-700 hover:bg-blue-600 text-white border border-blue-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer transition-colors" aria-label="Next day" title="Next day">&gt;</button>
                         </div>
                     </div>
                     <!-- Widget Content -->
@@ -3816,7 +3817,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             if ('serviceWorker' in navigator) {
                 const swCode = `
                     // Daily Reflections Widget - Nov 2025
-                    const CACHE_NAME = 'rowlett-aa-cache-v01';
+                    const CACHE_NAME = 'rowlett-aa-cache-v1.9';
                     const URLS_TO_CACHE = ['/', '/index.html'];
                     const LAZY_CACHE_FILES = ['ALL366DR.json'];
 
@@ -5932,7 +5933,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         (function() {
             let reflectionsData = null;
-            const CACHE_NAME = 'rowlett-aa-cache-v01';
+            const CACHE_NAME = 'rowlett-aa-cache-v1.9';
             const JSON_FILENAME = 'ALL366DR.json';
 
             // Helper function to escape HTML
@@ -6061,6 +6062,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             populateWidget(reflection, 'dr-lit');
                         }
                     });
+
+                    // Helper function to navigate days
+                    function navigateDay(days) {
+                        const currentDate = new Date(datePicker.value + 'T00:00:00');
+                        currentDate.setDate(currentDate.getDate() + days);
+                        const newYear = currentDate.getFullYear();
+                        const newMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+                        const newDay = String(currentDate.getDate()).padStart(2, '0');
+                        datePicker.value = `${newYear}-${newMonth}-${newDay}`;
+                        const reflection = getReflectionByDate(currentDate);
+                        if (reflection) {
+                            populateWidget(reflection, 'dr-lit');
+                        }
+                    }
+
+                    // Set up prev/next navigation buttons
+                    const prevBtn = document.getElementById('dr-prev-day');
+                    const nextBtn = document.getElementById('dr-next-day');
+
+                    if (prevBtn) {
+                        prevBtn.addEventListener('click', function() {
+                            navigateDay(-1);
+                        });
+                    }
+
+                    if (nextBtn) {
+                        nextBtn.addEventListener('click', function() {
+                            navigateDay(1);
+                        });
+                    }
                 }
             }
 

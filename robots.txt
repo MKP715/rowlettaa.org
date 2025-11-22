@@ -37,5 +37,7 @@ Disallow: /Logo/
 Disallow: /*.eml$
 Disallow: /*.msg$
 Disallow: /*.ini
+Disallow: /*.json
+Disallow: /*.md
 
 Sitemap: https://rowlettaa.org/sitemap.xml

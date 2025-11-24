@@ -3817,7 +3817,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             if ('serviceWorker' in navigator) {
                 const swCode = `
                     // Daily Reflections Widget - Nov 2025
-                    const CACHE_NAME = 'rowlett-aa-cache-v1.9';
+                    const CACHE_NAME = 'rowlett-aa-cache-v2.0';
                     const URLS_TO_CACHE = ['/', '/index.html'];
                     const LAZY_CACHE_FILES = ['ALL366DR.json'];
 
@@ -5933,7 +5933,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         (function() {
             let reflectionsData = null;
-            const CACHE_NAME = 'rowlett-aa-cache-v1.9';
+            const CACHE_NAME = 'rowlett-aa-cache-v2.0';
             const JSON_FILENAME = 'ALL366DR.json';
 
             // Helper function to escape HTML
@@ -5941,6 +5941,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const div = document.createElement('div');
                 div.textContent = str;
                 return div.innerHTML;
+            }
+
+            // Helper function to convert markdown italics (_text_) to HTML <em>
+            function renderMarkdownItalics(str) {
+                return str.replace(/_(.*?)_/g, '<em>$1</em>');
             }
 
             // Function to populate a widget with reflection data
@@ -5967,10 +5972,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     sourceEl.textContent = `— ${reflection.source.book}${pages}`;
                 }
 
-                // Render reflection paragraphs
+                // Render reflection paragraphs (with markdown italic support)
                 if (reflectionEl && reflection.reflection) {
                     reflectionEl.innerHTML = reflection.reflection
-                        .map(p => `<p>${escapeHTML(p)}</p>`)
+                        .map(p => `<p>${renderMarkdownItalics(escapeHTML(p))}</p>`)
                         .join('');
                 }
             }

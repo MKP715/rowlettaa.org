@@ -4190,8 +4190,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             address: '800 North Main St, Duncanville, TX 75116',
             category: 'area',
             hostGroup: 'Northeast Texas Area 65 - District 89',
-            description: 'Join fellow AA members for Mock Committee Selection for NETA 65 ',
+            description: 'Join fellow AA members for Mock Committee Selection for NETA 65. Registration is required and open until March 9th.',
             requirements: 'Closed - Volunteers needed',
+            registrationLink: 'https://neta65.org/00-2025-spring-assembly/',
             mapLink: 'https://maps.google.com/?q=Hilton+Garden+Inn+Duncanville+800+North+Main+St+Duncanville+TX',
             groupInvolvement: 'Rowlett Group members encouraged to attend and participate in service!',
             bgColor: 'bg-indigo-50',
@@ -4992,6 +4993,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 if (detailItems.length > 0) {
                     detailsHTML = '<div class="text-sm space-y-1 mb-3">' + detailItems.map(item => `<p>${item}</p>`).join('') + '</div>';
+                }
+
+                if (event.registrationLink) {
+                    detailsHTML += `<p class="text-sm mb-3"><a href="${event.registrationLink}" target="_blank" rel="noopener noreferrer" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"><i class="fas fa-pen-to-square mr-2" aria-hidden="true"></i>Register Here</a></p>`;
                 }
 
                 if (event.groupInvolvement) {

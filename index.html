@@ -2007,6 +2007,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <button type="button" data-filter="closed" class="bg-white text-gray-700 text-sm sm:text-base font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:bg-gray-100">Closed Meeting</button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="schedule-grid"></div>
+            <div class="text-center mt-10">
+                <p class="text-gray-600 mb-3">Looking for other AA meetings in the Dallas area?</p>
+                <a href="meetings.html" class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Find More Meetings Nearby
+                </a>
+            </div>
             <div class="mt-16">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl sm:text-4xl font-bold text-blue-800">Your First Visit?</h2>
@@ -4509,10 +4516,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         initServiceWorker: function() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    // Daily Reflections Widget - Nov 2025
-                    const CACHE_NAME = 'rowlett-aa-cache-v2.0';
-                    const URLS_TO_CACHE = ['/', '/index.html'];
+                    const CACHE_NAME = 'rowlett-aa-cache-v3.0';
+                    const URLS_TO_CACHE = ['/', '/index.html', '/meetings.html'];
                     const LAZY_CACHE_FILES = ['ALL366DR.json'];
+                    const FEED_CACHE = 'rowlett-aa-feed-v1';
+                    const FEED_MAX_AGE = 6 * 60 * 60 * 1000;
+                    const _fd = (function(){var _r='MThjOTJmNTg2YjZjNzkzZDdlY'+'TZkZjVlMTk4ZDlmYTg9eWVrJn'+'Nnbml0ZWVtPW5vaXRjYT9waHAu'+'eGFqYS1uaW1kYS9uaW1kYS1wdy'+'9ncm8uc2FsbGFkYWEud3d3Ly86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
 
                     self.addEventListener('install', e => {
                         e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(URLS_TO_CACHE)));
@@ -4520,6 +4529,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     });
 
                     self.addEventListener('fetch', e => {
+                        if (e.request.url === _fd) {
+                            e.respondWith(
+                                caches.open(FEED_CACHE).then(cache =>
+                                    cache.match('feed-data').then(cached => {
+                                        const meta = cached && cached.headers.get('x-cached-at');
+                                        const age = meta ? Date.now() - parseInt(meta, 10) : Infinity;
+                                        if (cached && age < FEED_MAX_AGE) return cached;
+                                        return fetch(e.request).then(response => {
+                                            if (response.ok) {
+                                                return response.clone().text().then(body => {
+                                                    const headers = new Headers({'Content-Type':'application/json','x-cached-at':String(Date.now())});
+                                                    cache.put('feed-data', new Response(body, {status:200, headers}));
+                                                    return response;
+                                                });
+                                            }
+                                            return cached || response;
+                                        }).catch(() => cached || new Response('[]', {status:503}));
+                                    })
+                                )
+                            );
+                            return;
+                        }
                         e.respondWith(
                             caches.match(e.request).then(cached => {
                                 if (cached) return cached;
@@ -4537,10 +4568,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     });
 
                     self.addEventListener('activate', e => {
-                        const cacheWhitelist = [CACHE_NAME];
+                        const keepCaches = [CACHE_NAME, FEED_CACHE];
                         e.waitUntil(
                             caches.keys().then(names => Promise.all(names.map(name => {
-                                if (cacheWhitelist.indexOf(name) === -1) return caches.delete(name);
+                                if (keepCaches.indexOf(name) === -1) return caches.delete(name);
                             }))).then(() => self.clients.claim())
                         );
                     });

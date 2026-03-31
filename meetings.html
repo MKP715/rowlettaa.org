@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find AA Meetings | Rowlett Group of AA</title>
+    <meta name="description" content="Search and filter AA meetings across the Dallas area. Find meetings by day, time, type, region, and attendance format.">
+    <link rel="icon" type="image/x-icon" href="https://rowlettaa.org/favicon.ico">
+    <link rel="icon" type="image/png" href="https://rowlettaa.org/Rowlettaa512.png" sizes="512x512">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://rowlettaa.org/Rowlettaa180.png">
+    <meta name="theme-color" content="#1e40af">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .meeting-card { transition: all 0.2s ease; }
+        .meeting-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .fade-in { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .sidebar-section summary { cursor: pointer; list-style: none; }
+        .sidebar-section summary::-webkit-details-marker { display: none; }
+        .sidebar-section summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.7rem; transition: transform 0.2s; }
+        .sidebar-section[open] summary::after { transform: rotate(180deg); }
+        .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
+        #map-container { height: 300px; border-radius: 0.5rem; overflow: hidden; }
+        @media (min-width: 640px) { #map-container { height: 400px; } }
+        @media (min-width: 1024px) { #map-container { height: 450px; } }
+        .view-toggle { overflow-x: auto; }
+        .view-toggle::-webkit-scrollbar { display: none; }
+        .view-toggle { -ms-overflow-style: none; }
+        .view-toggle button.active { background: #1e40af; color: white; }
+        .time-slot { min-width: 72px; }
+        .scroll-hint { position: relative; }
+        @media (max-width: 1023px) {
+            .scroll-hint::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 24px; background: linear-gradient(to right, transparent, white); pointer-events: none; }
+        }
+        @media (max-width: 1023px) {
+            .filter-sidebar { position: fixed; top: 0; left: 0; width: 85%; max-width: 360px; height: 100vh; z-index: 60; transform: translateX(-100%); transition: transform 0.3s ease; overflow-y: auto; }
+            .filter-sidebar.open { transform: translateX(0); }
+            .filter-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 55; display: none; }
+            .filter-overlay.open { display: block; }
+        }
+        .now-badge { animation: pulse-now 2s infinite; }
+        @keyframes pulse-now { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .soon-badge { animation: pulse-soon 3s infinite; }
+        @keyframes pulse-soon { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+        .day-pill.active { background: white; color: #1e3a8a; font-weight: 700; }
+        .day-pill:not(.active) { background: rgba(255,255,255,0.2); color: white; }
+        .heatmap-cell { transition: all 0.15s; cursor: pointer; }
+        .heatmap-cell:hover { transform: scale(1.3); z-index: 5; }
+        .table-sort:hover { color: #1e40af; }
+        .table-sort .sort-icon { opacity: 0.3; }
+        .table-sort.asc .sort-icon, .table-sort.desc .sort-icon { opacity: 1; }
+        .toast { animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards; }
+        @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Header -->
+<header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3 text-xl lg:text-2xl font-bold text-blue-800">
+            <svg width="32" height="32" viewBox="0 0 40 40" class="text-blue-600" aria-hidden="true">
+                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"></circle>
+                <polygon points="20,5 35,30 5,30" fill="currentColor"></polygon>
+            </svg>
+            <span>Rowlett Group</span>
+        </a>
+        <div class="hidden lg:flex items-center space-x-5">
+            <a href="index.html" class="text-gray-600 hover:text-blue-800 text-sm">Home</a>
+            <a href="index.html#schedule" class="text-gray-600 hover:text-blue-800 text-sm">Our Schedule</a>
+            <a href="#" class="text-blue-800 font-semibold text-sm border-b-2 border-blue-800 pb-0.5">Area Meetings</a>
+            <a href="index.html#resources" class="text-gray-600 hover:text-blue-800 text-sm">Resources</a>
+            <a href="index.html#contact" class="text-gray-600 hover:text-blue-800 text-sm">Contact Us</a>
+        </div>
+        <button type="button" id="mobile-nav-btn" class="lg:hidden text-gray-600 hover:text-blue-800" aria-label="Open Menu">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </nav>
+    <div id="mobile-nav" class="hidden lg:hidden border-t border-gray-200 bg-white">
+        <a href="index.html" class="block py-3 px-4 text-center hover:bg-gray-100 text-sm">Home</a>
+        <a href="index.html#schedule" class="block py-3 px-4 text-center hover:bg-gray-100 text-sm">Our Schedule</a>
+        <a href="#" class="block py-3 px-4 text-center bg-blue-50 text-blue-800 font-semibold text-sm">Area Meetings</a>
+        <a href="index.html#resources" class="block py-3 px-4 text-center hover:bg-gray-100 text-sm">Resources</a>
+        <a href="index.html#contact" class="block py-3 px-4 text-center hover:bg-gray-100 text-sm">Contact Us</a>
+    </div>
+</header>
+
+<!-- Hero / Search Bar -->
+<section class="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 text-white py-6 sm:py-8 lg:py-12">
+    <div class="container mx-auto px-4 sm:px-6">
+        <div class="max-w-3xl mx-auto text-center">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3">Find a Meeting</h1>
+            <p class="text-blue-100 mb-4 sm:mb-6 text-xs sm:text-sm lg:text-base">Search hundreds of AA meetings across the Dallas area. Filter by day, time, type, region, and more.</p>
+            <div class="relative max-w-xl mx-auto">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="search-input" placeholder="Search by group name, location, or address..." class="w-full pl-11 pr-4 py-3.5 rounded-xl text-gray-800 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm sm:text-base" autocomplete="off">
+                <button type="button" id="clear-search" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden" aria-label="Clear search">
+                    <i class="fas fa-times-circle text-lg"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Day pills - multi-select -->
+        <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-5 sm:mt-6 max-w-2xl mx-auto">
+            <button data-day="-1" class="day-pill active px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">All</button>
+            <button data-day="0" class="day-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Sun</button>
+            <button data-day="1" class="day-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Mon</button>
+            <button data-day="2" class="day-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Tue</button>
+            <button data-day="3" class="day-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Wed</button>
+            <button data-day="4" class="day-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Thu</button>
+            <button data-day="5" class="day-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Fri</button>
+            <button data-day="6" class="day-pill px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Sat</button>
+        </div>
+    </div>
+</section>
+
+<!-- Toolbar -->
+<div class="bg-white border-b border-gray-200 sticky top-[57px] z-40 shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 py-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+            <button type="button" id="filter-toggle-btn" class="lg:hidden flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-all flex-shrink-0">
+                <i class="fas fa-sliders-h"></i> Filters
+                <span id="active-filter-count" class="hidden bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+            </button>
+            <div id="results-count" class="text-sm text-gray-500 truncate">Loading meetings...</div>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto min-w-0">
+            <select id="sort-select" title="Sort meetings" class="text-xs sm:text-sm border border-gray-200 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 flex-shrink-0">
+                <option value="time">Sort: Time</option>
+                <option value="name">Sort: Name</option>
+                <option value="region">Sort: Region</option>
+                <option value="distance">Sort: Distance</option>
+            </select>
+            <div class="view-toggle flex bg-gray-100 rounded-lg p-0.5 min-w-0">
+                <button data-view="list" class="active px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-all" title="List View"><i class="fas fa-list"></i></button>
+                <button data-view="grid" class="px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-all" title="Grid View"><i class="fas fa-th-large"></i></button>
+                <button data-view="table" class="px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-all" title="Table View"><i class="fas fa-table"></i></button>
+                <button data-view="map" class="px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-all" title="Map View"><i class="fas fa-map-marked-alt"></i></button>
+                <button data-view="schedule" class="px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-all" title="Schedule View"><i class="fas fa-calendar-alt"></i></button>
+                <button data-view="heatmap" class="px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-all" title="Heatmap View"><i class="fas fa-fire"></i></button>
+                <button data-view="groups" class="px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-all" title="Groups View"><i class="fas fa-users"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- Active filters display -->
+    <div id="active-filters" class="hidden container mx-auto px-4 sm:px-6 pb-2.5">
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs text-gray-500">Active filters:</span>
+            <div id="active-filter-tags" class="flex flex-wrap gap-1.5"></div>
+            <button type="button" id="clear-all-filters" class="text-xs text-red-600 hover:text-red-700 font-medium ml-1">Clear All</button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+    <div class="flex gap-0 lg:gap-6">
+
+        <!-- Filter Sidebar -->
+        <div id="filter-overlay" class="filter-overlay"></div>
+        <aside id="filter-sidebar" class="filter-sidebar lg:block w-72 flex-shrink-0 bg-white rounded-xl shadow-sm border border-gray-200 p-4 self-start lg:sticky lg:top-[110px] space-y-1">
+            <div class="flex items-center justify-between mb-3 lg:mb-4">
+                <h2 class="text-lg font-bold text-gray-800"><i class="fas fa-filter text-blue-600 mr-2"></i>Filters</h2>
+                <button type="button" id="close-filters" class="lg:hidden text-gray-400 hover:text-gray-600" aria-label="Close filters"><i class="fas fa-times text-xl"></i></button>
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="flex flex-wrap gap-2 mb-4 pb-4 border-b border-gray-100">
+                <button data-quick="now" class="quick-filter flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 transition-all">
+                    <i class="fas fa-clock"></i> Happening Now
+                </button>
+                <button data-quick="soon" class="quick-filter flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 hover:bg-orange-100 border border-orange-200 transition-all">
+                    <i class="fas fa-hourglass-half"></i> Starting Soon
+                </button>
+                <button data-quick="today" class="quick-filter flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition-all">
+                    <i class="fas fa-calendar-day"></i> Today
+                </button>
+                <button data-quick="tonight" class="quick-filter flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 transition-all">
+                    <i class="fas fa-moon"></i> Tonight
+                </button>
+                <button data-quick="nearest" class="quick-filter flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 transition-all">
+                    <i class="fas fa-location-arrow"></i> Nearest to Me
+                </button>
+                <button data-quick="online" class="quick-filter flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition-all">
+                    <i class="fas fa-laptop"></i> Online
+                </button>
+                <button data-quick="open" class="quick-filter flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 hover:bg-yellow-100 border border-yellow-200 transition-all">
+                    <i class="fas fa-door-open"></i> Open Meetings
+                </button>
+            </div>
+
+            <!-- Attendance Format -->
+            <details class="sidebar-section" open>
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-signal mr-2 text-blue-500"></i>Format</span>
+                </summary>
+                <div class="pb-3 pt-1 space-y-1.5" id="format-filters"></div>
+            </details>
+
+            <!-- Time of Day -->
+            <details class="sidebar-section" open>
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-sun mr-2 text-yellow-500"></i>Time of Day</span>
+                </summary>
+                <div class="pb-3 pt-1 space-y-1.5">
+                    <label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                        <input type="checkbox" value="morning" class="time-filter rounded text-blue-600">
+                        <span>Morning <span class="text-gray-400 text-xs">(before noon)</span></span>
+                    </label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                        <input type="checkbox" value="afternoon" class="time-filter rounded text-blue-600">
+                        <span>Afternoon <span class="text-gray-400 text-xs">(12pm - 5pm)</span></span>
+                    </label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                        <input type="checkbox" value="evening" class="time-filter rounded text-blue-600">
+                        <span>Evening <span class="text-gray-400 text-xs">(5pm - 9pm)</span></span>
+                    </label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                        <input type="checkbox" value="night" class="time-filter rounded text-blue-600">
+                        <span>Late Night <span class="text-gray-400 text-xs">(after 9pm)</span></span>
+                    </label>
+                </div>
+            </details>
+
+            <!-- Meeting Type -->
+            <details class="sidebar-section" open>
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-tags mr-2 text-purple-500"></i>Meeting Type</span>
+                </summary>
+                <div class="pb-3 pt-1 space-y-1.5" id="type-filters"></div>
+            </details>
+
+            <!-- Region -->
+            <details class="sidebar-section">
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-map-marker-alt mr-2 text-red-500"></i>Region</span>
+                </summary>
+                <div class="pb-3 pt-1">
+                    <input type="text" id="region-search" placeholder="Search regions..." class="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-lg mb-2 focus:outline-none focus:ring-1 focus:ring-blue-300">
+                    <div class="space-y-1.5 max-h-60 overflow-y-auto" id="region-filters"></div>
+                </div>
+            </details>
+
+            <!-- Distance Radius -->
+            <details class="sidebar-section" id="distance-section">
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-bullseye mr-2 text-orange-500"></i>Distance</span>
+                </summary>
+                <div class="pb-3 pt-1 px-2">
+                    <div id="distance-no-location" class="text-xs text-gray-400 py-2">
+                        <button type="button" id="enable-location-btn" class="text-blue-600 hover:text-blue-700 font-medium"><i class="fas fa-location-arrow mr-1"></i>Enable location</button> to filter by distance
+                    </div>
+                    <div id="distance-controls" class="hidden space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">Within</span>
+                            <span id="radius-value" class="text-sm font-bold text-blue-700">25 miles</span>
+                        </div>
+                        <input type="range" id="radius-slider" min="1" max="100" value="25" step="1" class="w-full accent-blue-600" title="Distance radius">
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>1 mi</span><span>50 mi</span><span>100 mi</span>
+                        </div>
+                        <p id="location-status" class="text-xs text-green-600"><i class="fas fa-check-circle mr-1"></i>Location enabled</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- District -->
+            <details class="sidebar-section">
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-sitemap mr-2 text-amber-500"></i>District</span>
+                </summary>
+                <div class="pb-3 pt-1 space-y-1.5 max-h-48 overflow-y-auto" id="district-filters"></div>
+            </details>
+
+            <!-- Accessibility -->
+            <details class="sidebar-section">
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-universal-access mr-2 text-teal-500"></i>Accessibility</span>
+                </summary>
+                <div class="pb-3 pt-1 space-y-1.5" id="accessibility-filters"></div>
+            </details>
+
+            <!-- Reset -->
+            <div class="pt-3 border-t border-gray-100">
+                <button type="button" id="reset-filters" class="w-full py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all font-medium">
+                    <i class="fas fa-undo mr-1"></i> Reset All Filters
+                </button>
+            </div>
+        </aside>
+
+        <!-- Results Area -->
+        <main class="flex-1 min-w-0">
+            <div id="loading-state" class="flex flex-col items-center justify-center py-20">
+                <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+                <p class="text-gray-500">Loading meetings from Dallas Central Office...</p>
+            </div>
+            <div id="error-state" class="hidden text-center py-20">
+                <i class="fas fa-exclamation-triangle text-5xl text-yellow-500 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-700 mb-2">Unable to Load Meetings</h3>
+                <p class="text-gray-500 mb-4">There was a problem connecting to the meeting feed.</p>
+                <button type="button" id="retry-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm font-medium"><i class="fas fa-redo mr-2"></i>Try Again</button>
+            </div>
+            <div id="no-results" class="hidden text-center py-20">
+                <i class="fas fa-search text-5xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-700 mb-2">No Meetings Found</h3>
+                <p class="text-gray-500 mb-4">Try adjusting your filters or search terms.</p>
+                <button type="button" id="clear-filters-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm font-medium">Clear All Filters</button>
+            </div>
+
+            <div id="list-view" class="hidden space-y-3"></div>
+            <div id="grid-view" class="hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+            <div id="table-view" class="hidden overflow-x-auto scroll-hint rounded-xl border border-gray-200 bg-white shadow-sm"></div>
+            <div id="map-view" class="hidden">
+                <div id="map-container" class="bg-gray-100 flex items-center justify-center mb-4"><p class="text-gray-500 text-sm">Map loading...</p></div>
+                <div id="map-list" class="space-y-3"></div>
+            </div>
+            <div id="schedule-view" class="hidden"><div id="schedule-grid" class="space-y-6"></div></div>
+            <div id="heatmap-view" class="hidden">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-gray-800"><i class="fas fa-fire text-orange-500 mr-2"></i>Weekly Meeting Heatmap</h3>
+                        <p class="text-xs text-gray-400">Click any cell to filter</p>
+                    </div>
+                    <div id="heatmap-grid" class="overflow-x-auto scroll-hint"></div>
+                </div>
+            </div>
+            <div id="groups-view" class="hidden">
+                <div class="mb-4 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+                    <p id="groups-count" class="text-sm text-gray-500"></p>
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-gray-500">Sort:</label>
+                        <select id="groups-sort" title="Sort groups" class="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            <option value="name">Name</option>
+                            <option value="meetings">Most Meetings</option>
+                            <option value="distance">Nearest</option>
+                            <option value="region">Region</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="groups-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+            </div>
+
+            <div id="pagination" class="hidden flex items-center justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8 pb-4">
+                <button type="button" id="prev-page" class="px-3 sm:px-4 py-2 border border-gray-200 rounded-lg text-xs sm:text-sm hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"><i class="fas fa-chevron-left sm:mr-1"></i><span class="hidden sm:inline"> Previous</span></button>
+                <div id="page-numbers" class="flex gap-1"></div>
+                <button type="button" id="next-page" class="px-3 sm:px-4 py-2 border border-gray-200 rounded-lg text-xs sm:text-sm hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"><span class="hidden sm:inline">Next </span><i class="fas fa-chevron-right sm:ml-1"></i></button>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Meeting Detail Modal -->
+<div id="meeting-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto my-2 sm:my-8">
+        <div id="modal-content"></div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"></div>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-400 mt-12">
+    <div class="container mx-auto px-4 sm:px-6 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <svg width="28" height="28" viewBox="0 0 40 40" class="text-blue-400" aria-hidden="true">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"></circle>
+                    <polygon points="20,5 35,30 5,30" fill="currentColor"></polygon>
+                </svg>
+                <span class="text-white font-semibold">Rowlett Group of AA</span>
+            </div>
+            <p class="text-xs sm:text-sm text-center">Meeting data by <a href="https://www.aadallas.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">Dallas AA Central Office</a> &middot; Maps by <a href="https://carto.com/" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">CARTO</a></p>
+            <a href="index.html" class="text-blue-400 hover:text-blue-300 text-sm"><i class="fas fa-arrow-left mr-1"></i> Back to Main Site</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    const FEED_URL = 'https://www.aadallas.org/wp-admin/admin-ajax.php?action=meetings&key=8af9d891e5fd6ae7d397c6b685f29c81';
+    const PER_PAGE = 30;
+    const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const DAY_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const TYPE_MAP = {
+        '11':'11th Step Meditation','ABSI':'As Bill Sees It','ASL':'American Sign Language',
+        'B':'Big Book','BA':'Babysitting Available','BE':'Beginner','BI':'Bisexual',
+        'BRK':'Breakfast','C':'Closed','CAN':'Candlelight','CF':'Child-Friendly',
+        'D':'Discussion','DA':'Danish','DB':'Digital Basket','DD':'Dual Diagnosis',
+        'DR':'Daily Reflections','EN':'English','FF':'Fragrance Free','FR':'French',
+        'G':'Gay','GR':'Grapevine','H':'Birthday','HE':'Hebrew',
+        'ITA':'Italian','JA':'Japanese','KOR':'Korean','L':'Lesbian',
+        'LGBTQ':'LGBTQ+','LIT':'Literature','LS':'Living Sober',
+        'M':'Men','MED':'Meditation','N':'Native American',
+        'NDG':'Indigenous','O':'Open','ONL':'Online','OUT':'Outdoor',
+        'POC':'People of Color','POL':'Polish','POR':'Portuguese',
+        'PUN':'Punjabi','RUS':'Russian','S':'Spanish','SEN':'Seniors',
+        'SM':'Smoking Permitted','SP':'Speaker','ST':'Step Study',
+        'T':'Traditions Study','TC':'Location Temporarily Closed',
+        'TR':'Transgender','W':'Women','X':'Wheelchair Access',
+        'XB':'Wheelchair-Accessible Bathroom','XT':'Cross Talk Permitted','Y':'Young People'
+    };
+    const TYPE_CATEGORIES = {
+        meeting:['O','C'],
+        focus:['D','SP','ST','B','LIT','BE','MED','GR','DR','ABSI','11','LS','T','H'],
+        demographic:['M','W','LGBTQ','G','L','BI','TR','Y','SEN','N','NDG','POC'],
+        language:['EN','S','FR','DA','HE','ITA','JA','KOR','POL','POR','PUN','RUS','ASL'],
+        accessibility:['X','XB','CF','BA','SM','FF','OUT','BRK','CAN','DB','DD','TC','XT']
+    };
+    const FORMAT_ICONS = {in_person:'fa-map-marker-alt',online:'fa-laptop',hybrid:'fa-exchange-alt'};
+    const FORMAT_LABELS = {in_person:'In Person',online:'Online',hybrid:'Hybrid'};
+    const FORMAT_COLORS = {in_person:'blue',online:'purple',hybrid:'teal'};
+
+    let allMeetings = [];
+    let filteredMeetings = [];
+    let currentPage = 1;
+    let currentView = 'list';
+    let userLat = null, userLng = null;
+    let mapInstance = null;
+    let leafletLoading = false;
+    let userMarker = null;
+    let tableSortCol = 'time', tableSortDir = 'asc';
+
+    const filters = { search:'', days:[], formats:[], timeOfDay:[], types:[], regions:[], districts:[], accessibility:[], radius:0, quick:null };
+
+    const $ = id => document.getElementById(id);
+    const _escEl = document.createElement('div');
+    function esc(s) { if (!s) return ''; _escEl.textContent = s; return _escEl.innerHTML; }
+    function formatPhone(p) { if (!p) return ''; const d = p.replace(/\D/g,''); return d.length===10 ? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : p; }
+
+    const listView=$('list-view'), gridView=$('grid-view'), tableView=$('table-view'), mapView=$('map-view'),
+          scheduleView=$('schedule-view'), heatmapView=$('heatmap-view'), groupsView=$('groups-view'),
+          loadingState=$('loading-state'), errorState=$('error-state'), noResults=$('no-results'),
+          resultsCount=$('results-count'), pagination=$('pagination');
+    const allViews = [listView, gridView, tableView, mapView, scheduleView, heatmapView, groupsView];
+
+    // ── Utilities ──
+    function timeToMinutes(t) { if (!t) return 0; const [h,m]=t.split(':').map(Number); return h*60+(m||0); }
+    function formatTime(t) {
+        if (!t) return '';
+        const [h,m]=t.split(':').map(Number);
+        if (h===0) return '12:'+String(m).padStart(2,'0')+' am';
+        if (h===12) return '12:'+String(m).padStart(2,'0')+' pm';
+        if (h>12) return (h-12)+':'+String(m).padStart(2,'0')+' pm';
+        return h+':'+String(m).padStart(2,'0')+' am';
+    }
+    function getTimePeriod(mins) { if (mins<720) return 'morning'; if (mins<1020) return 'afternoon'; if (mins<1260) return 'evening'; return 'night'; }
+    function haversine(lat1,lon1,lat2,lon2) {
+        const R=3959, dLat=(lat2-lat1)*Math.PI/180, dLon=(lon2-lon1)*Math.PI/180;
+        const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+        return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.className = 'toast bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm';
+        t.textContent = msg;
+        $('toast-container').appendChild(t);
+        setTimeout(() => t.remove(), 3000);
+    }
+
+    let _renderDay=-1, _renderMins=0;
+    function _updateRenderTime() { const n=new Date(); _renderDay=n.getDay(); _renderMins=n.getHours()*60+n.getMinutes(); }
+
+    // ── Fetch ──
+    async function fetchMeetings() {
+        loadingState.classList.remove('hidden'); errorState.classList.add('hidden');
+        try {
+            const res = await fetch(FEED_URL);
+            if (!res.ok) throw new Error('Network error');
+            allMeetings = await res.json();
+            allMeetings = allMeetings.filter(m => m.day!=null && m.time);
+            allMeetings.forEach(m => { m.day = parseInt(m.day,10); });
+            allMeetings = allMeetings.filter(m => !isNaN(m.day) && m.day>=0 && m.day<=6);
+            allMeetings.forEach(m => {
+                m._timeMins = timeToMinutes(m.time);
+                const dm = (m.group_notes||'').match(/District\s+(\d+)/i);
+                m._district = dm ? 'District '+dm[1] : '';
+            });
+            buildFilterOptions();
+            loadFiltersFromURL();
+            applyFilters();
+            loadingState.classList.add('hidden');
+        } catch(e) {
+            loadingState.classList.add('hidden');
+            errorState.classList.remove('hidden');
+            console.error('Failed to load meetings:', e);
+        }
+    }
+
+    // ── Build filter options ──
+    function buildFilterOptions() {
+        const formatCounts = {};
+        allMeetings.forEach(m => { formatCounts[m.attendance_option||'in_person'] = (formatCounts[m.attendance_option||'in_person']||0)+1; });
+        $('format-filters').innerHTML = Object.entries(FORMAT_LABELS).map(([k,v]) => {
+            const c = formatCounts[k]||0;
+            return `<label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                <input type="checkbox" value="${k}" class="format-filter rounded text-blue-600">
+                <i class="fas ${FORMAT_ICONS[k]} text-${FORMAT_COLORS[k]}-500 w-4 text-center"></i>
+                <span>${v}</span><span class="text-gray-400 text-xs ml-auto">${c}</span></label>`;
+        }).join('');
+
+        const typeCounts = {};
+        allMeetings.forEach(m => (m.types||[]).forEach(t => { typeCounts[t]=(typeCounts[t]||0)+1; }));
+        const typeHTML = [];
+        [{label:'Open / Closed',keys:TYPE_CATEGORIES.meeting},{label:'Meeting Focus',keys:TYPE_CATEGORIES.focus},
+         {label:'Demographics',keys:TYPE_CATEGORIES.demographic},{label:'Language',keys:TYPE_CATEGORIES.language}
+        ].forEach(g => {
+            const items = g.keys.filter(k => typeCounts[k]);
+            if (!items.length) return;
+            typeHTML.push(`<p class="text-xs text-gray-400 uppercase tracking-wider mt-2 mb-1 px-2">${g.label}</p>`);
+            items.forEach(k => typeHTML.push(`<label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                <input type="checkbox" value="${k}" class="type-filter rounded text-blue-600">
+                <span>${TYPE_MAP[k]||k}</span><span class="text-gray-400 text-xs ml-auto">${typeCounts[k]}</span></label>`));
+        });
+        $('type-filters').innerHTML = typeHTML.join('');
+
+        const regionCounts = {};
+        allMeetings.forEach(m => { if (m.region) regionCounts[m.region]=(regionCounts[m.region]||0)+1; });
+        renderRegions(Object.entries(regionCounts).sort((a,b) => a[0].localeCompare(b[0])));
+
+        const districtCounts = {};
+        allMeetings.forEach(m => { if (m._district) districtCounts[m._district]=(districtCounts[m._district]||0)+1; });
+        $('district-filters').innerHTML = Object.entries(districtCounts).sort((a,b) => parseInt(a[0].replace(/\D/g,''))-parseInt(b[0].replace(/\D/g,''))).map(([n,c]) =>
+            `<label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                <input type="checkbox" value="${n}" class="district-filter rounded text-blue-600"><span>${n}</span>
+                <span class="text-gray-400 text-xs ml-auto">${c}</span></label>`).join('');
+
+        const accItems = TYPE_CATEGORIES.accessibility.filter(k => typeCounts[k]);
+        $('accessibility-filters').innerHTML = accItems.map(k =>
+            `<label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                <input type="checkbox" value="${k}" class="accessibility-filter rounded text-blue-600">
+                <span>${TYPE_MAP[k]||k}</span><span class="text-gray-400 text-xs ml-auto">${typeCounts[k]}</span></label>`).join('');
+    }
+    function renderRegions(regions) {
+        $('region-filters').innerHTML = regions.map(([n,c]) =>
+            `<label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded region-label" data-region="${n.toLowerCase()}">
+                <input type="checkbox" value="${n}" class="region-filter rounded text-blue-600"${filters.regions.includes(n)?' checked':''}>
+                <span class="truncate">${n}</span><span class="text-gray-400 text-xs ml-auto flex-shrink-0">${c}</span></label>`).join('');
+    }
+
+    // ── URL State (Feature 1) ──
+    function saveFiltersToURL() {
+        const p = new URLSearchParams();
+        if (filters.days.length) p.set('days', filters.days.join(','));
+        if (filters.search) p.set('q', filters.search);
+        if (filters.formats.length) p.set('fmt', filters.formats.join(','));
+        if (filters.timeOfDay.length) p.set('tod', filters.timeOfDay.join(','));
+        if (filters.types.length) p.set('type', filters.types.join(','));
+        if (filters.regions.length) p.set('region', filters.regions.join(','));
+        if (filters.districts.length) p.set('district', filters.districts.join(','));
+        if (filters.accessibility.length) p.set('acc', filters.accessibility.join(','));
+        if (filters.radius > 0) p.set('radius', filters.radius);
+        if (filters.quick) p.set('quick', filters.quick);
+        if (currentView !== 'list') p.set('view', currentView);
+        const qs = p.toString();
+        const url = window.location.pathname + (qs ? '?' + qs : '');
+        history.replaceState(null, '', url);
+    }
+    const VALID_VIEWS = ['list','grid','table','map','schedule','heatmap','groups'];
+    function loadFiltersFromURL() {
+        const p = new URLSearchParams(window.location.search);
+        if (p.has('days')) { filters.days = p.get('days').split(',').map(Number).filter(d => d>=0 && d<=6); }
+        else { filters.days = [new Date().getDay()]; } // default today
+        if (p.has('q')) filters.search = p.get('q');
+        if (p.has('fmt')) filters.formats = p.get('fmt').split(',');
+        if (p.has('tod')) filters.timeOfDay = p.get('tod').split(',');
+        if (p.has('type')) filters.types = p.get('type').split(',');
+        if (p.has('region')) filters.regions = p.get('region').split(',');
+        if (p.has('district')) filters.districts = p.get('district').split(',');
+        if (p.has('acc')) filters.accessibility = p.get('acc').split(',');
+        if (p.has('radius')) filters.radius = parseInt(p.get('radius'))||0;
+        if (p.has('quick')) filters.quick = p.get('quick');
+        if (p.has('view')) { const v = p.get('view'); if (VALID_VIEWS.includes(v)) currentView = v; }
+
+        // Sync all UI to match loaded filters
+        syncDayPillsUI();
+        if (filters.search) { $('search-input').value = filters.search; $('clear-search').classList.remove('hidden'); }
+        if (currentView !== 'list') {
+            document.querySelectorAll('.view-toggle button').forEach(b => { b.classList.toggle('active', b.dataset.view === currentView); });
+        }
+        // Sync checkboxes
+        filters.formats.forEach(v => { document.querySelectorAll('.format-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
+        filters.timeOfDay.forEach(v => { document.querySelectorAll('.time-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
+        filters.types.forEach(v => { document.querySelectorAll('.type-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
+        filters.regions.forEach(v => { document.querySelectorAll('.region-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
+        filters.districts.forEach(v => { document.querySelectorAll('.district-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
+        filters.accessibility.forEach(v => { document.querySelectorAll('.accessibility-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
+        // Sync radius slider
+        if (filters.radius > 0) {
+            $('radius-slider').value = filters.radius;
+            $('radius-value').textContent = filters.radius + ' mile' + (filters.radius !== 1 ? 's' : '');
+        }
+        // Sync quick filter button highlight
+        if (filters.quick) {
+            document.querySelectorAll('.quick-filter').forEach(b => {
+                if (b.dataset.quick === filters.quick) b.classList.add('ring-2','ring-offset-1');
+            });
+        }
+    }
+    function syncDayPillsUI() {
+        const isAll = filters.days.length === 0;
+        document.querySelectorAll('.day-pill').forEach(b => {
+            const d = parseInt(b.dataset.day);
+            if (d === -1) b.classList.toggle('active', isAll);
+            else b.classList.toggle('active', filters.days.includes(d));
+        });
+    }
+
+    // ── Filters ──
+    function applyFilters() {
+        const now = new Date();
+        const currentDay = now.getDay();
+        const currentMins = now.getHours()*60+now.getMinutes();
+
+        filteredMeetings = allMeetings.filter(m => {
+            // Days (multi-select, Feature 10)
+            if (filters.days.length && !filters.days.includes(m.day)) return false;
+            if (filters.search) {
+                const q = filters.search.toLowerCase();
+                const h = [m.name,m.group,m.location,m.formatted_address,m.region,m.notes,m.group_notes,m._district].filter(Boolean).join(' ').toLowerCase();
+                if (!h.includes(q)) return false;
+            }
+            if (filters.formats.length) { if (!filters.formats.includes(m.attendance_option||'in_person')) return false; }
+            if (filters.timeOfDay.length) { if (!filters.timeOfDay.includes(getTimePeriod(m._timeMins))) return false; }
+            if (filters.types.length) { if (!filters.types.some(t => (m.types||[]).includes(t))) return false; }
+            if (filters.regions.length) { if (!filters.regions.includes(m.region)) return false; }
+            if (filters.accessibility.length) { if (!filters.accessibility.every(t => (m.types||[]).includes(t))) return false; }
+            if (filters.districts.length) { if (!filters.districts.includes(m._district)) return false; }
+            if (filters.radius>0 && userLat!=null) {
+                if (!m.latitude||!m.longitude) return false;
+                if (haversine(userLat,userLng,parseFloat(m.latitude),parseFloat(m.longitude))>filters.radius) return false;
+            }
+            // Quick filters
+            if (filters.quick==='now') {
+                if (m.day!==currentDay) return false;
+                const end=m.end_time?timeToMinutes(m.end_time):m._timeMins+60;
+                if (currentMins<m._timeMins||currentMins>end) return false;
+            }
+            if (filters.quick==='soon') {
+                if (m.day!==currentDay) return false;
+                const diff = m._timeMins - currentMins;
+                if (diff<0||diff>60) return false;
+            }
+            if (filters.quick==='today') { if (m.day!==currentDay) return false; }
+            if (filters.quick==='tonight') { if (m.day!==currentDay||m._timeMins<1020) return false; }
+            if (filters.quick==='online') { const f=m.attendance_option||'in_person'; if (f!=='online'&&f!=='hybrid') return false; }
+            if (filters.quick==='open') { if (!(m.types||[]).includes('O')) return false; }
+            if (filters.quick==='nearest') {
+                if (!m.latitude||!m.longitude||userLat==null) return false;
+            }
+            return true;
+        });
+
+        // Sort
+        const sortBy = $('sort-select').value;
+        if (sortBy==='distance'||filters.quick==='nearest') {
+            if (userLat!=null) filteredMeetings.forEach(m => { m._dist=(m.latitude&&m.longitude)?haversine(userLat,userLng,parseFloat(m.latitude),parseFloat(m.longitude)):99999; });
+        }
+        filteredMeetings.sort((a,b) => {
+            if (sortBy==='time') return a.day-b.day||a._timeMins-b._timeMins;
+            if (sortBy==='name') return (a.name||'').localeCompare(b.name||'');
+            if (sortBy==='region') return (a.region||'').localeCompare(b.region||'')||a._timeMins-b._timeMins;
+            if ((sortBy==='distance'||filters.quick==='nearest')&&userLat!=null) return (a._dist||99999)-(b._dist||99999);
+            return a._timeMins-b._timeMins;
+        });
+
+        currentPage = 1;
+        updateActiveFiltersDisplay();
+        saveFiltersToURL();
+        render();
+    }
+
+    function updateActiveFiltersDisplay() {
+        const tags = [];
+        if (filters.days.length) filters.days.forEach(d => tags.push({label:DAY_NAMES[d],type:'day',value:String(d)}));
+        if (filters.search) tags.push({label:`"${filters.search}"`,type:'search'});
+        filters.formats.forEach(f => tags.push({label:FORMAT_LABELS[f],type:'format',value:f}));
+        filters.timeOfDay.forEach(t => tags.push({label:t.charAt(0).toUpperCase()+t.slice(1),type:'timeOfDay',value:t}));
+        filters.types.forEach(t => tags.push({label:TYPE_MAP[t]||t,type:'type',value:t}));
+        filters.regions.forEach(r => tags.push({label:r,type:'region',value:r}));
+        filters.accessibility.forEach(a => tags.push({label:TYPE_MAP[a]||a,type:'accessibility',value:a}));
+        filters.districts.forEach(d => tags.push({label:d,type:'district',value:d}));
+        if (filters.radius>0) tags.push({label:`Within ${filters.radius} mi`,type:'radius'});
+        if (filters.quick) tags.push({label:{now:'Happening Now',soon:'Starting Soon',today:'Today',tonight:'Tonight',nearest:'Nearest',online:'Online',open:'Open'}[filters.quick]||filters.quick,type:'quick'});
+
+        const container=$('active-filter-tags'), wrapper=$('active-filters'), countBadge=$('active-filter-count');
+        if (!tags.length) { wrapper.classList.add('hidden'); countBadge.classList.add('hidden'); return; }
+        wrapper.classList.remove('hidden'); countBadge.classList.remove('hidden'); countBadge.textContent=tags.length;
+        container.innerHTML = tags.map(t => `<button data-filter-type="${esc(t.type)}" data-filter-value="${esc(t.value||'')}" class="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs font-medium hover:bg-blue-200 transition-all">${esc(t.label)} <i class="fas fa-times text-[10px]"></i></button>`).join('');
+    }
+
+    // ── Render ──
+    function render() {
+        _updateRenderTime();
+        const total = filteredMeetings.length;
+        resultsCount.textContent = `${total.toLocaleString()} meeting${total!==1?'s':''} found`;
+        allViews.forEach(v => v.classList.add('hidden'));
+        noResults.classList.add('hidden');
+
+        if (!total) { noResults.classList.remove('hidden'); pagination.classList.add('hidden'); return; }
+
+        if (['schedule','map','groups','heatmap'].includes(currentView)) {
+            if (currentView==='schedule') renderScheduleView();
+            else if (currentView==='map') renderMapView();
+            else if (currentView==='groups') renderGroupsView();
+            else if (currentView==='heatmap') renderHeatmap();
+            pagination.classList.add('hidden');
+            return;
+        }
+
+        const totalPages = Math.ceil(total/PER_PAGE);
+        const start = (currentPage-1)*PER_PAGE;
+        const page = filteredMeetings.slice(start, start+PER_PAGE);
+
+        if (currentView==='list') renderListView(page);
+        else if (currentView==='grid') renderGridView(page);
+        else if (currentView==='table') renderTableView(page);
+        renderPagination(totalPages);
+    }
+
+    // ── Card HTML ──
+    function meetingCardHTML(m, style) {
+        const endMins = m.end_time ? timeToMinutes(m.end_time) : m._timeMins+60;
+        const isNow = m.day===_renderDay && _renderMins>=m._timeMins && _renderMins<=endMins;
+        const startDiff = m.day===_renderDay ? m._timeMins-_renderMins : -1;
+        const isSoon = !isNow && startDiff>0 && startDiff<=60;
+        const fmt = m.attendance_option||'in_person';
+        const color = FORMAT_COLORS[fmt]||'blue';
+        const types = (m.types||[]).filter(t => TYPE_MAP[t]).slice(0,6);
+        const dist = (userLat!=null&&m.latitude&&m.longitude)?haversine(userLat,userLng,parseFloat(m.latitude),parseFloat(m.longitude)).toFixed(1)+' mi':'';
+
+        const nowHTML = isNow ? '<span class="now-badge text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded-full inline-flex items-center gap-1"><i class="fas fa-circle text-[5px]"></i>NOW</span>' : '';
+        const soonHTML = isSoon ? `<span class="soon-badge text-[10px] font-bold text-orange-700 bg-orange-100 px-1.5 py-0.5 rounded-full inline-flex items-center gap-1"><i class="fas fa-hourglass-half text-[8px]"></i>${startDiff}m</span>` : '';
+
+        if (style==='grid') {
+            return `<div class="meeting-card bg-white rounded-xl border border-gray-200 shadow-sm p-4 cursor-pointer fade-in" data-id="${m.id}">
+                <div class="flex items-center gap-1.5 mb-2">${nowHTML}${soonHTML}</div>
+                <div class="flex items-start justify-between gap-2 mb-2">
+                    <h3 class="font-bold text-gray-900 text-sm leading-tight">${esc(m.name||m.group||'Unnamed')}</h3>
+                    <span class="badge bg-${color}-100 text-${color}-700 flex-shrink-0"><i class="fas ${FORMAT_ICONS[fmt]} mr-1"></i>${FORMAT_LABELS[fmt]}</span>
+                </div>
+                <div class="space-y-1.5 text-xs text-gray-600 mb-3">
+                    <div class="flex items-center gap-2"><i class="fas fa-calendar-day w-4 text-center text-blue-500"></i><span class="font-medium">${DAY_NAMES[m.day]}</span></div>
+                    <div class="flex items-center gap-2"><i class="fas fa-clock w-4 text-center text-blue-500"></i><span>${formatTime(m.time)}${m.end_time?' - '+formatTime(m.end_time):''}</span></div>
+                    <div class="flex items-center gap-2"><i class="fas fa-map-marker-alt w-4 text-center text-red-400"></i><span class="truncate">${esc(m.region||'')}</span>${dist?`<span class="text-gray-400 ml-auto">${dist}</span>`:''}</div>
+                </div>
+                <div class="flex flex-wrap gap-1">${types.map(t => `<span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded">${TYPE_MAP[t]}</span>`).join('')}</div>
+            </div>`;
+        }
+        // list
+        return `<div class="meeting-card bg-white rounded-xl border border-gray-200 shadow-sm p-4 cursor-pointer fade-in flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center" data-id="${m.id}">
+            <div class="flex items-center gap-3 sm:w-44 flex-shrink-0">
+                <div class="time-slot text-center flex-shrink-0">
+                    <div class="text-base font-bold text-gray-900">${formatTime(m.time)}</div>
+                    ${m.end_time?`<div class="text-[10px] text-gray-400">to ${formatTime(m.end_time)}</div>`:''}
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <span class="text-xs font-medium text-blue-700 bg-blue-50 px-2 py-0.5 rounded">${DAY_SHORT[m.day]}</span>
+                    ${nowHTML}${soonHTML}
+                </div>
+            </div>
+            <div class="flex-1 min-w-0">
+                <h3 class="font-bold text-gray-900 text-sm mb-1">${esc(m.name||m.group||'Unnamed')}</h3>
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
+                    <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-red-400"></i> ${esc(m.location||m.formatted_address||'')}</span>
+                    <span class="flex items-center gap-1"><i class="fas fa-map text-blue-400"></i> ${esc(m.region||'')}</span>
+                    ${m._district?`<span class="flex items-center gap-1"><i class="fas fa-sitemap text-amber-400"></i> ${esc(m._district)}</span>`:''}
+                    ${dist?`<span class="text-gray-400">${dist}</span>`:''}
+                </div>
+                <div class="flex flex-wrap gap-1 mt-1.5">${types.map(t => `<span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded">${TYPE_MAP[t]}</span>`).join('')}</div>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                <span class="badge bg-${color}-100 text-${color}-700"><i class="fas ${FORMAT_ICONS[fmt]} mr-1"></i>${FORMAT_LABELS[fmt]}</span>
+                ${m.conference_url?`<a href="${esc(m.conference_url)}" target="_blank" rel="noopener" class="text-purple-600 hover:text-purple-700" title="Join Online" onclick="event.stopPropagation()"><i class="fas fa-video text-lg"></i></a>`:''}
+            </div>
+        </div>`;
+    }
+
+    function renderListView(page) { listView.innerHTML=page.map(m => meetingCardHTML(m,'list')).join(''); listView.classList.remove('hidden'); }
+    function renderGridView(page) { gridView.innerHTML=page.map(m => meetingCardHTML(m,'grid')).join(''); gridView.classList.remove('hidden'); }
+
+    // ── Table View (Feature 8) ──
+    function renderTableView(page) {
+        tableView.classList.remove('hidden');
+        const cols = [
+            {key:'time',label:'Time',w:'w-24',sortable:true},{key:'name',label:'Meeting',w:'min-w-[180px]',sortable:true},{key:'day',label:'Day',w:'w-20',sortable:true},
+            {key:'region',label:'Region',w:'w-32',sortable:true},{key:'format',label:'Format',w:'w-24',sortable:true},{key:'types',label:'Types',w:'min-w-[120px]',sortable:false},
+            {key:'district',label:'District',w:'w-24',sortable:true},{key:'distance',label:'Dist.',w:'w-20',sortable:true}
+        ];
+        const icon = (k) => tableSortCol===k ? (tableSortDir==='asc'?'fa-sort-up':'fa-sort-down') : 'fa-sort';
+        const cls = (k) => tableSortCol===k ? (tableSortDir==='asc'?'asc':'desc') : '';
+        tableView.innerHTML = `<table class="w-full text-sm"><thead>
+            <tr class="border-b border-gray-200 text-left">${cols.map(c => `<th class="px-3 py-2 font-semibold text-gray-600 ${c.w}">
+                ${c.sortable ? `<button class="table-sort ${cls(c.key)} flex items-center gap-1" data-sort-col="${c.key}">${c.label} <i class="fas ${icon(c.key)} sort-icon text-[10px]"></i></button>` : c.label}
+            </th>`).join('')}</tr>
+        </thead><tbody>${page.map(m => {
+            const fmt=m.attendance_option||'in_person';
+            const dist=(userLat!=null&&m.latitude&&m.longitude)?haversine(userLat,userLng,parseFloat(m.latitude),parseFloat(m.longitude)).toFixed(1):'';
+            const endMins=m.end_time?timeToMinutes(m.end_time):m._timeMins+60;
+            const isNow=m.day===_renderDay&&_renderMins>=m._timeMins&&_renderMins<=endMins;
+            const startDiff=m.day===_renderDay?m._timeMins-_renderMins:-1;
+            const isSoon=!isNow&&startDiff>0&&startDiff<=60;
+            return `<tr class="border-b border-gray-100 hover:bg-blue-50 cursor-pointer transition-colors" data-id="${m.id}">
+                <td class="px-3 py-2 font-mono font-medium">${formatTime(m.time)}${isNow?' <span class="now-badge text-[9px] bg-green-100 text-green-700 px-1 rounded">NOW</span>':''}${isSoon?` <span class="soon-badge text-[9px] bg-orange-100 text-orange-700 px-1 rounded">${startDiff}m</span>`:''}</td>
+                <td class="px-3 py-2 font-medium text-gray-900">${esc(m.name||m.group||'')}</td>
+                <td class="px-3 py-2">${DAY_SHORT[m.day]}</td>
+                <td class="px-3 py-2 text-gray-600">${esc(m.region||'')}</td>
+                <td class="px-3 py-2"><span class="badge bg-${FORMAT_COLORS[fmt]||'blue'}-100 text-${FORMAT_COLORS[fmt]||'blue'}-700">${FORMAT_LABELS[fmt]||fmt}</span></td>
+                <td class="px-3 py-2"><div class="flex flex-wrap gap-1">${(m.types||[]).filter(t=>TYPE_MAP[t]).slice(0,4).map(t=>`<span class="text-[10px] px-1 py-0.5 bg-gray-100 rounded">${TYPE_MAP[t]}</span>`).join('')}</div></td>
+                <td class="px-3 py-2 text-gray-500 text-xs">${esc(m._district)}</td>
+                <td class="px-3 py-2 text-gray-400 text-xs">${dist?dist+' mi':''}</td>
+            </tr>`;
+        }).join('')}</tbody></table>`;
+    }
+
+    // ── Schedule View ──
+    function renderScheduleView() {
+        scheduleView.classList.remove('hidden');
+        const byDay = {};
+        filteredMeetings.forEach(m => { if (!byDay[m.day]) byDay[m.day]=[]; byDay[m.day].push(m); });
+        const html = [];
+        for (let d=0; d<7; d++) {
+            if (!byDay[d]||!byDay[d].length) continue;
+            html.push(`<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="px-4 py-3 bg-gradient-to-r ${d===_renderDay?'from-blue-600 to-blue-700 text-white':'from-gray-50 to-gray-100 text-gray-800'} flex items-center justify-between">
+                    <h3 class="font-bold text-lg">${DAY_NAMES[d]}</h3>
+                    <span class="text-sm ${d===_renderDay?'text-blue-100':'text-gray-500'}">${byDay[d].length} meetings</span>
+                </div>
+                <div class="divide-y divide-gray-100">${byDay[d].map(m => {
+                    const fmt=m.attendance_option||'in_person';
+                    return `<div class="px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 cursor-pointer text-sm" data-id="${m.id}">
+                        <span class="font-mono font-bold text-blue-700 w-20 flex-shrink-0">${formatTime(m.time)}</span>
+                        <span class="font-medium text-gray-900 flex-1 min-w-0 truncate">${esc(m.name||m.group||'')}</span>
+                        <span class="text-gray-400 hidden sm:inline truncate max-w-[160px]">${esc(m.region||'')}</span>
+                        <span class="badge bg-${FORMAT_COLORS[fmt]||'blue'}-100 text-${FORMAT_COLORS[fmt]||'blue'}-700 flex-shrink-0">${FORMAT_LABELS[fmt]||fmt}</span>
+                    </div>`;
+                }).join('')}</div>
+            </div>`);
+        }
+        $('schedule-grid').innerHTML = html.join('');
+    }
+
+    // ── Heatmap View (Feature 14) ──
+    function renderHeatmap() {
+        heatmapView.classList.remove('hidden');
+        // Build 7x24 grid from ALL filtered meetings
+        const grid = Array.from({length:7}, () => new Array(24).fill(0));
+        filteredMeetings.forEach(m => { const h = Math.floor(m._timeMins/60); if (h>=0&&h<24) grid[m.day][h]++; });
+        let maxCount = 0;
+        grid.forEach(row => row.forEach(c => { if (c>maxCount) maxCount=c; }));
+
+        const hours = [];
+        for (let h=0; h<24; h++) { hours.push(h===0?'12a':h<12?h+'a':h===12?'12p':(h-12)+'p'); }
+
+        function heatColor(count) {
+            if (!count) return 'bg-gray-50 text-gray-300';
+            const pct = count/maxCount;
+            if (pct<0.25) return 'bg-blue-100 text-blue-700';
+            if (pct<0.5) return 'bg-blue-200 text-blue-800';
+            if (pct<0.75) return 'bg-orange-200 text-orange-800';
+            return 'bg-red-300 text-red-900';
+        }
+
+        $('heatmap-grid').innerHTML = `<table class="w-full text-xs"><thead><tr>
+            <th class="px-1 py-1 text-gray-500 text-left w-12">Day</th>
+            ${hours.map(h => `<th class="px-0.5 py-1 text-gray-400 text-center font-normal" style="min-width:28px">${h}</th>`).join('')}
+            <th class="px-2 py-1 text-gray-500 text-right">Total</th>
+        </tr></thead><tbody>${[0,1,2,3,4,5,6].map(d => {
+            const total = grid[d].reduce((a,b)=>a+b,0);
+            return `<tr class="${d===_renderDay?'bg-blue-50':''}">
+                <td class="px-1 py-1 font-semibold ${d===_renderDay?'text-blue-700':'text-gray-600'}">${DAY_SHORT[d]}</td>
+                ${grid[d].map((c,h) => `<td class="px-0.5 py-0.5 text-center"><div class="heatmap-cell rounded ${heatColor(c)} w-full py-1 text-[10px] font-bold" data-hm-day="${d}" data-hm-hour="${h}" title="${DAY_NAMES[d]} ${hours[h]}: ${c} meetings">${c||''}</div></td>`).join('')}
+                <td class="px-2 py-1 text-right font-bold text-gray-700">${total}</td>
+            </tr>`;
+        }).join('')}</tbody></table>
+        <div class="flex items-center gap-3 mt-4 text-xs text-gray-500">
+            <span>Less</span>
+            <div class="flex gap-1">
+                <div class="w-5 h-5 rounded bg-gray-50 border border-gray-200"></div>
+                <div class="w-5 h-5 rounded bg-blue-100"></div>
+                <div class="w-5 h-5 rounded bg-blue-200"></div>
+                <div class="w-5 h-5 rounded bg-orange-200"></div>
+                <div class="w-5 h-5 rounded bg-red-300"></div>
+            </div>
+            <span>More</span>
+        </div>`;
+    }
+
+    // ── Groups View ──
+    function renderGroupsView() {
+        groupsView.classList.remove('hidden');
+        const groupMap = {};
+        filteredMeetings.forEach(m => {
+            const gid = m.group_id||m.id;
+            if (!groupMap[gid]) groupMap[gid] = { id:gid, name:m.group||m.name||'Unknown', region:m.region||'', district:m._district||'',
+                location:m.location||'', latitude:m.latitude, longitude:m.longitude, website:m.website||'', phone:m.phone||'', email:m.email||'',
+                attendance_options:new Set(), meetings:[] };
+            const g=groupMap[gid];
+            g.meetings.push(m); g.attendance_options.add(m.attendance_option||'in_person');
+            if (m.website&&!g.website) g.website=m.website;
+            if (m.phone&&!g.phone) g.phone=m.phone;
+            if (m.email&&!g.email) g.email=m.email;
+        });
+        let groups = Object.values(groupMap);
+        const sortBy = $('groups-sort').value;
+        if (sortBy==='name') groups.sort((a,b)=>a.name.localeCompare(b.name));
+        else if (sortBy==='meetings') groups.sort((a,b)=>b.meetings.length-a.meetings.length);
+        else if (sortBy==='region') groups.sort((a,b)=>a.region.localeCompare(b.region)||a.name.localeCompare(b.name));
+        else if (sortBy==='distance'&&userLat!=null) groups.sort((a,b)=>{
+            const dA=(a.latitude&&a.longitude)?haversine(userLat,userLng,parseFloat(a.latitude),parseFloat(a.longitude)):99999;
+            const dB=(b.latitude&&b.longitude)?haversine(userLat,userLng,parseFloat(b.latitude),parseFloat(b.longitude)):99999;
+            return dA-dB;
+        });
+        $('groups-count').textContent=`${groups.length} group${groups.length!==1?'s':''} found`;
+        $('groups-grid').innerHTML = groups.map(g => {
+            const dist=(userLat!=null&&g.latitude&&g.longitude)?haversine(userLat,userLng,parseFloat(g.latitude),parseFloat(g.longitude)).toFixed(1):'';
+            const formats=[...g.attendance_options];
+            const daysSummary={}; g.meetings.forEach(m=>{daysSummary[m.day]=(daysSummary[m.day]||0)+1;});
+            const daysStr=Object.keys(daysSummary).sort((a,b)=>a-b).map(d=>DAY_SHORT[d]).join(', ');
+            return `<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:shadow-md transition-all fade-in">
+                <div class="flex items-start justify-between gap-2 mb-3">
+                    <h3 class="font-bold text-gray-900">${esc(g.name)}</h3>
+                    <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0">${g.meetings.length} mtg${g.meetings.length!==1?'s':''}</span>
+                </div>
+                <div class="space-y-1.5 text-xs text-gray-600 mb-3">
+                    <div class="flex items-center gap-2"><i class="fas fa-map-marker-alt w-4 text-center text-red-400"></i><span class="truncate">${esc(g.region)}</span>${dist?`<span class="text-gray-400 ml-auto">${dist} mi</span>`:''}</div>
+                    ${g.district?`<div class="flex items-center gap-2"><i class="fas fa-sitemap w-4 text-center text-amber-500"></i><span>${esc(g.district)}</span></div>`:''}
+                    <div class="flex items-center gap-2"><i class="fas fa-calendar w-4 text-center text-blue-500"></i><span>${daysStr}</span></div>
+                    <div class="flex items-center gap-2"><i class="fas fa-map-pin w-4 text-center text-gray-400"></i><span class="truncate">${esc(g.location)}</span></div>
+                </div>
+                <div class="flex flex-wrap gap-1.5 mb-3">${formats.map(f=>`<span class="badge bg-${FORMAT_COLORS[f]||'blue'}-100 text-${FORMAT_COLORS[f]||'blue'}-700"><i class="fas ${FORMAT_ICONS[f]} mr-1"></i>${FORMAT_LABELS[f]||f}</span>`).join('')}</div>
+                <div class="border-t border-gray-100 pt-3 space-y-1">
+                    <p class="text-xs text-gray-500 font-medium mb-1">Meetings:</p>
+                    ${g.meetings.slice(0,5).map(m=>`<div class="flex items-center gap-2 text-xs text-gray-600 cursor-pointer hover:text-blue-700" data-id="${m.id}">
+                        <span class="font-medium text-blue-700 w-8">${DAY_SHORT[m.day]}</span>
+                        <span class="font-mono w-16">${formatTime(m.time)}</span>
+                        <span class="truncate">${esc(m.name||'')}</span></div>`).join('')}
+                    ${g.meetings.length>5?`<p class="text-xs text-gray-400 italic">+${g.meetings.length-5} more</p>`:''}
+                </div>
+                ${g.website||g.phone||g.email?`<div class="flex items-center gap-3 mt-3 pt-3 border-t border-gray-100">
+                    ${g.website?`<a href="${esc(g.website)}" target="_blank" rel="noopener" class="text-blue-600 hover:text-blue-700 text-xs" onclick="event.stopPropagation()"><i class="fas fa-globe mr-1"></i>Website</a>`:''}
+                    ${g.phone?`<a href="tel:${esc(g.phone)}" class="text-blue-600 hover:text-blue-700 text-xs" onclick="event.stopPropagation()"><i class="fas fa-phone mr-1"></i>Call</a>`:''}
+                    ${g.email?`<a href="mailto:${esc(g.email)}" class="text-blue-600 hover:text-blue-700 text-xs" onclick="event.stopPropagation()"><i class="fas fa-envelope mr-1"></i>Email</a>`:''}
+                </div>`:''}
+            </div>`;
+        }).join('');
+    }
+
+    // ── Map View (CARTO Voyager + user pin + region click) ──
+    function renderMapView() {
+        mapView.classList.remove('hidden');
+        const withCoords = filteredMeetings.filter(m => m.latitude&&m.longitude);
+        if (!window.L && !leafletLoading) {
+            leafletLoading = true;
+            const link = document.createElement('link'); link.rel='stylesheet';
+            link.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+            document.head.appendChild(link);
+            const script = document.createElement('script');
+            script.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            script.onload = () => initMap(withCoords);
+            document.head.appendChild(script);
+        } else if (window.L) { initMap(withCoords); }
+        $('map-list').innerHTML = withCoords.slice(0,50).map(m => meetingCardHTML(m,'list')).join('');
+    }
+    function initMap(meetings) {
+        const container = $('map-container');
+        if (mapInstance) { mapInstance.remove(); mapInstance=null; userMarker=null; }
+        container.innerHTML = '';
+        if (!meetings.length) { container.innerHTML='<div class="flex items-center justify-center h-full text-gray-500">No meetings with location data</div>'; return; }
+
+        mapInstance = L.map(container).setView([32.78,-96.80],10);
+        // CARTO Voyager tiles
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains:'abcd', maxZoom:19
+        }).addTo(mapInstance);
+
+        // User location pin (Feature 9)
+        if (userLat!=null) {
+            const userIcon = L.divIcon({ className:'', html:'<div style="width:16px;height:16px;background:#3b82f6;border:3px solid white;border-radius:50%;box-shadow:0 0 6px rgba(59,130,246,0.5)"></div>', iconSize:[16,16], iconAnchor:[8,8] });
+            userMarker = L.marker([userLat,userLng],{icon:userIcon,zIndexOffset:1000}).addTo(mapInstance);
+            userMarker.bindPopup('<b>Your Location</b>');
+        }
+
+        const bounds = L.latLngBounds();
+        if (userLat!=null) bounds.extend([userLat,userLng]);
+
+        // Group meetings by location for clustering info
+        const locMap = {};
+        meetings.forEach(m => {
+            const key = m.latitude+','+m.longitude;
+            if (!locMap[key]) locMap[key]={lat:parseFloat(m.latitude),lng:parseFloat(m.longitude),meetings:[],region:m.region||''};
+            locMap[key].meetings.push(m);
+        });
+
+        Object.values(locMap).forEach(loc => {
+            const ll = [loc.lat, loc.lng];
+            bounds.extend(ll);
+            const marker = L.marker(ll).addTo(mapInstance);
+            const popupHTML = loc.meetings.slice(0,5).map(m =>
+                `<div style="margin:2px 0"><b>${esc(m.name||m.group||'')}</b><br><small>${DAY_NAMES[m.day]} ${formatTime(m.time)}</small></div>`
+            ).join('<hr style="margin:4px 0;border-color:#e5e7eb">') +
+            (loc.meetings.length>5?`<div style="margin-top:4px;color:#6b7280;font-size:11px">+${loc.meetings.length-5} more at this location</div>`:'') +
+            // Region click filter (Feature 16)
+            (loc.region?`<div style="margin-top:6px"><button onclick="window._filterByRegion('${esc(loc.region).replace(/'/g,"\\'")}')" style="background:#1e40af;color:white;padding:2px 8px;border-radius:4px;font-size:11px;border:none;cursor:pointer">Filter: ${esc(loc.region)}</button></div>`:'');
+            marker.bindPopup(popupHTML, {maxWidth:280});
+        });
+        mapInstance.fitBounds(bounds, {padding:[40,40]});
+    }
+    // Expose region filter for map popup buttons (Feature 16)
+    window._filterByRegion = function(region) {
+        if (!filters.regions.includes(region)) {
+            filters.regions.push(region);
+            document.querySelectorAll('.region-filter').forEach(c => { if (c.value===region) c.checked=true; });
+            applyFilters();
+            showToast('Filtered to ' + region);
+        }
+    };
+
+    function renderPagination(totalPages) {
+        if (totalPages<=1) { pagination.classList.add('hidden'); return; }
+        pagination.classList.remove('hidden');
+        $('prev-page').disabled = currentPage<=1;
+        $('next-page').disabled = currentPage>=totalPages;
+        const pages = [];
+        for (let i=1;i<=totalPages;i++) {
+            if (i===1||i===totalPages||(i>=currentPage-2&&i<=currentPage+2)) pages.push(i);
+            else if (pages[pages.length-1]!=='...') pages.push('...');
+        }
+        $('page-numbers').innerHTML = pages.map(p => p==='...'?'<span class="px-2 py-1 text-gray-400">...</span>':
+            `<button data-page="${p}" class="px-3 py-1.5 rounded-lg text-sm ${p===currentPage?'bg-blue-600 text-white':'hover:bg-gray-100'}">${p}</button>`).join('');
+    }
+
+    // ── Modal (with Share - Feature 11) ──
+    function showMeetingDetail(id) {
+        const m = allMeetings.find(x => x.id===id);
+        if (!m) return;
+        const fmt = m.attendance_option||'in_person';
+        const types = (m.types||[]).filter(t => TYPE_MAP[t]);
+        const dist = (userLat!=null&&m.latitude&&m.longitude)?haversine(userLat,userLng,parseFloat(m.latitude),parseFloat(m.longitude)).toFixed(1)+' mi away':'';
+        const shareUrl = window.location.origin + window.location.pathname + '?q=' + encodeURIComponent(m.name||m.group||'');
+
+        $('modal-content').innerHTML = `
+            <div class="p-4 sm:p-6 bg-gradient-to-r from-blue-700 to-blue-800 text-white rounded-t-xl sm:rounded-t-2xl">
+                <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                        <h2 class="text-lg sm:text-xl font-bold mb-1 break-words">${esc(m.name||m.group||'Meeting')}</h2>
+                        ${m.group&&m.group!==m.name?`<p class="text-blue-200 text-sm">${esc(m.group)}</p>`:''}
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button type="button" class="share-btn text-white/70 hover:text-white text-lg" title="Share this meeting" data-share-title="${esc(m.name||m.group||'AA Meeting')}" data-share-url="${esc(shareUrl)}"><i class="fas fa-share-alt"></i></button>
+                        <button type="button" class="modal-close text-white/70 hover:text-white text-2xl leading-none">&times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 sm:p-6 space-y-4 sm:space-y-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-calendar-day text-blue-600"></i></div>
+                        <div><p class="text-xs text-gray-500 uppercase tracking-wider">When</p>
+                            <p class="font-semibold">${DAY_NAMES[m.day]}</p>
+                            <p class="text-sm text-gray-600">${formatTime(m.time)}${m.end_time?' - '+formatTime(m.end_time):''}</p></div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-${FORMAT_COLORS[fmt]||'blue'}-100 flex items-center justify-center flex-shrink-0"><i class="fas ${FORMAT_ICONS[fmt]} text-${FORMAT_COLORS[fmt]||'blue'}-600"></i></div>
+                        <div><p class="text-xs text-gray-500 uppercase tracking-wider">Format</p>
+                            <p class="font-semibold">${FORMAT_LABELS[fmt]||fmt}</p>
+                            ${dist?`<p class="text-sm text-gray-500">${dist}</p>`:''}</div>
+                    </div>
+                </div>
+                ${m.location||m.formatted_address?`<div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-map-marker-alt text-red-600"></i></div>
+                    <div><p class="text-xs text-gray-500 uppercase tracking-wider">Location</p>
+                        <p class="font-semibold">${esc(m.location||'')}</p>
+                        <p class="text-sm text-gray-600">${esc(m.formatted_address||'')}</p>
+                        ${m.region?`<p class="text-sm text-gray-500"><i class="fas fa-map text-xs mr-1"></i>${esc(m.region)}</p>`:''}
+                        ${m.location_notes?`<p class="text-xs text-gray-500 mt-1">${esc(m.location_notes)}</p>`:''}
+                        ${m.approximate==='yes'?'<p class="text-xs text-orange-500 mt-1"><i class="fas fa-exclamation-circle mr-1"></i>Location is approximate</p>':''}
+                        ${m.latitude&&m.longitude?`<a href="https://www.google.com/maps/dir/?api=1&destination=${m.latitude},${m.longitude}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 mt-2 text-sm text-blue-600 hover:text-blue-700 font-medium"><i class="fas fa-directions"></i> Get Directions</a>`:''}</div>
+                </div>`:''}
+                ${m.conference_url?`<div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0"><i class="fas fa-video text-purple-600"></i></div>
+                    <div><p class="text-xs text-gray-500 uppercase tracking-wider">Join Online</p>
+                        <a href="${esc(m.conference_url)}" target="_blank" rel="noopener" class="text-sm text-purple-600 hover:text-purple-700 font-medium break-all">Join Meeting <i class="fas fa-external-link-alt text-xs ml-1"></i></a>
+                        ${m.conference_url_notes?`<p class="text-xs text-gray-500 mt-1">${esc(m.conference_url_notes)}</p>`:''}</div>
+                </div>`:''}
+                ${types.length?`<div><p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Meeting Types</p>
+                    <div class="flex flex-wrap gap-1.5">${types.map(t=>`<span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full font-medium">${TYPE_MAP[t]}</span>`).join('')}</div></div>`:''}
+                ${m.notes?`<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <p class="text-xs text-yellow-700 uppercase tracking-wider mb-1 font-semibold"><i class="fas fa-info-circle mr-1"></i>Notes</p>
+                    <p class="text-sm text-yellow-800">${esc(m.notes)}</p></div>`:''}
+                ${m.group_notes||m.website||m.phone||m.email||m.mailing_address?`<div class="border-t border-gray-100 pt-4">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Group Info</p>
+                    <div class="space-y-1.5 text-sm">
+                        ${m.group_notes?`<p class="text-gray-600"><i class="fas fa-sitemap mr-1 text-amber-500"></i>${esc(m.group_notes)}</p>`:''}
+                        ${m.website?`<p><a href="${esc(m.website)}" target="_blank" rel="noopener" class="text-blue-600 hover:text-blue-700"><i class="fas fa-globe mr-1"></i>${esc(m.website)}</a></p>`:''}
+                        ${m.phone?`<p><a href="tel:${esc(m.phone)}" class="text-blue-600 hover:text-blue-700"><i class="fas fa-phone mr-1"></i>${formatPhone(m.phone)}</a></p>`:''}
+                        ${m.email?`<p><a href="mailto:${esc(m.email)}" class="text-blue-600 hover:text-blue-700"><i class="fas fa-envelope mr-1"></i>${esc(m.email)}</a></p>`:''}
+                        ${m.mailing_address?`<p class="text-gray-600"><i class="fas fa-inbox mr-1 text-gray-400"></i>${esc(m.mailing_address)}</p>`:''}</div>
+                </div>`:''}
+                <div class="border-t border-gray-100 pt-3 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex flex-wrap gap-3">
+                        ${m.url?`<a href="${esc(m.url)}" target="_blank" rel="noopener" class="text-xs text-blue-600 hover:text-blue-700"><i class="fas fa-external-link-alt mr-1"></i>View on AADallas.org</a>`:''}
+                        ${m.location_url?`<a href="${esc(m.location_url)}" target="_blank" rel="noopener" class="text-xs text-blue-600 hover:text-blue-700"><i class="fas fa-map-pin mr-1"></i>Location Details</a>`:''}
+                    </div>
+                    <div class="text-xs text-gray-400 text-right">
+                        ${m.last_contact?`<span title="Last contact with group"><i class="fas fa-handshake mr-1"></i>Contacted: ${new Date(m.last_contact).toLocaleDateString()}</span>`:''}
+                        ${m.updated?`<span class="ml-3" title="Last data update"><i class="fas fa-sync-alt mr-1"></i>Updated: ${new Date(m.updated).toLocaleDateString()}</span>`:''}
+                    </div>
+                </div>
+            </div>`;
+
+        const modal = $('meeting-modal');
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        $('meeting-modal').classList.add('hidden'); $('meeting-modal').classList.remove('flex');
+        document.body.style.overflow = '';
+    }
+
+    // ── Event Listeners ──
+    $('mobile-nav-btn').addEventListener('click', () => $('mobile-nav').classList.toggle('hidden'));
+
+    // Search
+    let searchTimeout;
+    $('search-input').addEventListener('input', e => {
+        clearTimeout(searchTimeout);
+        const val = e.target.value.trim();
+        $('clear-search').classList.toggle('hidden', !val);
+        searchTimeout = setTimeout(() => { filters.search=val; applyFilters(); }, 250);
+    });
+    $('clear-search').addEventListener('click', () => {
+        $('search-input').value=''; $('clear-search').classList.add('hidden');
+        filters.search=''; applyFilters();
+    });
+
+    // Day pills - multi-select (Feature 10)
+    document.querySelectorAll('.day-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const d = parseInt(btn.dataset.day);
+            if (d === -1) {
+                // "All Days" - clear selection
+                filters.days = [];
+            } else {
+                // Toggle this day
+                const idx = filters.days.indexOf(d);
+                if (idx >= 0) filters.days.splice(idx, 1);
+                else filters.days.push(d);
+                // If all 7 selected, revert to "all"
+                if (filters.days.length === 7) filters.days = [];
+            }
+            syncDayPillsUI();
+            applyFilters();
+        });
+    });
+
+    // Quick filters
+    document.querySelectorAll('.quick-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const q = btn.dataset.quick;
+            const wasActive = filters.quick===q;
+            document.querySelectorAll('.quick-filter').forEach(b => b.classList.remove('ring-2','ring-offset-1'));
+            if (wasActive) { filters.quick=null; }
+            else {
+                filters.quick = q;
+                btn.classList.add('ring-2','ring-offset-1');
+                // Auto-select today for time-based filters
+                if (['now','soon','today','tonight'].includes(q)) {
+                    filters.days = [new Date().getDay()];
+                    syncDayPillsUI();
+                }
+                // "Nearest to me" (Feature 2)
+                if (q==='nearest') {
+                    if (userLat!=null) {
+                        $('sort-select').value = 'distance';
+                        if (!filters.radius) { filters.radius=10; $('radius-slider').value=10; $('radius-value').textContent='10 miles'; }
+                        $('distance-no-location').classList.add('hidden');
+                        $('distance-controls').classList.remove('hidden');
+                    } else {
+                        requestLocation(() => {
+                            $('sort-select').value = 'distance';
+                            filters.radius=10; $('radius-slider').value=10; $('radius-value').textContent='10 miles';
+                            applyFilters();
+                        });
+                        return;
+                    }
+                }
+            }
+            applyFilters();
+        });
+    });
+
+    // Checkbox filters
+    document.addEventListener('change', e => {
+        if (e.target.classList.contains('format-filter')) { filters.formats=[...document.querySelectorAll('.format-filter:checked')].map(c=>c.value); applyFilters(); }
+        if (e.target.classList.contains('time-filter')) { filters.timeOfDay=[...document.querySelectorAll('.time-filter:checked')].map(c=>c.value); applyFilters(); }
+        if (e.target.classList.contains('type-filter')) { filters.types=[...document.querySelectorAll('.type-filter:checked')].map(c=>c.value); applyFilters(); }
+        if (e.target.classList.contains('region-filter')) { filters.regions=[...document.querySelectorAll('.region-filter:checked')].map(c=>c.value); applyFilters(); }
+        if (e.target.classList.contains('accessibility-filter')) { filters.accessibility=[...document.querySelectorAll('.accessibility-filter:checked')].map(c=>c.value); applyFilters(); }
+        if (e.target.classList.contains('district-filter')) { filters.districts=[...document.querySelectorAll('.district-filter:checked')].map(c=>c.value); applyFilters(); }
+    });
+
+    // Region search
+    document.addEventListener('input', e => {
+        if (e.target.id==='region-search') {
+            const q=e.target.value.toLowerCase();
+            document.querySelectorAll('.region-label').forEach(l => { l.style.display=l.dataset.region.includes(q)?'':'none'; });
+        }
+    });
+
+    // Sort
+    $('sort-select').addEventListener('change', applyFilters);
+    $('groups-sort').addEventListener('change', () => { if (currentView==='groups') render(); });
+
+    // Table column sorting
+    document.addEventListener('click', e => {
+        const sortBtn = e.target.closest('.table-sort');
+        if (sortBtn) {
+            const col = sortBtn.dataset.sortCol;
+            if (tableSortCol===col) tableSortDir = tableSortDir==='asc'?'desc':'asc';
+            else { tableSortCol=col; tableSortDir='asc'; }
+            // Re-sort filteredMeetings for table
+            const dir = tableSortDir==='asc'?1:-1;
+            filteredMeetings.sort((a,b) => {
+                if (col==='time') return dir*(a._timeMins-b._timeMins);
+                if (col==='name') return dir*(a.name||'').localeCompare(b.name||'');
+                if (col==='day') return dir*(a.day-b.day);
+                if (col==='region') return dir*(a.region||'').localeCompare(b.region||'');
+                if (col==='format') return dir*(a.attendance_option||'').localeCompare(b.attendance_option||'');
+                if (col==='district') return dir*(a._district||'').localeCompare(b._district||'');
+                if (col==='distance'&&userLat!=null) return dir*((a._dist||99999)-(b._dist||99999));
+                return 0;
+            });
+            const totalPages=Math.ceil(filteredMeetings.length/PER_PAGE);
+            const page=filteredMeetings.slice((currentPage-1)*PER_PAGE,(currentPage-1)*PER_PAGE+PER_PAGE);
+            renderTableView(page);
+            renderPagination(totalPages);
+        }
+    });
+
+    // Distance radius slider
+    $('radius-slider').addEventListener('input', e => {
+        const v=parseInt(e.target.value); $('radius-value').textContent=v+' mile'+(v!==1?'s':'');
+    });
+    $('radius-slider').addEventListener('change', e => { filters.radius=parseInt(e.target.value); applyFilters(); });
+
+    // Location
+    function requestLocation(cb) {
+        if (!navigator.geolocation) { showToast('Geolocation not supported'); return; }
+        $('enable-location-btn').innerHTML='<i class="fas fa-spinner fa-spin mr-1"></i>Getting location...';
+        navigator.geolocation.getCurrentPosition(pos => {
+            userLat=pos.coords.latitude; userLng=pos.coords.longitude;
+            $('distance-no-location').classList.add('hidden');
+            $('distance-controls').classList.remove('hidden');
+            if (cb) cb();
+            else { filters.radius=25; applyFilters(); }
+        }, () => {
+            $('enable-location-btn').innerHTML='<i class="fas fa-times-circle mr-1 text-red-500"></i>Location denied';
+            showToast('Location access denied');
+        }, {enableHighAccuracy:true,timeout:10000});
+    }
+    $('enable-location-btn').addEventListener('click', () => requestLocation());
+
+    // View toggle
+    document.querySelectorAll('.view-toggle button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active'); currentView=btn.dataset.view; render();
+        });
+    });
+
+    // Pagination
+    $('prev-page').addEventListener('click', () => { if (currentPage>1){currentPage--;render();window.scrollTo(0,300);} });
+    $('next-page').addEventListener('click', () => { const max=Math.ceil(filteredMeetings.length/PER_PAGE); if(currentPage<max){currentPage++;render();window.scrollTo(0,300);} });
+    $('page-numbers').addEventListener('click', e => { if(e.target.dataset.page){currentPage=parseInt(e.target.dataset.page);render();window.scrollTo(0,300);} });
+
+    // Card click -> modal
+    document.addEventListener('click', e => {
+        const card = e.target.closest('[data-id]');
+        if (card && !e.target.closest('a') && !e.target.closest('.table-sort') && !e.target.closest('.share-btn')) {
+            showMeetingDetail(parseInt(card.dataset.id));
+        }
+    });
+
+    // Share button (Feature 11)
+    document.addEventListener('click', e => {
+        const shareBtn = e.target.closest('.share-btn');
+        if (!shareBtn) return;
+        e.stopPropagation();
+        const title = shareBtn.dataset.shareTitle;
+        const url = shareBtn.dataset.shareUrl;
+        if (navigator.share) {
+            navigator.share({title:title, text:'Check out this AA meeting: '+title, url:url}).catch(()=>{});
+        } else {
+            navigator.clipboard.writeText(url).then(() => showToast('Link copied to clipboard!')).catch(() => showToast('Could not copy link'));
+        }
+    });
+
+    // Heatmap cell click (Feature 14 + 16 interaction)
+    document.addEventListener('click', e => {
+        const cell = e.target.closest('.heatmap-cell');
+        if (!cell) return;
+        const day = parseInt(cell.dataset.hmDay);
+        const hour = parseInt(cell.dataset.hmHour);
+        if (isNaN(day) || isNaN(hour)) return;
+        filters.days = [day];
+        filters.timeOfDay = [];
+        if (hour<12) filters.timeOfDay=['morning'];
+        else if (hour<17) filters.timeOfDay=['afternoon'];
+        else if (hour<21) filters.timeOfDay=['evening'];
+        else filters.timeOfDay=['night'];
+        syncDayPillsUI();
+        document.querySelectorAll('.time-filter').forEach(c => c.checked=filters.timeOfDay.includes(c.value));
+        currentView = 'list';
+        document.querySelectorAll('.view-toggle button').forEach(b => b.classList.toggle('active',b.dataset.view==='list'));
+        applyFilters();
+        showToast(`${DAY_NAMES[day]} ${hour<12?(hour||12)+'am':hour===12?'12pm':(hour-12)+'pm'} meetings`);
+    });
+
+    // Modal close
+    $('meeting-modal').addEventListener('click', e => { if(e.target===$('meeting-modal')||e.target.closest('.modal-close')) closeModal(); });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+    // Filter sidebar (mobile)
+    function openFilterSidebar() { $('filter-sidebar').classList.add('open'); $('filter-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeFilterSidebar() { $('filter-sidebar').classList.remove('open'); $('filter-overlay').classList.remove('open'); document.body.style.overflow=''; }
+    $('filter-toggle-btn').addEventListener('click', openFilterSidebar);
+    $('close-filters').addEventListener('click', closeFilterSidebar);
+    $('filter-overlay').addEventListener('click', closeFilterSidebar);
+
+    // Active filter tag removal
+    $('active-filter-tags').addEventListener('click', e => {
+        const btn = e.target.closest('[data-filter-type]');
+        if (!btn) return;
+        const type=btn.dataset.filterType, value=btn.dataset.filterValue;
+        if (type==='day') { filters.days=filters.days.filter(d=>String(d)!==value); syncDayPillsUI(); }
+        if (type==='search') { filters.search=''; $('search-input').value=''; $('clear-search').classList.add('hidden'); }
+        if (type==='format') { filters.formats=filters.formats.filter(f=>f!==value); document.querySelectorAll('.format-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
+        if (type==='timeOfDay') { filters.timeOfDay=filters.timeOfDay.filter(t=>t!==value); document.querySelectorAll('.time-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
+        if (type==='type') { filters.types=filters.types.filter(t=>t!==value); document.querySelectorAll('.type-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
+        if (type==='region') { filters.regions=filters.regions.filter(r=>r!==value); document.querySelectorAll('.region-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
+        if (type==='accessibility') { filters.accessibility=filters.accessibility.filter(a=>a!==value); document.querySelectorAll('.accessibility-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
+        if (type==='district') { filters.districts=filters.districts.filter(d=>d!==value); document.querySelectorAll('.district-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
+        if (type==='radius') { filters.radius=0; $('radius-slider').value=25; $('radius-value').textContent='25 miles'; }
+        if (type==='quick') { filters.quick=null; document.querySelectorAll('.quick-filter').forEach(b=>b.classList.remove('ring-2','ring-offset-1')); }
+        applyFilters();
+    });
+
+    // Clear all
+    function resetAll() {
+        filters.search=''; filters.days=[]; filters.formats=[]; filters.timeOfDay=[];
+        filters.types=[]; filters.regions=[]; filters.districts=[]; filters.accessibility=[];
+        filters.radius=0; filters.quick=null;
+        $('radius-slider').value=25; $('radius-value').textContent='25 miles';
+        $('search-input').value=''; $('clear-search').classList.add('hidden');
+        syncDayPillsUI();
+        document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked=false);
+        document.querySelectorAll('.quick-filter').forEach(b => b.classList.remove('ring-2','ring-offset-1'));
+        applyFilters();
+    }
+    $('reset-filters').addEventListener('click', resetAll);
+    $('clear-all-filters').addEventListener('click', resetAll);
+    $('clear-filters-btn').addEventListener('click', resetAll);
+    $('retry-btn').addEventListener('click', fetchMeetings);
+
+    // Silent location attempt
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            userLat=pos.coords.latitude; userLng=pos.coords.longitude;
+            $('distance-no-location').classList.add('hidden');
+            $('distance-controls').classList.remove('hidden');
+        }, ()=>{}, {enableHighAccuracy:false,timeout:5000});
+    }
+
+    fetchMeetings();
+})();
+</script>
+</body>
+</html>

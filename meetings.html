@@ -167,6 +167,10 @@
         .table-sort:hover { color: #1e40af; }
         .table-sort .sort-icon { opacity: 0.3; }
         .table-sort.asc .sort-icon, .table-sort.desc .sort-icon { opacity: 1; }
+        .schedule-accordion .schedule-body { display: none; }
+        .schedule-accordion.open .schedule-body { display: block; }
+        .schedule-accordion .chevron-icon { transition: transform 0.2s; }
+        .schedule-accordion.open .chevron-icon { transform: rotate(180deg); }
         .toast { animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards; }
         @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
@@ -906,15 +910,28 @@
 
         if (!total) { noResults.classList.remove('hidden'); pagination.classList.add('hidden'); return; }
 
-        if (['schedule','groups','heatmap'].includes(currentView)) {
-            if (currentView==='schedule') renderScheduleView();
-            else if (currentView==='groups') renderGroupsView();
-            else if (currentView==='heatmap') renderHeatmap();
+        if (currentView==='heatmap' || currentView==='schedule') {
+            if (currentView==='heatmap') renderHeatmap();
+            else renderScheduleView();
             pagination.classList.add('hidden');
             return;
         }
 
         const showAll = PER_PAGE === 0;
+
+        if (currentView==='groups') {
+            // Paginate the groups array, not meetings
+            const allGroups = buildGroups();
+            const gTotal = allGroups.length;
+            const gPerPage = showAll ? gTotal : PER_PAGE;
+            const gTotalPages = showAll ? 1 : Math.ceil(gTotal/gPerPage);
+            if (currentPage > gTotalPages) currentPage = gTotalPages;
+            const gStart = (currentPage-1)*gPerPage;
+            renderGroupsView(allGroups.slice(gStart, gStart+gPerPage), gTotal);
+            renderPagination(gTotalPages);
+            return;
+        }
+
         const perPage = showAll ? total : PER_PAGE;
         const totalPages = showAll ? 1 : Math.ceil(total/perPage);
         if (currentPage > totalPages) currentPage = totalPages;
@@ -1032,31 +1049,58 @@
         }).join('')}</tbody></table>`;
     }
 
-    // ── Schedule View ──
+    // ── Schedule View (accordion with per-day internal pagination) ──
+    let _scheduleShown = {}; // tracks how many meetings are visible per day
     function renderScheduleView() {
         scheduleView.classList.remove('hidden');
         const byDay = {};
         filteredMeetings.forEach(m => { if (!byDay[m.day]) byDay[m.day]=[]; byDay[m.day].push(m); });
+        const activeDays = filters.days.length;
+        const autoExpand = activeDays > 0 && activeDays <= 3;
+        const perDay = PER_PAGE || Infinity;
+        // Reset visible counts for fresh render
+        _scheduleShown = {};
         const html = [];
         for (let d=0; d<7; d++) {
             if (!byDay[d]||!byDay[d].length) continue;
-            html.push(`<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div class="px-4 py-3 bg-gradient-to-r ${d===_renderDay?'from-blue-600 to-blue-700 text-white':'from-gray-50 to-gray-100 text-gray-800'} flex items-center justify-between">
-                    <h3 class="font-bold text-lg">${DAY_NAMES[d]}</h3>
-                    <span class="text-sm ${d===_renderDay?'text-blue-100':'text-gray-500'}">${byDay[d].length} meetings</span>
+            const dayMeetings = byDay[d];
+            const total = dayMeetings.length;
+            const isOpen = autoExpand;
+            const show = Math.min(perDay, total);
+            _scheduleShown[d] = show;
+            const isToday = d===_renderDay;
+            html.push(`<div class="schedule-accordion bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden${isOpen?' open':''}" data-sched-day="${d}">
+                <button type="button" class="schedule-header w-full px-4 py-3 bg-gradient-to-r ${isToday?'from-blue-600 to-blue-700 text-white':'from-gray-50 to-gray-100 text-gray-800'} flex items-center justify-between cursor-pointer hover:opacity-90 transition-opacity" aria-expanded="${isOpen}">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-chevron-down chevron-icon text-xs ${isToday?'text-blue-200':'text-gray-400'}"></i>
+                        <h3 class="font-bold text-lg">${DAY_NAMES[d]}</h3>
+                    </div>
+                    <span class="text-sm ${isToday?'text-blue-100':'text-gray-500'}">${total} meeting${total!==1?'s':''}</span>
+                </button>
+                <div class="schedule-body">
+                    <div class="divide-y divide-gray-100 schedule-items" data-sched-items="${d}">${scheduleRows(dayMeetings.slice(0, show))}</div>
+                    ${total>show?`<div class="schedule-more-wrap px-4 py-3 bg-gray-50 border-t border-gray-100 text-center" data-sched-more="${d}">
+                        <button type="button" class="schedule-more text-sm text-blue-600 hover:text-blue-700 font-medium" data-sched-day-more="${d}">
+                            <i class="fas fa-chevron-down mr-1"></i>Show more <span class="text-gray-400">(${show} of ${total})</span>
+                        </button>
+                    </div>`:''}
                 </div>
-                <div class="divide-y divide-gray-100">${byDay[d].map(m => {
-                    const fmt=m.attendance_option||'in_person';
-                    return `<div class="px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 cursor-pointer text-sm" data-id="${m._uid}">
-                        <span class="font-mono font-bold text-blue-700 w-20 flex-shrink-0">${formatTime(m.time)}</span>
-                        <span class="font-medium text-gray-900 flex-1 min-w-0 truncate">${esc(m.name||m.group||'')}</span>
-                        <span class="text-gray-400 hidden sm:inline truncate max-w-[160px]">${esc(m.region||'')}</span>
-                        <span class="badge bg-${FORMAT_COLORS[fmt]||'blue'}-100 text-${FORMAT_COLORS[fmt]||'blue'}-700 flex-shrink-0">${FORMAT_LABELS[fmt]||fmt}</span>
-                    </div>`;
-                }).join('')}</div>
             </div>`);
         }
         $('schedule-grid').innerHTML = html.join('');
+        // Store meetings for "show more" lazy loading
+        scheduleView._byDay = byDay;
+    }
+    function scheduleRows(meetings) {
+        return meetings.map(m => {
+            const fmt=m.attendance_option||'in_person';
+            return `<div class="px-4 py-2.5 flex items-center gap-3 hover:bg-gray-50 cursor-pointer text-sm" data-id="${m._uid}">
+                <span class="font-mono font-bold text-blue-700 w-20 flex-shrink-0">${formatTime(m.time)}</span>
+                <span class="font-medium text-gray-900 flex-1 min-w-0 truncate">${esc(m.name||m.group||'')}</span>
+                <span class="text-gray-400 hidden sm:inline truncate max-w-[160px]">${esc(m.region||'')}</span>
+                <span class="badge bg-${FORMAT_COLORS[fmt]||'blue'}-100 text-${FORMAT_COLORS[fmt]||'blue'}-700 flex-shrink-0">${FORMAT_LABELS[fmt]||fmt}</span>
+            </div>`;
+        }).join('');
     }
 
     // ── Heatmap View (Feature 14) ──
@@ -1106,8 +1150,7 @@
     }
 
     // ── Groups View ──
-    function renderGroupsView() {
-        groupsView.classList.remove('hidden');
+    function buildGroups() {
         const groupMap = {};
         filteredMeetings.forEach(m => {
             const gid = m._source + '_' + (m.group_id||m.id);
@@ -1130,7 +1173,11 @@
             const dB=(b.latitude&&b.longitude)?haversine(userLat,userLng,parseFloat(b.latitude),parseFloat(b.longitude)):99999;
             return dA-dB;
         });
-        $('groups-count').textContent=`${groups.length} group${groups.length!==1?'s':''} found`;
+        return groups;
+    }
+    function renderGroupsView(groups, totalGroups) {
+        groupsView.classList.remove('hidden');
+        $('groups-count').textContent=`${totalGroups} group${totalGroups!==1?'s':''} found`;
         $('groups-grid').innerHTML = groups.map(g => {
             const dist=(userLat!=null&&g.latitude&&g.longitude)?haversine(userLat,userLng,parseFloat(g.latitude),parseFloat(g.longitude)).toFixed(1):'';
             const formats=[...g.attendance_options];
@@ -1513,7 +1560,7 @@
     // Sort & per-page
     $('sort-select').addEventListener('change', applyFilters);
     $('perpage-select').addEventListener('change', e => { PER_PAGE = parseInt(e.target.value); currentPage = 1; render(); });
-    $('groups-sort').addEventListener('change', () => { if (currentView==='groups') render(); });
+    $('groups-sort').addEventListener('change', () => { if (currentView==='groups') { currentPage=1; render(); } });
 
     // Table column sorting
     document.addEventListener('click', e => {
@@ -1569,7 +1616,7 @@
     document.querySelectorAll('.view-toggle button').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active'); currentView=btn.dataset.view; render();
+            btn.classList.add('active'); currentView=btn.dataset.view; currentPage=1; render();
         });
     });
 
@@ -1620,6 +1667,41 @@
         document.querySelectorAll('.view-toggle button').forEach(b => b.classList.toggle('active',b.dataset.view==='list'));
         applyFilters();
         showToast(`${DAY_NAMES[day]} ${hour<12?(hour||12)+'am':hour===12?'12pm':(hour-12)+'pm'} meetings`);
+    });
+
+    // Schedule accordion toggle
+    document.addEventListener('click', e => {
+        const header = e.target.closest('.schedule-header');
+        if (!header) return;
+        const accordion = header.closest('.schedule-accordion');
+        if (!accordion) return;
+        accordion.classList.toggle('open');
+        header.setAttribute('aria-expanded', accordion.classList.contains('open'));
+    });
+
+    // Schedule "Show more" button
+    document.addEventListener('click', e => {
+        const btn = e.target.closest('.schedule-more');
+        if (!btn) return;
+        const d = parseInt(btn.dataset.schedDayMore);
+        if (isNaN(d) || !scheduleView._byDay || !scheduleView._byDay[d]) return;
+        const dayMeetings = scheduleView._byDay[d];
+        const total = dayMeetings.length;
+        const perDay = PER_PAGE || total;
+        const alreadyShown = _scheduleShown[d] || perDay;
+        const nextShow = Math.min(alreadyShown + perDay, total);
+        _scheduleShown[d] = nextShow;
+        // Replace the items container with the expanded set
+        const itemsEl = document.querySelector(`[data-sched-items="${d}"]`);
+        if (itemsEl) itemsEl.innerHTML = scheduleRows(dayMeetings.slice(0, nextShow));
+        // Update or hide the "show more" button
+        const moreWrap = document.querySelector(`[data-sched-more="${d}"]`);
+        if (moreWrap) {
+            if (nextShow >= total) moreWrap.remove();
+            else moreWrap.innerHTML = `<button type="button" class="schedule-more text-sm text-blue-600 hover:text-blue-700 font-medium" data-sched-day-more="${d}">
+                <i class="fas fa-chevron-down mr-1"></i>Show more <span class="text-gray-400">(${nextShow} of ${total})</span>
+            </button>`;
+        }
     });
 
     // Modal close

@@ -4516,12 +4516,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         initServiceWorker: function() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE_NAME = 'rowlett-aa-cache-v3.0';
+                    const CACHE_NAME = 'rowlett-aa-cache-v3.1';
                     const URLS_TO_CACHE = ['/', '/index.html', '/meetings.html'];
                     const LAZY_CACHE_FILES = ['ALL366DR.json'];
-                    const FEED_CACHE = 'rowlett-aa-feed-v1';
-                    const FEED_MAX_AGE = 6 * 60 * 60 * 1000;
+                    const FEED_CACHE = 'rowlett-aa-feed-v2';
+                    const FEED_MAX_AGE = 73 * 60 * 60 * 1000;
                     const _fd = (function(){var _r='MThjOTJmNTg2YjZjNzkzZDdlY'+'TZkZjVlMTk4ZDlmYTg9eWVrJn'+'Nnbml0ZWVtPW5vaXRjYT9waHAu'+'eGFqYS1uaW1kYS9uaW1kYS1wdy'+'9ncm8uc2FsbGFkYWEud3d3Ly86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
+                    const _fw = (function(){var _r='ZmQ4ZWE4NTQxZjFkZjI4OGY3ZTdk'+'ZTUwNDYzMTA1OGE9eWVrJnNnbml0'+'ZWVtPW5vaXRjYT9waHAueGFqYS1u'+'aW1kYS9uaW1kYS1wdy9ncm8uYWFo'+'dHJvd3Ryb2Yud3d3Ly86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
+                    const _ty = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by5hYS1yZWx5dC53d3cvLzpzcHR0'+'aA==';return atob(_r).split('').reverse().join('')})();
+                    const FEED_URLS = [_fd, _fw, _ty];
+
+                    function isFeedUrl(url) { return FEED_URLS.some(f => url === f); }
+                    function feedCacheKey(url) { return 'feed-' + url.replace(/[^a-z0-9]/gi, '_').substring(0, 80); }
 
                     self.addEventListener('install', e => {
                         e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(URLS_TO_CACHE)));
@@ -4529,18 +4535,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     });
 
                     self.addEventListener('fetch', e => {
-                        if (e.request.url === _fd) {
+                        if (isFeedUrl(e.request.url)) {
+                            const cacheKey = feedCacheKey(e.request.url);
                             e.respondWith(
                                 caches.open(FEED_CACHE).then(cache =>
-                                    cache.match('feed-data').then(cached => {
+                                    cache.match(cacheKey).then(cached => {
                                         const meta = cached && cached.headers.get('x-cached-at');
                                         const age = meta ? Date.now() - parseInt(meta, 10) : Infinity;
                                         if (cached && age < FEED_MAX_AGE) return cached;
                                         return fetch(e.request).then(response => {
                                             if (response.ok) {
                                                 return response.clone().text().then(body => {
+                                                    try { const parsed = JSON.parse(body); if (!Array.isArray(parsed)) throw 0; } catch(_) { return cached || new Response('[]', {status:200, headers: new Headers({'Content-Type':'application/json'})}); }
                                                     const headers = new Headers({'Content-Type':'application/json','x-cached-at':String(Date.now())});
-                                                    cache.put('feed-data', new Response(body, {status:200, headers}));
+                                                    cache.put(cacheKey, new Response(body, {status:200, headers}));
                                                     return response;
                                                 });
                                             }

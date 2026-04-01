@@ -133,7 +133,7 @@
         .sidebar-section summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.7rem; transition: transform 0.2s; }
         .sidebar-section[open] summary::after { transform: rotate(180deg); }
         .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
-        #map-container { height: calc(100vh - 240px); min-height: 300px; max-height: 700px; border-radius: 0.5rem; overflow: hidden; position: relative; }
+        #map-container { height: calc(100vh - 240px); min-height: 300px; max-height: 700px; border-radius: 0.5rem; overflow: hidden; position: relative; z-index: 0; }
         @media (min-width: 640px) { #map-container { max-height: 800px; } }
         @media (min-width: 1024px) { #map-container { max-height: 900px; } }
         #map-container.map-fullscreen { position: fixed; inset: 0; z-index: 65; border-radius: 0; height: 100vh !important; max-height: none !important; min-height: 0; }
@@ -479,14 +479,14 @@
 </div>
 
 <!-- Meeting Detail Modal -->
-<div id="meeting-modal" class="fixed inset-0 bg-black/50 z-[60] hidden items-center justify-center p-2 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-label="Meeting details">
+<div id="meeting-modal" class="fixed inset-0 bg-black/50 z-[75] hidden items-center justify-center p-2 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-label="Meeting details">
     <div class="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-2xl w-full max-h-[98vh] sm:max-h-[90vh] overflow-y-auto my-1 sm:my-8">
         <div id="modal-content"></div>
     </div>
 </div>
 
 <!-- Toast -->
-<div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70]" role="status" aria-live="polite"></div>
+<div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80]" role="status" aria-live="polite"></div>
 
 <!-- Footer -->
 <footer class="bg-gray-900 text-gray-400 mt-12">
@@ -874,9 +874,8 @@
 
         if (!total) { noResults.classList.remove('hidden'); pagination.classList.add('hidden'); return; }
 
-        if (['schedule','map','groups','heatmap'].includes(currentView)) {
+        if (['schedule','groups','heatmap'].includes(currentView)) {
             if (currentView==='schedule') renderScheduleView();
-            else if (currentView==='map') renderMapView();
             else if (currentView==='groups') renderGroupsView();
             else if (currentView==='heatmap') renderHeatmap();
             pagination.classList.add('hidden');
@@ -893,6 +892,7 @@
         if (currentView==='list') renderListView(page);
         else if (currentView==='grid') renderGridView(page);
         else if (currentView==='table') renderTableView(page);
+        else if (currentView==='map') renderMapView(page);
         renderPagination(totalPages);
     }
 
@@ -1134,7 +1134,7 @@
     }
 
     // ── Map View (CARTO Voyager + user pin + region click) ──
-    function renderMapView() {
+    function renderMapView(page) {
         mapView.classList.remove('hidden');
         const withCoords = filteredMeetings.filter(m => m.latitude&&m.longitude);
         if (!window.L && !leafletLoading) {
@@ -1158,7 +1158,7 @@
             };
             document.head.appendChild(script);
         } else if (window.L) { initMap(withCoords); }
-        $('map-list').innerHTML = withCoords.slice(0,50).map(m => meetingCardHTML(m,'list')).join('');
+        $('map-list').innerHTML = (page || withCoords).map(m => meetingCardHTML(m,'list')).join('');
     }
     function initMap(meetings) {
         const container = $('map-container');

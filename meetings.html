@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find AA Meetings Near Dallas, Garland, Rowlett & DFW | Rowlett Group of AA</title>
     <meta name="title" content="Find AA Meetings Near Dallas, Garland, Rowlett & DFW | Rowlett Group of AA">
-    <meta name="description" content="Search thousands of Alcoholics Anonymous meetings across Dallas, Fort Worth, Tyler and East Texas. Filter by day, time, type (open, closed, Big Book, speaker), region, and format. Find AA meetings in Garland, Rowlett, Rockwall, Mesquite, Richardson, Plano, McKinney, Allen, Frisco, Arlington, Fort Worth, Tyler, and surrounding communities.">
+    <meta name="description" content="Search thousands of Alcoholics Anonymous meetings across Dallas, Fort Worth, Tyler and East Texas, including Spanish-language meetings. Filter by day, time, type (open, closed, Big Book, speaker), region, and format. Find AA meetings in Garland, Rowlett, Rockwall, Mesquite, Richardson, Plano, McKinney, Allen, Frisco, Arlington, Fort Worth, Tyler, and surrounding communities.">
     <meta name="keywords" content="AA meetings near me, AA meetings Dallas, AA meetings Fort Worth, AA meetings Tyler, AA meetings Garland, AA meetings Rowlett, AA meetings DFW, AA meetings East Texas, Alcoholics Anonymous Dallas, Alcoholics Anonymous Fort Worth, find AA meeting, open AA meeting, closed AA meeting, Big Book study Dallas, speaker meeting DFW, AA meeting schedule, recovery meetings near me, 12 step meetings Dallas, AA meetings Rockwall, AA meetings Mesquite, AA meetings Richardson, AA meetings Plano, AA meetings McKinney, AA meetings Allen, AA meetings Frisco, AA meetings Arlington, AA meetings Wylie, AA meetings Sachse, AA meetings Longview, AA meetings Texarkana">
     <meta name="author" content="Rowlett Group of AA">
     <link rel="canonical" href="https://rowlettaa.org/meetings.html">
@@ -62,6 +62,7 @@
     <link rel="icon" type="image/png" href="https://rowlettaa.org/Rowlettaa16.png" sizes="16x16">
     <link rel="apple-touch-icon" sizes="180x180" href="https://rowlettaa.org/Rowlettaa180.png">
     <link rel="shortcut icon" href="https://rowlettaa.org/favicon.ico">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlJvd2xldHQgR3JvdXAgb2YgQUEiLAogICJzaG9ydF9uYW1lIjogIlJvd2xldHQgQUEiLAogICJkZXNjcmlwdGlvbiI6ICJBbGNvaG9saWNzIEFub255bW91cyBtZWV0aW5ncyBpbiBHYXJsYW5kLCBUWC4gU3VwcG9ydCBhbmQgcmVjb3ZlcnkgcmVzb3VyY2VzIGZvciB0aG9zZSBzZWVraW5nIHNvYnJpZXR5LiIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgInNjb3BlIjogIi8iLAogICJpZCI6ICIvIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMWU0MGFmIiwKICAidGhlbWVfY29sb3IiOiAiIzFlNDBhZiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcm93bGV0dGFhLm9yZy9Sb3dsZXR0YWExOTIucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcm93bGV0dGFhLm9yZy9Sb3dsZXR0YWE1MTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkiCiAgICB9CiAgXQp9">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 
     <!-- Structured Data -->
@@ -208,7 +209,7 @@
     <div class="container mx-auto px-4 sm:px-6">
         <div class="max-w-3xl mx-auto text-center">
             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3">Find a Meeting</h1>
-            <p class="text-blue-100 mb-4 sm:mb-6 text-xs sm:text-sm lg:text-base">Search thousands of AA meetings across Dallas, Fort Worth, Tyler &amp; East Texas. Filter by day, time, type, region, and more.</p>
+            <p class="text-blue-100 mb-4 sm:mb-6 text-xs sm:text-sm lg:text-base">Search thousands of AA meetings across Dallas, Fort Worth, Tyler &amp; East Texas — including Spanish-language meetings. Filter by day, time, type, region, and more.</p>
             <div class="relative max-w-xl mx-auto">
                 <i id="search-icon" class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                 <label for="search-input" class="sr-only">Search meetings</label>
@@ -400,6 +401,14 @@
                 <div class="pb-3 pt-1 space-y-1.5 max-h-48 overflow-y-auto" id="district-filters"></div>
             </details>
 
+            <!-- Data Source -->
+            <details class="sidebar-section">
+                <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
+                    <span><i class="fas fa-database mr-2 text-cyan-500"></i>Data Source</span>
+                </summary>
+                <div class="pb-3 pt-1 space-y-1.5" id="source-filters"></div>
+            </details>
+
             <!-- Accessibility -->
             <details class="sidebar-section">
                 <summary class="flex items-center justify-between py-2 text-sm font-semibold text-gray-700">
@@ -420,7 +429,7 @@
         <main class="flex-1 min-w-0">
             <div id="loading-state" class="flex flex-col items-center justify-center py-20">
                 <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-                <p class="text-gray-500">Loading meetings from Dallas, Fort Worth &amp; Tyler Central Offices...</p>
+                <p class="text-gray-500">Loading meetings from Dallas, Fort Worth, Tyler &amp; AA en Español...</p>
             </div>
             <div id="error-state" class="hidden text-center py-20">
                 <i class="fas fa-exclamation-triangle text-5xl text-yellow-500 mb-4"></i>
@@ -499,7 +508,7 @@
                 </svg>
                 <span class="text-white font-semibold">Rowlett Group of AA</span>
             </div>
-            <p class="text-xs sm:text-sm text-center">Meeting data by <a href="https://www.aadallas.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">Dallas AA</a>, <a href="https://www.fortworthaa.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">Fort Worth AA</a> &amp; <a href="https://www.tyler-aa.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">Tyler AA</a> Central Offices &middot; Maps by <a href="https://carto.com/" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">CARTO</a></p>
+            <p class="text-xs sm:text-sm text-center">Meeting data by <a href="https://www.aadallas.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">Dallas AA</a>, <a href="https://www.fortworthaa.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">Fort Worth AA</a>, <a href="https://www.tyler-aa.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">Tyler AA</a> &amp; <a href="https://alcoholicosanonimosdallas.org" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">AA en Español</a> &middot; Maps by <a href="https://carto.com/" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener">CARTO</a></p>
             <a href="index.html" class="text-blue-400 hover:text-blue-300 text-sm"><i class="fas fa-arrow-left mr-1"></i> Back to Main Site</a>
         </div>
     </div>
@@ -512,6 +521,7 @@
     const FEED_URL = (function(){var _r='MThjOTJmNTg2YjZjNzkzZDdlY' + 'TZkZjVlMTk4ZDlmYTg9eWVrJn' + 'Nnbml0ZWVtPW5vaXRjYT9waHAu' + 'eGFqYS1uaW1kYS9uaW1kYS1wdy' + '9ncm8uc2FsbGFkYWEud3d3Ly86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
     const FEED_URL_FW = (function(){var _r='ZmQ4ZWE4NTQxZjFkZjI4OGY3ZTdk' + 'ZTUwNDYzMTA1OGE9eWVrJnNnbml0' + 'ZWVtPW5vaXRjYT9waHAueGFqYS1u' + 'aW1kYS9uaW1kYS1wdy9ncm8uYWFo' + 'dHJvd3Ryb2Yud3d3Ly86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
     const FEED_URL_TYLER = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54' + 'YWphLW5pbWRhL25pbWRhLXB3L2dy' + 'by5hYS1yZWx5dC53d3cvLzpzcHR0' + 'aA==';return atob(_r).split('').reverse().join('')})();
+    const FEED_URL_ES = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54' + 'YWphLW5pbWRhL25pbWRhLXB3L2dy' + 'by5zYWxsYWRzb21pbm9uYXNvY2ls' + 'b2hvY2xhLy86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
     let PER_PAGE = 30;
     const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const DAY_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -556,7 +566,9 @@
     let userMarker = null;
     let tableSortCol = 'time', tableSortDir = 'asc';
 
-    const filters = { search:'', days:[], formats:[], timeOfDay:[], types:[], regions:[], districts:[], accessibility:[], radius:0, quick:null };
+    const filters = { search:'', days:[], formats:[], timeOfDay:[], types:[], regions:[], districts:[], accessibility:[], sources:[], radius:0, quick:null };
+    const SOURCE_LABELS = {dallas:'Dallas Central Office',fortworth:'Fort Worth Central Office',tyler:'Tyler Central Office',espanol:'AA en Español Dallas'};
+    const SOURCE_ICONS = {dallas:'fa-building',fortworth:'fa-building',tyler:'fa-building',espanol:'fa-language'};
 
     const $ = id => document.getElementById(id);
     const _escEl = document.createElement('div');
@@ -605,34 +617,41 @@
             const timeout = setTimeout(() => { didTimeout = true; controller.abort(); }, 15000);
             const opts = {signal: controller.signal};
             function safeFetch(url) { return fetch(url, opts).then(r => r.ok ? r.json() : []).then(d => Array.isArray(d) ? d : []).catch(() => []); }
-            const [resDallas, resFW, resTyler] = await Promise.allSettled([
+            const [resDallas, resFW, resTyler, resES] = await Promise.allSettled([
                 safeFetch(FEED_URL),
                 safeFetch(FEED_URL_FW),
-                safeFetch(FEED_URL_TYLER)
+                safeFetch(FEED_URL_TYLER),
+                safeFetch(FEED_URL_ES)
             ]);
             clearTimeout(timeout);
             const dallas = resDallas.value;
             const fw = resFW.value;
             const tyler = resTyler.value;
-            if (!dallas.length && !fw.length && !tyler.length) throw new Error('No data from any feed');
+            const es = resES.value;
+            if (!dallas.length && !fw.length && !tyler.length && !es.length) throw new Error('No data from any feed');
             // Track partial failures for user feedback
             const failed = [];
             if (!dallas.length) failed.push('Dallas');
             if (!fw.length) failed.push('Fort Worth');
             if (!tyler.length) failed.push('Tyler');
-            if (failed.length && failed.length < 3) showToast('Could not load ' + failed.join(' & ') + ' feed' + (failed.length>1?'s':'') + '. Showing available data.');
+            if (!es.length) failed.push('AA en Español');
+            if (failed.length && failed.length < 4) showToast('Could not load ' + failed.join(' & ') + ' feed' + (failed.length>1?'s':'') + '. Showing available data.');
             dallas.forEach(m => { m._source = 'dallas'; });
             fw.forEach(m => { m._source = 'fortworth'; });
             tyler.forEach(m => { m._source = 'tyler'; });
-            // Combine with Dallas first (priority), then deduplicate by location+day+time
-            const combined = [].concat(dallas, fw, tyler).filter(m => m.day!=null && m.time);
+            // Tag Spanish feed: set source and ensure every meeting has the 'S' (Spanish) type
+            es.forEach(m => { m._source = 'espanol'; if (!m.types) m.types = []; if (!m.types.includes('S')) m.types.push('S'); });
+            // Combine with English feeds first (priority), Spanish last to avoid overwriting English entries at same location/time
+            const combined = [].concat(dallas, fw, tyler, es).filter(m => m.day!=null && m.time);
             const seen = new Set();
             allMeetings = [];
             combined.forEach(m => {
                 const lat = parseFloat(m.latitude);
                 const lng = parseFloat(m.longitude);
                 if (!isNaN(lat) && !isNaN(lng)) {
-                    const key = lat.toFixed(4)+','+lng.toFixed(4)+','+m.day+','+m.time;
+                    // Include language in dedup key so a Spanish and English meeting at the same place/time are kept as separate entries
+                    const lang = (m.types||[]).includes('S') ? 'es' : 'en';
+                    const key = lat.toFixed(4)+','+lng.toFixed(4)+','+m.day+','+m.time+','+lang;
                     if (seen.has(key)) return;
                     seen.add(key);
                 }
@@ -655,7 +674,7 @@
             errorState.classList.remove('hidden');
             const isTimeout = didTimeout;
             $('error-title').textContent = isTimeout ? 'Connection Timed Out' : 'Unable to Load Meetings';
-            $('error-message').textContent = isTimeout ? 'The meeting feeds took too long to respond. Please check your connection and try again.' : 'There was a problem connecting to the Dallas, Fort Worth, and Tyler meeting feeds.';
+            $('error-message').textContent = isTimeout ? 'The meeting feeds took too long to respond. Please check your connection and try again.' : 'There was a problem connecting to the meeting feeds.';
             console.error('Failed to load meetings:', e);
         }
     }
@@ -698,6 +717,14 @@
                 <input type="checkbox" value="${n}" class="district-filter rounded text-blue-600"><span>${n}</span>
                 <span class="text-gray-400 text-xs ml-auto">${c}</span></label>`).join('');
 
+        const sourceCounts = {};
+        allMeetings.forEach(m => { sourceCounts[m._source]=(sourceCounts[m._source]||0)+1; });
+        $('source-filters').innerHTML = Object.keys(SOURCE_LABELS).filter(k => sourceCounts[k]).map(k =>
+            `<label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
+                <input type="checkbox" value="${k}" class="source-filter rounded text-blue-600"${filters.sources.includes(k)?' checked':''}>
+                <i class="fas ${SOURCE_ICONS[k]} text-cyan-500 w-4 text-center"></i>
+                <span class="truncate">${SOURCE_LABELS[k]}</span><span class="text-gray-400 text-xs ml-auto flex-shrink-0">${sourceCounts[k]}</span></label>`).join('');
+
         const accItems = TYPE_CATEGORIES.accessibility.filter(k => typeCounts[k]);
         $('accessibility-filters').innerHTML = accItems.map(k =>
             `<label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
@@ -722,6 +749,7 @@
         if (filters.regions.length) p.set('region', filters.regions.join(','));
         if (filters.districts.length) p.set('district', filters.districts.join(','));
         if (filters.accessibility.length) p.set('acc', filters.accessibility.join(','));
+        if (filters.sources.length) p.set('src', filters.sources.join(','));
         if (filters.radius > 0) p.set('radius', filters.radius);
         if (filters.quick) p.set('quick', filters.quick);
         if (currentView !== 'list') p.set('view', currentView);
@@ -741,6 +769,7 @@
         if (p.has('region')) filters.regions = p.get('region').split(',');
         if (p.has('district')) filters.districts = p.get('district').split(',');
         if (p.has('acc')) filters.accessibility = p.get('acc').split(',');
+        if (p.has('src')) filters.sources = p.get('src').split(',');
         if (p.has('radius')) filters.radius = parseInt(p.get('radius'))||0;
         if (p.has('quick')) filters.quick = p.get('quick');
         if (p.has('view')) { const v = p.get('view'); if (VALID_VIEWS.includes(v)) currentView = v; }
@@ -758,6 +787,7 @@
         filters.regions.forEach(v => { document.querySelectorAll('.region-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
         filters.districts.forEach(v => { document.querySelectorAll('.district-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
         filters.accessibility.forEach(v => { document.querySelectorAll('.accessibility-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
+        filters.sources.forEach(v => { document.querySelectorAll('.source-filter').forEach(c => { if(c.value===v) c.checked=true; }); });
         // Sync radius slider
         if (filters.radius > 0) {
             $('radius-slider').value = filters.radius;
@@ -799,6 +829,7 @@
             if (filters.regions.length) { if (!filters.regions.includes(m.region)) return false; }
             if (filters.accessibility.length) { if (!filters.accessibility.every(t => (m.types||[]).includes(t))) return false; }
             if (filters.districts.length) { if (!filters.districts.includes(m._district)) return false; }
+            if (filters.sources.length) { if (!filters.sources.includes(m._source)) return false; }
             if (filters.radius>0 && userLat!=null) {
                 if (!m.latitude||!m.longitude) return false;
                 if (haversine(userLat,userLng,parseFloat(m.latitude),parseFloat(m.longitude))>filters.radius) return false;
@@ -853,6 +884,7 @@
         filters.regions.forEach(r => tags.push({label:r,type:'region',value:r}));
         filters.accessibility.forEach(a => tags.push({label:TYPE_MAP[a]||a,type:'accessibility',value:a}));
         filters.districts.forEach(d => tags.push({label:d,type:'district',value:d}));
+        filters.sources.forEach(s => tags.push({label:SOURCE_LABELS[s]||s,type:'source',value:s}));
         if (filters.radius>0) tags.push({label:`Within ${filters.radius} mi`,type:'radius'});
         if (filters.quick) tags.push({label:{now:'Happening Now',soon:'Starting Soon',today:'Today',tonight:'Tonight',nearest:'Nearest',online:'Online',open:'Open'}[filters.quick]||filters.quick,type:'quick'});
 
@@ -1342,7 +1374,7 @@
                 </div>`:''}
                 <div class="border-t border-gray-100 pt-3 flex flex-wrap items-center justify-between gap-2">
                     <div class="flex flex-wrap gap-3">
-                        ${m.url?`<a href="${esc(m.url)}" target="_blank" rel="noopener" class="text-xs text-blue-600 hover:text-blue-700"><i class="fas fa-external-link-alt mr-1"></i>View on ${m._source==='fortworth'?'FortworthAA.org':m._source==='tyler'?'Tyler-AA.org':'AADallas.org'}</a>`:''}
+                        ${m.url?`<a href="${esc(m.url)}" target="_blank" rel="noopener" class="text-xs text-blue-600 hover:text-blue-700"><i class="fas fa-external-link-alt mr-1"></i>View on ${m._source==='fortworth'?'FortworthAA.org':m._source==='tyler'?'Tyler-AA.org':m._source==='espanol'?'AA en Español Dallas':'AADallas.org'}</a>`:''}
                         ${m.location_url?`<a href="${esc(m.location_url)}" target="_blank" rel="noopener" class="text-xs text-blue-600 hover:text-blue-700"><i class="fas fa-map-pin mr-1"></i>Location Details</a>`:''}
                     </div>
                     <div class="text-xs text-gray-400 text-right">
@@ -1465,6 +1497,7 @@
         if (e.target.classList.contains('region-filter')) { filters.regions=[...document.querySelectorAll('.region-filter:checked')].map(c=>c.value); applyFilters(); }
         if (e.target.classList.contains('accessibility-filter')) { filters.accessibility=[...document.querySelectorAll('.accessibility-filter:checked')].map(c=>c.value); applyFilters(); }
         if (e.target.classList.contains('district-filter')) { filters.districts=[...document.querySelectorAll('.district-filter:checked')].map(c=>c.value); applyFilters(); }
+        if (e.target.classList.contains('source-filter')) { filters.sources=[...document.querySelectorAll('.source-filter:checked')].map(c=>c.value); applyFilters(); }
     });
 
     // Region search
@@ -1613,6 +1646,7 @@
         if (type==='region') { filters.regions=filters.regions.filter(r=>r!==value); document.querySelectorAll('.region-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
         if (type==='accessibility') { filters.accessibility=filters.accessibility.filter(a=>a!==value); document.querySelectorAll('.accessibility-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
         if (type==='district') { filters.districts=filters.districts.filter(d=>d!==value); document.querySelectorAll('.district-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
+        if (type==='source') { filters.sources=filters.sources.filter(s=>s!==value); document.querySelectorAll('.source-filter').forEach(c=>{if(c.value===value)c.checked=false;}); }
         if (type==='radius') { filters.radius=0; $('radius-slider').value=25; $('radius-value').textContent='25 miles'; }
         if (type==='quick') { filters.quick=null; document.querySelectorAll('.quick-filter').forEach(b=>b.classList.remove('ring-2','ring-offset-1')); }
         applyFilters();
@@ -1621,7 +1655,7 @@
     // Clear all
     function resetAll() {
         filters.search=''; filters.days=[]; filters.formats=[]; filters.timeOfDay=[];
-        filters.types=[]; filters.regions=[]; filters.districts=[]; filters.accessibility=[];
+        filters.types=[]; filters.regions=[]; filters.districts=[]; filters.accessibility=[]; filters.sources=[];
         filters.radius=0; filters.quick=null;
         $('radius-slider').value=25; $('radius-value').textContent='25 miles';
         $('search-input').value=''; $('clear-search').classList.add('hidden');
@@ -1666,6 +1700,93 @@
 
     fetchMeetings();
 })();
+
+// ── Service Worker (shared with index.html) ──
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        const CACHE_NAME = 'rowlett-aa-cache-v3.2';
+        const URLS_TO_CACHE = ['/', '/index.html', '/meetings.html'];
+        const FEED_CACHE = 'rowlett-aa-feed-v2';
+        const FEED_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
+        const _fd = (function(){var _r='MThjOTJmNTg2YjZjNzkzZDdlY'+'TZkZjVlMTk4ZDlmYTg9eWVrJn'+'Nnbml0ZWVtPW5vaXRjYT9waHAu'+'eGFqYS1uaW1kYS9uaW1kYS1wdy'+'9ncm8uc2FsbGFkYWEud3d3Ly86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
+        const _fw = (function(){var _r='ZmQ4ZWE4NTQxZjFkZjI4OGY3ZTdk'+'ZTUwNDYzMTA1OGE9eWVrJnNnbml0'+'ZWVtPW5vaXRjYT9waHAueGFqYS1u'+'aW1kYS9uaW1kYS1wdy9ncm8uYWFo'+'dHJvd3Ryb2Yud3d3Ly86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
+        const _ty = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by5hYS1yZWx5dC53d3cvLzpzcHR0'+'aA==';return atob(_r).split('').reverse().join('')})();
+        const _es = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by5zYWxsYWRzb21pbm9uYXNvY2ls'+'b2hvY2xhLy86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
+        const FEED_URLS = [_fd, _fw, _ty, _es];
+        function isFeedUrl(url) { return FEED_URLS.some(f => url === f); }
+        function feedCacheKey(url) { return 'feed-' + url.replace(/[^a-z0-9]/gi, '_').substring(0, 80); }
+        self.addEventListener('install', e => {
+            e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(URLS_TO_CACHE)));
+            self.skipWaiting();
+        });
+        function bgUpdateFeed(cache, cacheKey, request) {
+            fetch(request).then(response => {
+                if (!response.ok) return;
+                response.clone().text().then(body => {
+                    try { const parsed = JSON.parse(body); if (!Array.isArray(parsed)) throw 0; } catch(_) { return; }
+                    const headers = new Headers({'Content-Type':'application/json','x-cached-at':String(Date.now())});
+                    cache.put(cacheKey, new Response(body, {status:200, headers}));
+                });
+            }).catch(() => {});
+        }
+        self.addEventListener('fetch', e => {
+            if (isFeedUrl(e.request.url)) {
+                const cacheKey = feedCacheKey(e.request.url);
+                e.respondWith(
+                    caches.open(FEED_CACHE).then(cache =>
+                        cache.match(cacheKey).then(cached => {
+                            if (cached) {
+                                const meta = cached.headers.get('x-cached-at');
+                                const age = meta ? Date.now() - parseInt(meta, 10) : Infinity;
+                                if (age >= FEED_MAX_AGE) bgUpdateFeed(cache, cacheKey, e.request);
+                                return cached;
+                            }
+                            return fetch(e.request).then(response => {
+                                if (response.ok) {
+                                    return response.clone().text().then(body => {
+                                        try { const parsed = JSON.parse(body); if (!Array.isArray(parsed)) throw 0; } catch(_) { return new Response('[]', {status:200, headers: new Headers({'Content-Type':'application/json'})}); }
+                                        const headers = new Headers({'Content-Type':'application/json','x-cached-at':String(Date.now())});
+                                        cache.put(cacheKey, new Response(body, {status:200, headers}));
+                                        return response;
+                                    });
+                                }
+                                return response;
+                            }).catch(() => new Response('[]', {status:503}));
+                        })
+                    )
+                );
+                return;
+            }
+            e.respondWith(
+                caches.match(e.request).then(cached => {
+                    if (cached) return cached;
+                    return fetch(e.request).then(response => {
+                        if (response && response.status === 200 && response.type === 'basic') {
+                            const responseToCache = response.clone();
+                            caches.open(CACHE_NAME).then(cache => { cache.put(e.request, responseToCache); });
+                        }
+                        return response;
+                    });
+                })
+            );
+        });
+        self.addEventListener('activate', e => {
+            const keepCaches = [CACHE_NAME, FEED_CACHE];
+            e.waitUntil(
+                caches.keys().then(names => Promise.all(names.map(name => {
+                    if (keepCaches.indexOf(name) === -1) return caches.delete(name);
+                }))).then(() => self.clients.claim())
+            );
+        });
+    `;
+    window.addEventListener('load', () => {
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl, { scope: '/' })
+            .then(reg => { URL.revokeObjectURL(swUrl); })
+            .catch(() => { URL.revokeObjectURL(swUrl); });
+    });
+}
 </script>
 </body>
 </html>

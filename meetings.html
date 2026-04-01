@@ -139,12 +139,12 @@
         #map-container.map-fullscreen { position: fixed; inset: 0; z-index: 65; border-radius: 0; height: 100vh !important; max-height: none !important; min-height: 0; }
         .view-toggle { overflow-x: auto; }
         .view-toggle::-webkit-scrollbar { display: none; }
-        .view-toggle { -ms-overflow-style: none; }
+        .view-toggle { -ms-overflow-style: none; scrollbar-width: none; }
         .view-toggle button.active { background: #1e40af; color: white; }
         .time-slot { min-width: 72px; }
         .scroll-hint { position: relative; }
         @media (max-width: 1023px) {
-            .scroll-hint::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 24px; background: linear-gradient(to right, transparent, white); pointer-events: none; }
+            .scroll-hint::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 24px; background: linear-gradient(to right, transparent, #f9fafb); pointer-events: none; }
         }
         @media (max-width: 1023px) {
             .filter-sidebar { position: fixed; top: 0; left: 0; width: 80%; max-width: 340px; height: 100vh; z-index: 60; transform: translateX(-100%); transition: transform 0.3s ease; overflow-y: auto; }
@@ -233,7 +233,7 @@
 </section>
 
 <!-- Toolbar -->
-<div class="bg-white border-b border-gray-200 sticky top-[57px] z-40 shadow-sm">
+<div id="toolbar" class="bg-white border-b border-gray-200 sticky z-40 shadow-sm" style="top:57px">
     <div class="container mx-auto px-4 sm:px-6 py-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
         <div class="flex items-center gap-3 w-full sm:w-auto">
             <button type="button" id="filter-toggle-btn" class="lg:hidden flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-all flex-shrink-0">
@@ -1249,7 +1249,7 @@
         mapInstance.addControl(new FullscreenControl());
     }
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && $('map-container').classList.contains('map-fullscreen')) {
+        if (e.key === 'Escape' && $('map-container').classList.contains('map-fullscreen') && $('meeting-modal').classList.contains('hidden')) {
             $('map-container').classList.remove('map-fullscreen');
             document.body.style.overflow = '';
             if (mapInstance) setTimeout(() => mapInstance.invalidateSize(), 300);
@@ -1366,7 +1366,8 @@
         const modal = $('meeting-modal');
         const prev = modal._previousFocus;
         modal.classList.add('hidden'); modal.classList.remove('flex');
-        document.body.style.overflow = '';
+        // Only restore scroll if map fullscreen isn't also locking it
+        if (!$('map-container').classList.contains('map-fullscreen')) document.body.style.overflow = '';
         if (prev && prev.focus) prev.focus();
     }
     // Focus trap within modal
@@ -1540,7 +1541,7 @@
     });
 
     // Pagination
-    function scrollToResults() { const el = listView.offsetParent ? listView : gridView.offsetParent ? gridView : tableView; el.scrollIntoView({behavior:'smooth',block:'start'}); }
+    function scrollToResults() { const el = allViews.find(v => !v.classList.contains('hidden')) || listView; el.scrollIntoView({behavior:'smooth',block:'start'}); }
     $('prev-page').addEventListener('click', () => { if (currentPage>1){currentPage--;render();scrollToResults();} });
     $('next-page').addEventListener('click', () => { const pp=PER_PAGE||filteredMeetings.length; const max=Math.ceil(filteredMeetings.length/pp); if(currentPage<max){currentPage++;render();scrollToResults();} });
     $('page-numbers').addEventListener('click', e => { if(e.target.dataset.page){currentPage=parseInt(e.target.dataset.page);render();scrollToResults();} });
@@ -1590,7 +1591,7 @@
 
     // Modal close
     $('meeting-modal').addEventListener('click', e => { if(e.target===$('meeting-modal')||e.target.closest('.modal-close')) closeModal(); });
-    document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+    document.addEventListener('keydown', e => { if(e.key==='Escape' && !$('meeting-modal').classList.contains('hidden')) { closeModal(); e.stopImmediatePropagation(); } });
 
     // Filter sidebar (mobile)
     function openFilterSidebar() { $('filter-sidebar').classList.add('open'); $('filter-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
@@ -1634,27 +1635,34 @@
     $('clear-filters-btn').addEventListener('click', resetAll);
     $('retry-btn').addEventListener('click', fetchMeetings);
 
-    // Silent location attempt
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-            userLat=pos.coords.latitude; userLng=pos.coords.longitude;
-            $('distance-no-location').classList.add('hidden');
-            $('distance-controls').classList.remove('hidden');
-        }, ()=>{}, {enableHighAccuracy:false,timeout:5000});
+    // Check for previously granted location permission (no prompt)
+    if (navigator.permissions && navigator.geolocation) {
+        navigator.permissions.query({name:'geolocation'}).then(result => {
+            if (result.state === 'granted') {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    userLat=pos.coords.latitude; userLng=pos.coords.longitude;
+                    $('distance-no-location').classList.add('hidden');
+                    $('distance-controls').classList.remove('hidden');
+                }, ()=>{}, {enableHighAccuracy:false,timeout:5000});
+            }
+        }).catch(()=>{});
     }
 
-    // Dynamically set sidebar sticky offset to clear header + toolbar
-    function updateSidebarOffset() {
-        const toolbar = document.querySelector('.sticky.top-\\[57px\\]');
-        if (toolbar) {
-            const offset = toolbar.offsetTop + toolbar.offsetHeight + 8;
+    // Dynamically set toolbar + sidebar sticky offsets to clear header
+    function updateStickyOffsets() {
+        const header = document.querySelector('header');
+        const toolbar = $('toolbar');
+        if (header && toolbar) {
+            const headerH = header.offsetHeight;
+            toolbar.style.top = headerH + 'px';
+            const offset = headerH + toolbar.offsetHeight + 8;
             const sidebar = $('filter-sidebar');
             sidebar.style.top = offset + 'px';
             sidebar.style.maxHeight = 'calc(100vh - ' + (offset + 8) + 'px)';
         }
     }
-    window.addEventListener('resize', updateSidebarOffset);
-    updateSidebarOffset();
+    window.addEventListener('resize', updateStickyOffsets);
+    updateStickyOffsets();
 
     fetchMeetings();
 })();

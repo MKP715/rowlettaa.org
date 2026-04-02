@@ -4516,7 +4516,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         initServiceWorker: function() {
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE_NAME = 'rowlett-aa-cache-v3.3';
+                    const CACHE_NAME = 'rowlett-aa-cache-v3.4';
                     const URLS_TO_CACHE = ['/', '/index.html', '/meetings.html'];
                     const LAZY_CACHE_FILES = ['ALL366DR.json'];
                     const FEED_CACHE = 'rowlett-aa-feed-v2';
@@ -4527,7 +4527,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     const _es = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by5zYWxsYWRzb21pbm9uYXNvY2ls'+'b2hvY2xhLy86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
                     const _d71 = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by4xN3RjaXJ0c2lkLy86c3B0dGg=';return atob(_r).split('').reverse().join('')})();
                     const _ark = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by5lY2lmZm9sYXJ0bmVjc2FzbmFr'+'cmEvLzpzcHR0aA==';return atob(_r).split('').reverse().join('')})();
-                    const FEED_URLS = [_fd, _fw, _ty, _es, _d71, _ark];
+                    const _okc = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by5wdW9yZ3JldG5pY2tvLy86c3B0'+'dGg=';return atob(_r).split('').reverse().join('')})();
+                    const _nwta = (function(){var _r='c2duaXRlZW09bm9pdGNhP3BocC54'+'YWphLW5pbWRhL25pbWRhLXB3L2dy'+'by42NmF0d24vLzpzcHR0aA==';return atob(_r).split('').reverse().join('')})();
+                    const FEED_URLS = [_fd, _fw, _ty, _es, _d71, _ark, _okc, _nwta];
 
                     function isFeedUrl(url) { return FEED_URLS.some(f => url === f); }
                     function feedCacheKey(url) { return 'feed-' + url.replace(/[^a-z0-9]/gi, '_').substring(0, 80); }
@@ -6688,7 +6690,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         (function() {
             let reflectionsData = null;
-            const CACHE_NAME = 'rowlett-aa-cache-v3.3';
+            const CACHE_NAME = 'rowlett-aa-cache-v3.4';
             const JSON_FILENAME = 'ALL366DR.json';
 
             // Helper function to escape HTML
